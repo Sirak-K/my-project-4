@@ -10,23 +10,7 @@ from .models import Profile
 
 @login_required(login_url='signin')
 def index(request):
-  
-    pass
-    return render(request, 'index.html')
+    header_text = "Welcome to my website!"
+    
+    return render(request, 'index.html', {'header_text': header_text})
 
-def signin(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = auth.authenticate(username=username, password=password)
-
-        if user is not None:
-            auth.login(request, user)
-            return redirect('/')
-        else:
-            messages.info(request, 'Credentials Invalid')
-            return redirect('signin')
-
-    else:
-        return render(request, 'signin.html')

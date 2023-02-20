@@ -1,0 +1,38 @@
+@import './resets';
+@import './config';
+@import './navbar';
+
+
+  body {
+    background-color: white;
+    font-family: $font-1;
+    line-height: 1.6;
+  }
+
+  .navbar {
+    background-color: #333;
+  }
+  
+  .navbar-brand,
+  .navbar-nav li a {
+    line-height: 50px;
+    height: 50px;
+    padding-top: 0;
+    padding-bottom: 0;
+    color: #fff;
+  
+    &:hover {
+      color: #fff;
+    }
+  }
+  
+  .navbar-toggle {
+    border-color: #fff;
+  }
+  
+  .navbar-toggle .icon-bar {
+    background-color: #fff;
+  }
+  
+ 
+  
