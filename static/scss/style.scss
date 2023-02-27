@@ -35,43 +35,76 @@ margin:10px;
 padding-left: 20px;
 }
 
-
+// LANDING CONTAINER
 .landing-container {
   // outline: 10px solid greenyellow;
   display: flex;
   justify-content: space-evenly;
   width: 100vw;
-  height: 100vh;
   background-color: black;
   margin: 0;
   
 }
-.landing-images{
-  color: white;
-  // outline: 5px red;
+// LEFT CONTAINER ------------------------------
+.landing-container-left {
+  flex-basis: 50%;
+  width: 100%;
+  // outline: 15px solid red;
+}
+.landing-image-left {
+  // outline: solid 2px yellow;
   margin: 0;
   padding: 0;
   width: 100%;
+  transform: rotateY(180deg);
+ }
+.landing-overlay-left {
+  position: absolute;
+  top: 5%;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 200;
+  background-color: rgba(0,0,0,0.5);
+}
+h2{
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  z-index: 300;
+  font-size: 6.5rem;
+  color:white;
 }
 
-.landing-image-left img{
-  flex-basis: 50%;
-  // outline: solid 2px yellow;
-  background-color: grey;
-  margin: 0;
-  padding: 0;
-  height:700px;
-  transform: rotateY(180deg)
- }
-.landing-image-right img{
-  flex-basis: 50%;
-  // outline: solid 2px yellow;
-  background-color: grey;
-  margin: 0;
-  padding: 0;
-  height: 700px;
- }
 
+ // RIGHT CONTAINER ------------------------------
+ .landing-container-right {
+  // outline: auto;
+}
+ .landing-image-right{
+  flex-basis: 50%;
+  // outline: solid 2px yellow;
+  margin: 0;
+  padding: 0;
+ 
+ }
+ .landing-overlay-right {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  z-index: 200;
+  background-color: rgba(0,0,0,0.5);
+}
+h3{
+  position: absolute;
+  top: 30%;
+  left: 60%;
+  z-index: 300;
+  font-size: 6.5rem;
+  color:white;
+ }
 
 
 // NAVBAR 
