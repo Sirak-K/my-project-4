@@ -1,75 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Add your meta description here." />
+    <meta name="keywords" content="your, meta, keywords, here"/>
     <!-- Font Awesome-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          rel="stylesheet"/>
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">  
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
     <!-- CSS -->
-    <link rel="stylesheet" href="/static/css_sass/style.min.css">
+    <link rel="stylesheet" href="{% static 'css_sass/style.min.css' %}" />
     <title>Sirak's</title>
-    
   </head>
   <body>
-
-    <!-- HEADER: START -->
+{% comment %} HEADER: START {% endcomment %}
 <header>
   <div class="header-container">
-  <div id="branding">
- <h1><a class="logotype" href="index.html">Socialize</a></h1>
-</div>
-<!-- NAVBAR--> 
-<nav class="navbar"><ul>
-<li class="current"><a href="index.html" >Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="contact.html" >Contact</a></li>
-</ul></nav></div>
+    <div id="branding">
+      <h1>
+        <a class="logotype" href="{% url 'index' %}">Socialize</a>
+      </h1>
+    </div>
+    <!-- NAVBAR-->
+    <nav class="navbar">
+      <ul>
+        <li {% if request.path == '/' %} class="current" {% endif %}>
+          <a href="{% url 'index' %}">Home</a>
+        </li>
+        <li {% if request.path == '/about/' %} class="current" {% endif %}>
+          <a href="{% url 'about' %}">About</a>
+        </li>
+        <li {% if request.path == '/contact/' %} class="current" {% endif %}>
+          <a href="{% url 'contact' %}">Contact</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </header>
-<!-- HEADER: END-->
-      
 
-<!-- Main Page Content -->
-      <div class="landing-container">
+    <!-- MAIN PAGE CONTENT -->
 
-<!-- -------------- LEFT CONTAINER -------------- -->
-        <div class="landing-container-left">
-        <h2>Register Account</h2>
-        <div class="landing-image-left">
-        <img src="/media/img/img-right.jpg"/>
-        </div>
-        <div class="landing-overlay-left"></div>
-      
-      </div>
+    <h2>Register Account</h2>
+    <!-- <form class="form-register-left" method="POST">
+      {% csrf_token %}
+      <p class="form-register-text">Register</p> -->
+  <h3>Already registered? Login</h3>
 
-<!-- -------------- RIGHT CONTAINER -------------- -->
-        <div class="landing-container-right">
-        <h3>Already registered? Login</h3>  
-        <div class="landing-image-right">
-        <img src="/media/img/img-right.jpg"/>
-        </div>
-        <div class="landing-overlay-right"></div>
-        
-      </div>
-
-
-
-      </div>
-
-
-
-
-
-
-
-
-
-
-      <!-- Hamburger Menu -->
-      <!-- <div class="header-menu">
+    <!-- Hamburger Menu -->
+    <!-- <div class="header-menu">
         <i class="fa fa-bars"></i>
       </div>
       <ul class="hamburger-menu">
@@ -78,11 +59,9 @@
         <li><a href="#">Services</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
-    </div> -->
- 
-
-<!-- Social Icons-->
-      <!-- <div class="social-icons">
+</div> -->
+    <!-- Social Icons-->
+    <!-- <div class="social-icons">
         <a href="#!">
           <i class="fab fa-twitter fa-2x"></i>
         </a>
@@ -101,13 +80,9 @@
         <a href="#!">
           <i class="fab fa-github fa-2x"></i>
         </a>
-      </div> -->
-
-    
-      <!-- Footer -->
+</div> -->
+    <!-- Footer -->
     <!-- <footer>&copy; Copyright 2023</footer>  -->
-
-
     <!-- Bootstrap JS -->
     <script src="/static/js/scripts.js"></script>
     <script src="js/bootstrap.min.js"></script>

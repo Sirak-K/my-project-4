@@ -15,6 +15,7 @@ body {
   font-family: macho, sans-serif, normal, 900;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
 .header-container {
@@ -40,19 +41,18 @@ body {
   display: flex;
   justify-content: space-evenly;
   width: 100vw;
+  height: 80vh;
+  top: 0;
+  left: 0;
   background-color: black;
   margin: 0;
+  padding: 0;
 }
 
-.landing-container-left {
+.landing-container-left img {
   flex-basis: 50%;
-  width: 100%;
-}
-
-.landing-image-left {
   margin: 0;
   padding: 0;
-  width: 100%;
   transform: rotateY(180deg);
 }
 
@@ -75,7 +75,7 @@ h2 {
   color: white;
 }
 
-.landing-image-right {
+.landing-container-right img {
   flex-basis: 50%;
   margin: 0;
   padding: 0;
