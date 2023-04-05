@@ -53,27 +53,27 @@ Deployed Site:
 <p>
           <img src="readme_docs/wireframes/home_page.png">
           <br>
-          <img src="readme_docs/wireframes/book.png">
+          <img src="readme_docs/wireframes/.png">
           <br>
-          <img src="readme_docs/wireframes/services.png">
+          <img src="readme_docs/wireframes/.png">
           <br>
-          <img src="readme_docs/wireframes/contact.png">
+          <img src="readme_docs/wireframes/.png">
           <br>
-          <img src="readme_docs/wireframes/grooming.png">
+          <img src="readme_docs/wireframes/.png">
           <br>
-          <img src="readme_docs/wireframes/kenneling.png">
+          <img src="readme_docs/wireframes/.png">
           </p>
           </details>
           <details>
           <summary>Profile Pages</summary>
         <p>
-          <img src="readme_docs/wireframes/create.png">
+          <img src="readme_docs/wireframes/.png">
           <br>
-          <img src="readme_docs/wireframes/profile_booking.png">
+          <img src="readme_docs/wireframes/.png">
           <br>
-          <img src="readme_docs/wireframes/profile_booking_upcoming.png">
+          <img src="readme_docs/wireframes/.png">
           <br>
-          <img src="readme_docs/wireframes/profile_pets.png">
+          <img src="readme_docs/wireframes/.png">
       </p>
 </details>
 </details>
@@ -95,13 +95,7 @@ Deployed Site:
 
 # Testing
 
-## Bugs
 
-Bug | Status | Fix | Images of bug
-----|--------|-----|--------------
-Unable to migrate when connecting elephantsql database to project | FIXED | Had to manually install zlib onto mac, cloned the project to a new folder and created a new venv. | ![migrate-bug](readme_docs/screenshots/migrate-bug.1.png)![migrate-bug2](readme_docs/screenshots/migrate-bug.2.png)
-CSS not loading for default Django templates | FIXED | Incorrect template paths, did not have allauth templates in template directory. |![css-issue](readme_docs/screenshots/css_not_loading.png)
-## Known Issues
 
 
 
@@ -119,13 +113,13 @@ CSS not loading for default Django templates | FIXED | Incorrect template paths,
 
 ## How to Fork
 1. Login/signup to [GitHub](https://github.com/).
-2. Locate the relevant repository - in this case [gracemcken/the-cave](https://github.com/gracemcken/the-cave)
+2. Locate the relevant repository - in this case [sirak-k/my-project-4](https://github.com/sirak-k/my-project-4)
 3. Click on the 'Fork' button in the upper left.
 4. Your forked version of this repo will be generated!
 # Credits
 ## Code
 - Integrating Tailwind CSS with Django video [here](https://www.youtube.com/watch?v=lsQVukhwpqQ) & source code adapted found [here](https://github.com/codingforentrepreneurs/django-tailwindcss)
-- Form CSS was altered from [this](https://tailwindcomponents.com/component/sb-admin-2-forgot-password-page) source code.
+
 
 ### Version Control
 *   Git was used as the version control software. Commands such as git add ., git status, git commit and git push were used to add, save, stage and push the code to the GitHub repository where the source code is stored.
