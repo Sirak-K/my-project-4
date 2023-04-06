@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Private Messages</h1>
+<h2>Sent Messages</h2>
+{% for message in sent_messages %}
+  <div class="message">
+    <p>To: {{ message.recipient.username }}</p>
+    <p>{{ message.content }}</p>
+  </div>
+{% endfor %}
+<h2>Received Messages</h2>
+{% for message in received_messages %}
+  <div class="message">
+    <p>From: {{ message.sender.username }}</p>
+    <p>{{ message.content }}</p>
+  </div>
+{% endfor %}
+{% endblock %}

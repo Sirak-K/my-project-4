@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ group.name }} Group</h1>
+<p>{{ group.description }}</p>
+<h2>Members</h2>
+{% for group_member in group_members %}
+  <div class="member">
+    <p>{{ group_member.user.username }}</p>
+  </div>
+{% endfor %}
+{% endblock %}

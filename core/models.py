@@ -9,7 +9,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
 
 class User(AbstractUser):  # Inherits from Django's built-in AbstractUser
     pass  # No additional fields needed, AbstractUser already includes fields like username, email, password, etc.
@@ -17,8 +17,6 @@ class User(AbstractUser):  # Inherits from Django's built-in AbstractUser
 # MODEL 1 - PROFILE
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)  # One-to-one relationship with User
-    first_name = models.CharField(max_length=30, blank=True, null=True)
-    last_name = models.CharField(max_length=30, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
