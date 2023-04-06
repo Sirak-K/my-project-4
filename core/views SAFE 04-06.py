@@ -9,12 +9,9 @@
 # Profile edit view: A view for allowing users to edit their profile information, such as their bio, profile picture, etc.
 # Group edit view: A view for allowing group owners to edit their group information, such as the group name, description, profile picture, etc.
 
-
-
 from .forms import PostForm
 from django.http import JsonResponse
 from django.core.paginator import Paginator
-from .models import FriendList, FriendRequest
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views.decorators.http import require_POST
@@ -90,29 +87,18 @@ def like_post(request, post_id):
     post.save()
     return JsonResponse({'likes': post.likes})
 
-# PAGE 6 - FRIEND REQUEST
+# PAGE 6 - FRIENDS LIST
 @login_required
-def friend_request(request):
-    pending_friend_requests = FriendRequest.objects.filter(recipient=request.user, status='pending')
+def friends_list(request):
+    # friends = request.user.profile.friends.all()
+
+   # New code
+    friends_sent = FriendRequest.objects.filter(sender=request.user, status='accepted')
+    friends_received = FriendRequest.objects.filter(recipient=request.user, status='accepted')
+    friends = [fr.from_user for fr in friends_received] + [fr.to_user for fr in friends_sent]
+
     
-    return render(request, 'friend_request.html', {'pending_friend_requests': pending_friend_requests})
-
-
-# PAGE 7 - FRIEND LIST
-@login_required
-def friend_list(request):
-    friend_lists = FriendList.objects.filter(Q(user1=request.user) | Q(user2=request.user))
-    friends = []
-
-    for friend_list in friend_lists:
-        if friend_list.user1 == request.user:
-            friends.append(friend_list.user2)
-        else:
-            friends.append(friend_list.user1)
-
-    return render(request, 'friend_list.html', {'friends': friends})
-
-
+    return render(request, 'friends_list.html', {'friends': friends})
 
 # PAGE 7 - NOTIFICATIONS
 @login_required

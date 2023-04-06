@@ -64,24 +64,25 @@ class Like(models.Model):
     def __str__(self):
         return f"{self.user.username} liked {self.post.author.username}'s Post"
 
+# MODEL 1 - PROFILE
+class FriendList(models.Model):
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user1')
+    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user2')
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.user1.username} is friends with {self.user2.username}"
+
+
+
+# MODEL 5 - FRIEND REQUEST
 class FriendRequest(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_requests_sent')
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_requests_received')
     status = models.CharField(max_length=20)  # "Pending", "Accepted", "Rejected"
     timestamp = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return f"{self.sender.username} sent a friend request to {self.recipient.username}"
-
-class FriendList(models.Model):
-    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_lists_user1')
-    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_lists_user2')
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user1.username} and {self.user2.username} are friends"
-
 
 # MODEL 6 - NOTIFICATION
 class Notification(models.Model):

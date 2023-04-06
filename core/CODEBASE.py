@@ -206,23 +206,6 @@ class GroupPost(models.Model):
 
 
 # CB 8 - VIEWS 
-# Here are some important views that you may want to add to your social network app:
-
-# Friend request view: A view for sending friend requests to other users and accepting or rejecting friend requests.
-
-# Group creation view: A view for creating new groups and adding members to them.
-
-# Search view: A view for searching users, groups, posts, etc. based on keywords.
-
-# Post detail view: A view for showing the details of a particular post, including its author, likes, comments, etc.
-
-# Like/Unlike view: A view for allowing users to like or unlike posts.
-
-# Comment view: A view for allowing users to add comments to posts.
-
-# Profile edit view: A view for allowing users to edit their profile information, such as their bio, profile picture, etc.
-
-# Group edit view: A view for allowing group owners to edit their group information, such as the group name, description, profile picture, etc.
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required

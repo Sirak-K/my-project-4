@@ -2,15 +2,19 @@
 
 {% block content %}
 
-{% include 'show_posts.html' %}
+{% comment %} {% include 'show_posts.html' %} {% endcomment %}
 
 <h1>Home</h1>
-{% for post in latest_posts %}
-  <div class="post">
-    <h2>{{ post.author.username }}</h2>
-    <p>{{ post.content }}</p>
+
+{% if user.is_authenticated %}
+  <div class="latest-posts">
+    <h2>Latest Posts from Friends</h2>
+    {% for post in latest_posts %}
+      <div class="post">
+        <h3>{{ post.author.username }}</h3>
+        <p>{{ post.content }}</p>
+      </div>
+    {% endfor %}
   </div>
-
-{% endfor %}
-
+{% endif %}
 {% endblock %}
