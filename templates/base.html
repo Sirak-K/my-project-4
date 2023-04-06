@@ -4,8 +4,9 @@
     <title>Social Network</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  </head>
-  <body>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
     <header>
       <nav>
         <a href="{% url 'home' %}">Home</a>
@@ -24,4 +25,3 @@
     </main>
   </body>
 </html>
-  

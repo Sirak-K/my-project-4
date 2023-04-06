@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% for post in posts %}
+  <!-- Display post content here -->
+{% endfor %}
+
+{% block content %}
+<h1>Show Posts</h1>
+
+<div class="pagination">
+    <span class="step-links">
+      {% if posts.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ posts.previous_page_number }}">previous</a>
+      {% endif %}
+  
+      <span class="current">
+        Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+      </span>
+  
+      {% if posts.has_next %}
+        <a href="?page={{ posts.next_page_number }}">next</a>
+        <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+
+
+<button class="like-btn" data-post-id="{{ post.id }}">Like ({{ post.likes }})</button>
+
+<script>
+document.querySelectorAll('.like-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const postId = btn.dataset.postId;
+    const response = await fetch(`/like_post/${postId}/`, { method: 'POST' });
+    const data = await response.json();
+    btn.textContent = `Like (${data.likes})`;
+  });
+});
+</script>
+
+{% endblock %}

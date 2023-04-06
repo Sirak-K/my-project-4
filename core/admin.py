@@ -1,6 +1,11 @@
 from django.contrib import admin
-from .models import Profile
+from .models import Post, Profile, FriendRequest, Notification, Group, GroupMember, Message
 
-# Register your models here.
+
 admin.site.register(Profile)
-
+admin.site.register(Post)
+admin.site.register(FriendRequest)
+admin.site.register(Notification)
+admin.site.register(Group)
+admin.site.register(GroupMember)
+admin.site.register(Message)
