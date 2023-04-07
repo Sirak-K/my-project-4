@@ -10,7 +10,7 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.index, name='home'),
     path('profile/<int:user_id>/', views.user_profile, name='user_profile'),
     path('new_post/', views.new_post, name='new_post'),
     path('like_post/<int:post_id>/', views.like_post, name='like_post'),

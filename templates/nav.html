@@ -1,0 +1,13 @@
+<header>
+<nav class="navbar">
+    <ul class="navbar-list">
+    <li class="navbar-list-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="navbar-list-item"><a href="{% url 'user_profile' user_id=request.user.id %}">Profile</a></li>
+    <li class="navbar-list-item"><a href="{% url 'new_post' %}">New Post</a></li>
+    <li class="navbar-list-item"><a href="{% url 'friend_list' %}">Friends</a></li>
+    <li class="navbar-list-item"><a href="{% url 'notifications' %}">Notifications</a></li>
+    <li class="navbar-list-item"><a href="{% url 'private_messages' %}">Private Messages</a></li>
+    <li class="navbar-list-item"><a href="{% url 'groups' %}">Groups</a></li>
+    </ul>
+</nav>
+</header>

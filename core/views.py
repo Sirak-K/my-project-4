@@ -23,7 +23,7 @@ from .models import Post, Profile, FriendList, FriendRequest, Notification, Grou
 
 # VIEW 1 - HOME
 @login_required
-def home(request):
+def index(request):
     post_list = Post.objects.all().order_by('-timestamp')
     paginator = Paginator(post_list, 10) # Show 10 posts per page
 
@@ -40,7 +40,7 @@ def home(request):
         'posts': posts,
         'latest_posts': latest_posts
     }
-    return render(request, 'home.html', context)
+    return render(request, 'index.html', context)
 
 # VIEW 2 - LOGIN
 def login_view(request):
@@ -60,7 +60,7 @@ def login_view(request):
 @login_required
 def user_profile(request, user_id):
     user_profile = get_object_or_404(Profile, user__id=user_id)
-    friends = friends_list(request)
+    friends = friend_list(request)
 
     context = {'profile': user_profile, 'friends': friends}
     return render(request, 'user_profile.html')

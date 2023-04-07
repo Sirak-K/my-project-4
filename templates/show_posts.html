@@ -1,11 +1,41 @@
-{% extends 'base.html' %}
 
+
+<!-- POSTS SECTION -->
 {% for post in posts %}
-  <!-- Display post content here -->
+
+<section class="post-section-container">
+  <div class="post-section">
+
+    <article class="post post-2">
+          <img class="post-image" src="" alt="Post 2 Image">
+          <div class="post-content">
+          <h3 class="post-header"></h3>
+          <p class="post-text">
+      </div>  
+    </article>
+
+    <article class="post post-2">
+        <img class="post-image" src="" alt="Post 2 Image">
+        <div class="post-content">
+        <h3 class="post-header"></h3>
+        <p class="post-text">
+      </div>  
+    </article>
+
+    <article class="post post-2">
+        <img class="post-image" src="" alt="Post 2 Image">
+        <div class="post-content">
+        <h3 class="post-header"></h3>
+        <p class="post-text">
+      </div>  
+    </article>
+  </div>
+
+</section>
 {% endfor %}
 
 {% block content %}
-{% comment %} <h1>Show Posts</h1> {% endcomment %}
+<h1>Show Posts</h1>
 
 <div class="pagination">
     <span class="step-links">
