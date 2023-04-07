@@ -9,7 +9,7 @@
     <nav class="navbar">
         <ul class="navbar-list">
         <li class="navbar-list-item"><a class="navbar-link" href="{% url 'home' %}">Home</a></li>
-        {% comment %} <li class="navbar-list-item"><a class="navbar-link" href="{% url 'user_profile' user_id=request.user.id %}">Profile</a></li> {% endcomment %}
+        <li class="navbar-list-item"><a class="navbar-link" href="{% url 'user_profile' user_id=request.user.id %}">Profile</a></li>
         <li class="navbar-list-item"><a class="navbar-link" href="{% url 'new_post' %}">New Post</a></li>
         <li class="navbar-list-item"><a class="navbar-link" href="{% url 'friend_list' %}">Friends</a></li>
         <li class="navbar-list-item"><a class="navbar-link" href="{% url 'notifications' %}">Notifications</a></li>

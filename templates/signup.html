@@ -1,1 +1,9 @@
 {% extends 'base.html' %}
+
+{% block content %}
+  <!-- Your existing signup form code -->
+
+  <div class="login-link">
+    Already a member? <a href="{% url 'login' %}">Login here</a>
+  </div>
+{% endblock %}

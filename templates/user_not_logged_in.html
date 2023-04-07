@@ -1,0 +1,15 @@
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+<h1>User is NOT Logged In Page</h1>
+
+
+ 
+<form method="post" action="{% url 'logged_in_view' %}">
+    {% csrf_token %}
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" required>
+  
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required>
+  
+    <button type="submit">Log In</button>
+  </form>

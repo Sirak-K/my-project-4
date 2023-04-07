@@ -10,13 +10,27 @@
 </head>
 
 <body>
-  {% include 'nav.html' %}
+  
+  {% if user.is_authenticated %}
+    <!-- Navigation links for authenticated users -->
+    {% comment %} {% include 'nav_logged_in.html' %} {% endcomment %}
+
+    <!-- Log Out button for authenticated users -->
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">Log Out</button>
+    </form>
+{% else %}
+    <!-- Navigation links for unauthenticated users -->
+    {% include 'nav.html' %}
+{% endif %}
+  
   <header>
     
   </header>
   
   <main class="main-content">
-    {% include 'show_posts.html' %}
+    {% comment %} {% include 'show_posts.html' %} {% endcomment %}
   </main>
   
   <footer>
