@@ -29,7 +29,7 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Profile"
 
-
+# DECORATOR 1 - CREATE PROFILE
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
@@ -65,6 +65,7 @@ class Like(models.Model):
         return f"{self.user.username} liked {self.post.author.username}'s Post"
 
 
+# MODEL 5 - FRIEND LIST
 class FriendRequest(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_requests_sent')
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_requests_received')
@@ -74,6 +75,9 @@ class FriendRequest(models.Model):
     def __str__(self):
         return f"{self.sender.username} sent a friend request to {self.recipient.username}"
 
+
+
+# MODEL 6 - FRIEND LIST
 class FriendList(models.Model):
     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_lists_user1')
     user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_lists_user2')
@@ -83,7 +87,7 @@ class FriendList(models.Model):
         return f"{self.user1.username} and {self.user2.username} are friends"
 
 
-# MODEL 6 - NOTIFICATION
+# MODEL 7 - NOTIFICATION
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=30)  # "friend_request", "like", "comment", etc.
@@ -93,7 +97,7 @@ class Notification(models.Model):
     def __str__(self):
         return f"{self.user.username}'s {self.type} Notification"
 
-# MODEL 7 - PRIVATE MESSAGES 
+# MODEL 8 - PRIVATE MESSAGES 
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages_sent')
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages_received')
@@ -102,7 +106,7 @@ class Message(models.Model):
     def __str__(self):
         return f"{self.sender.username} sent a message to {self.recipient.username}"
 
-# MODEL 8 - GROUP
+# MODEL 9 - GROUP
 class Group(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField(blank=True, null=True)
@@ -111,7 +115,7 @@ class Group(models.Model):
     def __str__(self):
         return f"{self.name} Group"
 
-# MODEL 9 - GROUP MEMBERS
+# MODEL 10 - GROUP MEMBERS
 class GroupMember(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -119,7 +123,7 @@ class GroupMember(models.Model):
     def __str__(self):
         return f"{self.user.username} is a member of {self.group.name}"
 
-# MODEL 10 - GROUP POSTS
+# MODEL 11 - GROUP POSTS
 class GroupPost(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)

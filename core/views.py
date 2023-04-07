@@ -14,15 +14,14 @@
 from .forms import PostForm
 from django.http import JsonResponse
 from django.core.paginator import Paginator
-from .models import FriendList, FriendRequest
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post, Profile, FriendRequest, Notification, Group, GroupMember, Message
+from .models import Post, Profile, FriendList, FriendRequest, Notification, Group, GroupMember, Message
 
-# PAGE 1 - HOME
+# VIEW 1 - HOME
 @login_required
 def home(request):
     post_list = Post.objects.all().order_by('-timestamp')
@@ -31,7 +30,6 @@ def home(request):
     page = request.GET.get('page')
     posts = paginator.get_page(page)
     
-    # New code
     friends_sent = FriendRequest.objects.filter(sender=request.user, status='accepted')
     friends_received = FriendRequest.objects.filter(recipient=request.user, status='accepted')
     friends = [fr.from_user for fr in friends_received] + [fr.to_user for fr in friends_sent]
@@ -44,7 +42,7 @@ def home(request):
     }
     return render(request, 'home.html', context)
 
-# PAGE 2 - LOGIN
+# VIEW 2 - LOGIN
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -58,8 +56,7 @@ def login_view(request):
     else:
         return render(request, 'login.html')
 
-
-# PAGE 3 - PROFILE
+# VIEW 3 - PROFILE
 @login_required
 def user_profile(request, user_id):
     user_profile = get_object_or_404(Profile, user__id=user_id)
@@ -68,7 +65,7 @@ def user_profile(request, user_id):
     context = {'profile': user_profile, 'friends': friends}
     return render(request, 'user_profile.html')
 
-# PAGE 4 - NEW POST
+# VIEW 4 - NEW POST
 @login_required
 def new_post(request):
     if request.method == 'POST':
@@ -82,7 +79,7 @@ def new_post(request):
         form = PostForm()
     return render(request, 'new_post.html', {'form': form})
 
-# PAGE 5 - LIKE POST
+# VIEW 5 - LIKE POST
 @require_POST
 def like_post(request, post_id):
     post = Post.objects.get(pk=post_id)
@@ -90,7 +87,7 @@ def like_post(request, post_id):
     post.save()
     return JsonResponse({'likes': post.likes})
 
-# PAGE 6 - FRIEND REQUEST
+# VIEW 6 - FRIEND REQUEST
 @login_required
 def friend_request(request):
     pending_friend_requests = FriendRequest.objects.filter(recipient=request.user, status='pending')
@@ -98,7 +95,7 @@ def friend_request(request):
     return render(request, 'friend_request.html', {'pending_friend_requests': pending_friend_requests})
 
 
-# PAGE 7 - FRIEND LIST
+# VIEW 7 - FRIEND LIST
 @login_required
 def friend_list(request):
     friend_lists = FriendList.objects.filter(Q(user1=request.user) | Q(user2=request.user))
@@ -112,28 +109,26 @@ def friend_list(request):
 
     return render(request, 'friend_list.html', {'friends': friends})
 
-
-
-# PAGE 7 - NOTIFICATIONS
+# VIEW 7 - NOTIFICATIONS
 @login_required
 def notifications(request):
     notifications = Notification.objects.filter(user=request.user).order_by('-timestamp')
     return render(request, 'notifications.html', {'notifications': notifications})
 
-# PAGE 8 - PRIVATE MESSAGES
+# VIEW 8 - PRIVATE MESSAGES
 @login_required
 def private_messages(request):
     sent_messages = Message.objects.filter(sender=request.user).order_by('-timestamp')
     received_messages = Message.objects.filter(recipient=request.user).order_by('-timestamp')
     return render(request, 'private_messages.html', {'sent_messages': sent_messages, 'received_messages': received_messages})
 
-# PAGE 9 - GROUPS
+# VIEW 9 - GROUPS
 @login_required
 def groups(request):
     group_memberships = GroupMember.objects.filter(user=request.user)
     return render(request, 'groups.html', {'group_memberships': group_memberships})
 
-# PAGE 10 - GROUP DETAILS
+# VIEW 10 - GROUP DETAILS
 @login_required
 def group_details(request, group_id):
     group = get_object_or_404(Group, id=group_id)
