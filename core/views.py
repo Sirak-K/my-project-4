@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post, Profile, FriendList, FriendRequest, Notification, Group, GroupMember, Message
 
-# VIEW 1 - HOME
+# VIEW 1 - HOME - 2 VIEWS
 def index(request):
     if request.user.is_authenticated:
         post_list = Post.objects.all().order_by('-timestamp')
@@ -28,11 +28,10 @@ def index(request):
             'posts': posts,
             'latest_posts': latest_posts
         }
-        return render(request, 'user_logged_in.html', context)
+        return render(request, 'page_logged_in.html', context)
     else:
-        return render(request, 'user_not_logged_in.html')
-
-# VIEW 2 - SIGNUP (USER NOT LOGGED IN)
+        return render(request, 'page_logged_out.html')
+# VIEW 2 - SIGNUP - VIEW
 def signup_view(request):
     # Check if the request is a POST request
     if request.method == 'POST':
@@ -53,25 +52,7 @@ def signup_view(request):
     return render(request, 'signup.html', {'form': form})
 
 
-# VIEW 3 - LOGIN
-def login_view(request):
-    if request.user.is_authenticated:
-        return redirect('logged_in_view')
-    else:
-        if request.method == 'POST':
-            username = request.POST['username']
-            password = request.POST['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('logged_in_view')
-            else:
-                return render(request, 'login.html', {'error': 'Invalid login credentials'})
-        else:
-            return render(request, 'login.html')
-
-
-# VIEW 4 - LOGGED IN VIEW
+# VIEW 4 - LOGGED-IN - VIEW
 @login_required
 def logged_in_view(request):
     post_list = Post.objects.all().order_by('-timestamp')
@@ -93,13 +74,28 @@ def logged_in_view(request):
     return render(request, 'user_feed.html', context)
 
 
-# VIEW 4 - LOGGED OUT
-def logged_out_view(request):  # Add the 'request' parameter
-    logout(request)  # Add the 'request' parameter to the logout function
-    return redirect('login_view')  # Replace 'login.html' with the name of your login view
+# VIEW 5 - LOGGED-OUT - VIEW
+def logged_out_view(request):
+    if request.user.is_authenticated:
+        return redirect('logged_in_view')
+    else:
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('logged_in_view')
+            else:
+                return render(request, 'page_logged_out.html', {'error': 'Invalid login credentials'})
+        else:
+            logout(request) 
+            return render(request, 'page_logged_out.html')
 
 
-# VIEW 5 - PROFILE
+
+
+# VIEW 6 - PROFILE - VIEW
 @login_required
 def user_profile(request, user_id):
     user_profile = get_object_or_404(Profile, user__id=user_id)
@@ -107,8 +103,7 @@ def user_profile(request, user_id):
 
     context = {'profile': user_profile, 'friends': friends}
     return render(request, 'user_profile.html')
-
-# VIEW 6 - NEW POST
+# VIEW 7 - NEW POST - VIEW
 @login_required
 def new_post(request):
     if request.method == 'POST':
@@ -121,23 +116,20 @@ def new_post(request):
     else:
         form = PostForm()
     return render(request, 'new_post.html', {'form': form})
-
-# VIEW 7 - LIKE POST
+# VIEW 8 - LIKE POST
 @require_POST
 def like_post(request, post_id):
     post = Post.objects.get(pk=post_id)
     post.likes += 1
     post.save()
     return JsonResponse({'likes': post.likes})
-
-# VIEW 8 - FRIEND REQUEST
+# VIEW 9 - FRIEND REQUEST
 @login_required
 def friend_request(request):
     pending_friend_requests = FriendRequest.objects.filter(recipient=request.user, status='pending')
     
     return render(request, 'friend_request.html', {'pending_friend_requests': pending_friend_requests})
-
-# VIEW 9 - FRIEND LIST
+# VIEW 10 - FRIEND LIST - VIEW
 @login_required
 def friend_list(request):
     friend_lists = FriendList.objects.filter(Q(user1=request.user) | Q(user2=request.user))
@@ -150,27 +142,23 @@ def friend_list(request):
             friends.append(friend_list.user1)
 
     return render(request, 'friend_list.html', {'friends': friends})
-
-# VIEW 10 - NOTIFICATIONS
+# VIEW 11 - NOTIFICATIONS
 @login_required
 def notifications(request):
     notifications = Notification.objects.filter(user=request.user).order_by('-timestamp')
     return render(request, 'notifications.html', {'notifications': notifications})
-
-# VIEW 11 - PRIVATE MESSAGES
+# VIEW 12 - PRIVATE MESSAGES - VIEW
 @login_required
 def private_messages(request):
     sent_messages = Message.objects.filter(sender=request.user).order_by('-timestamp')
     received_messages = Message.objects.filter(recipient=request.user).order_by('-timestamp')
     return render(request, 'private_messages.html', {'sent_messages': sent_messages, 'received_messages': received_messages})
-
-# VIEW 12 - GROUPS
+# VIEW 13 - GROUPS - VIEW
 @login_required
 def groups(request):
     group_memberships = GroupMember.objects.filter(user=request.user)
     return render(request, 'groups.html', {'group_memberships': group_memberships})
-
-# VIEW 13 - GROUP DETAILS
+# VIEW 14 - GROUP DETAILS - VIEW
 @login_required
 def group_details(request, group_id):
     group = get_object_or_404(Group, id=group_id)

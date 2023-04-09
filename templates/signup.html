@@ -1,9 +1,47 @@
 {% extends 'base.html' %}
 
-{% block content %}
-  <!-- Your existing signup form code -->
+{% block content_signup %}
 
-  <div class="login-link">
-    Already a member? <a href="{% url 'login' %}">Login here</a>
-  </div>
-{% endblock %}
+<section class="landing-container">
+  <div class="landing-image" >
+    
+    
+
+
+<div class="signup-section-container">
+  <section class="signup-section">
+    <h1 class="signup-header">Sign Up</h1>
+  
+    <form class="form-signup" method="post" action="{% url 'logged_in_view' %}">
+      {% csrf_token %}
+      
+      <label class="label-username" for="username">Username:</label>
+      <input type="text" name="username" class="input-signup-username" required>
+    
+      <label class="label-email" for="email">Email:</label>
+      <input type="email" name="email" class="input-signup-email" required>
+    
+      <label class="label-password" for="password1">Password:</label>
+      <input type="password" name="password1" class="input-signup-password" required>
+    
+      <label class="label-password" for="password2">Confirm Password:</label>
+      <input type="password" name="password2" class="input-signup-password-confirmation" required>
+
+      <button class="button-signup" type="submit">Sign Up</button>
+    
+    </form>
+
+    <p class="text-already-registered">Already have an account? 
+      <br>
+      <a class="link-already-registered" href="{% url 'logged_out_view' %}">Log In</a>
+    </p>
+
+
+
+  </section>
+</div>
+
+</section>
+</div>
+
+{% endblock content_signup %}
