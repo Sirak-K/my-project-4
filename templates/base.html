@@ -10,17 +10,19 @@
 </head>
 
 <body>
-  <header>
-    
-  </header>
+  
   {% if user.is_authenticated %}
 
     <!-- ......LOGGED-IN...... -->
+
             <!-- NAVBAR -->
     {% include 'header_logged_in.html' %}
             <!-- .MAIN. -->
+    {% block content_user_feed %}
+    {% endblock content_user_feed %}
+    
     <!-- Log Out button -->
-    <form method="post" action="{% url 'logout' %}">
+    <form method="post" action="{% url 'logout_view' %}">
       {% csrf_token %}
       <button type="submit">Log Out</button>
     </form>
@@ -34,8 +36,8 @@
     {% include 'header_not_logged_in.html' %}
             <!-- .MAIN. -->
     <main class="main-not-logged-in">
-      {% block content_logged_out  %}
-      {% endblock content_logged_out  %}
+      {% block content_login  %}
+      {% endblock content_login  %}
       {% block content_signup  %}
       {% endblock content_signup  %}
     </main>

@@ -12,7 +12,7 @@
   <section class="signup-section">
     <h1 class="signup-header">Sign Up</h1>
   
-    <form class="form-signup" method="post" action="{% url 'logged_in_view' %}">
+    <form class="form-signup" method="post" action="{% url 'user_feed' %}">
       {% csrf_token %}
       
       <label class="label-username" for="username">Username:</label>
@@ -33,7 +33,7 @@
 
     <p class="text-already-registered">Already have an account? 
       <br>
-      <a class="link-already-registered" href="{% url 'logged_out_view' %}">Log In</a>
+      <a class="link-already-registered" href="{% url 'login_view' %}">Log In</a>
     </p>
 
 

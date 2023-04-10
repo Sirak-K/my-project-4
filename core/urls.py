@@ -19,9 +19,13 @@ urlpatterns = [
     path('groups/<int:group_id>/', views.group_details, name='group_details'),
     path('private_messages/', views.private_messages, name='private_messages'),
     path('signup/', views.signup_view, name='signup_view'),
+    
+    # path('page_logged_out', views.login_view, name='login_view'),
+    path('user_profile', views.user_profile, name='user_profile'),
+    path('user_feed', views.user_feed, name='user_feed'),
+    path('login/', views.login_view, name='login_view'),
+    path('logout/', views.logout_view, name='logout_view'),
 
-    path('page_logged_out', views.logged_out_view, name='logged_out_view'),
-    path('logged_in/', views.logged_in_view, name='logged_in_view'),
 ]
 
 # if settings.DEBUG:

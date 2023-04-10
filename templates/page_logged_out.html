@@ -1,6 +1,6 @@
-{% extends 'base.html' %}
+{% comment %} {% extends 'base.html' %}
 
-{% block content_logged_out %}
+{% block content_login %}
 
 
 <header>
@@ -23,7 +23,7 @@
   <section class="logged-out-section">
     <h1 class="logged-out-header">Welcome!</h1>
   
-    <form class="form-logged-out" method="post" action="{% url 'logged_in_view' %}">
+    <form class="form-logged-out" method="post" action="{% url 'user_feed' %}">
       {% csrf_token %}
       
       <label class="label-username" for="username">Username:</label>
@@ -52,4 +52,4 @@
 
 
 
-  {% endblock content_logged_out %}
+  {% endblock content_login %} {% endcomment %}

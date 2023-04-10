@@ -1,2 +1,12 @@
-{% comment %} {% extends 'base.html' %} {% endcomment %}
-<h1>User Feed Page</h1>
+{% extends 'base.html' %}
+
+{% block content_user_feed %}
+
+
+<h1>User is Logged In - Feed Page</h1>
+{% comment %} <div class="posts">
+    {% include 'show_posts.html' %}
+</div> {% endcomment %}
+
+
+{% endblock content_user_feed %}

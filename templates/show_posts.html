@@ -1,4 +1,4 @@
-
+{% block content_show_posts %}
 
 <!-- POSTS SECTION -->
 {% for post in posts %}
@@ -34,7 +34,7 @@
 </section>
 {% endfor %}
 
-{% block content %}
+
 <h1>Show Posts</h1>
 
 <div class="pagination">
@@ -69,4 +69,4 @@ document.querySelectorAll('.like-btn').forEach(btn => {
 });
 </script>
 
-{% endblock %}
+{% endblock content_show_posts %}
