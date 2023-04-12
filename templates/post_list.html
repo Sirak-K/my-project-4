@@ -1,0 +1,103 @@
+{% load static %}
+
+{% block content_post_list %}
+
+<!-- POSTS SECTION -->
+
+<h1>Post List</h1>
+
+{% for post in posts %}
+
+<section class="post-section-container">
+  <div class="post-section">
+
+    <article class="post">
+
+      <!-- Author information -->
+    <div class="author-info">
+      <!-- Display author's profile picture -->
+      {% if post.author.profile.profile_picture %}
+        <img src="{{ post.author.profile.profile_picture.url }}" alt="{{ post.author.get_full_name }}" class="author-image">
+      {% else %}
+        <img src="{% static 'default_profile_picture.png' %}" alt="{{ post.author.get_full_name }}" class="author-image">
+      {% endif %}
+
+      <!-- Display author's full name -->
+      <span class="author-name">{{ post.author.get_full_name }}</span>
+
+      <!-- Display the time since the post was created -->
+      <span class="time-since-posted">{{ post.time_since_posted }}</span>
+    </div>
+
+
+      {% if post.image %}
+      <!-- POST -->
+      <img class="post-image" src="{{ post.image.url }}" alt="Post Image 1">
+      {% endif %}
+      <h2 class="post-author">Posted by: {{ post.author.username }}</h2>
+      <div class="post-content">
+        <p class="post-text">{{ post.content }}</p>
+      </div>  
+     
+    <!-- REMOVE / EDIT BUTTON -->
+      {% if request.user == post.author %}
+      <form method="POST" action="{% url 'post_remove' post.id %}">
+        {% csrf_token %}
+        <button class="remove-post-btn" title="Remove Post" type="submit">
+          <i class="fas fa-times"></i>
+        </button>
+      </form>
+      <a class="edit-post-btn" title="Edit Post" href="{% url 'post_edit' post.id %}">
+        <i class="fas fa-pencil-alt"></i>
+      </a>
+    {% endif %}
+
+    <!-- LIKES -->
+    <button class="like-btn" data-post-id="{{ post.id }}">
+      <i class="fas fa-thumbs-up"></i>{{ post.count_likes }}
+    </button>
+
+    <!-- COMMENTS -->
+    <button class="comment-btn" onclick="toggleCommentInput(this)">Comments: {{ post.count_comments }}</button>
+    <p>
+      <span id="comment-count-{{ post.id }}"></span>
+    </p>
+    <input
+  class="comment-input"
+  type="text"
+  style="display: none;"
+  placeholder="Write a comment..."
+  />
+    <div class="comment-input" style="display:none;">
+      <input type="text" placeholder="Write a comment...">
+    </div>
+
+
+    </article>
+  </div>
+</section>
+{% endfor %}
+
+
+
+
+<!-- PAGINATION -->
+<div class="pagination">
+  <span class="step-links">
+    {% if posts.has_previous %}
+      <a href="?page=1">&laquo; first</a>
+      <a href="?page={{ posts.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+      Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+    </span>
+
+    {% if posts.has_next %}
+      <a href="?page={{ posts.next_page_number }}">next</a>
+      <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
+</div>
+
+{% endblock content_post_list %}

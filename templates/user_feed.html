@@ -1,12 +1,48 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content_user_feed %}
 
+{% comment %} <h1>User is Logged In - Feed Page</h1> {% endcomment %}
+<div class="user-feed-container">
+  <section class="user-feed-section">
+    <div class="user-info">
+      {% if user.profile.profile_picture %}
+        <img class="profile-image" src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}'s profile picture">
+      {% else %}
+        <img class="profile-image" src="{% static '/css/media/img/default_profile_picture.png' %}" alt="{{ user.username }}'s profile picture">
+      {% endif %}
+      <h2>{{ user.username }}</h2>
+    </div>
 
-<h1>User is Logged In - Feed Page</h1>
-{% comment %} <div class="posts">
-    {% include 'show_posts.html' %}
-</div> {% endcomment %}
+    <div class="post-form-section">
+      <form class="post-form" method="post" action="{% url 'post_create' %}">
+        {% csrf_token %}
+        <textarea class="post-text" name="content" placeholder="What's on your mind, {{ user.username }}?" rows="3"></textarea>
+        
+        <div class="post-option-section">
 
+          <label class="post-option">
+            <i class="post-option-icon fa-solid fa-image"></i>
+            <input type="file" name="image" accept="image/*" style="display:none;">
+          </label>
+
+          <label class="post-option">
+            <i class="post-option-icon fa-solid fa-video"></i>
+            <input type="file" name="video" accept="video/*" style="display:none;">
+          </label>
+        </div>
+  
+        
+        <button class="post-button" type="submit" >Share!</button>
+      </form>
+    </div>
+    <div class="posts">
+      {% include 'post_list.html' %}
+    </div>
+  </section>
+
+</div>
 
 {% endblock content_user_feed %}

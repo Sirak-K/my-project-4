@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content_post_remove %}
+  <h1>Remove Post</h1>
+  <p>Are you sure you want to remove this post?</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Yes, remove the post</button>
+  </form>
+  <a href="{% url 'user_feed' %}">Cancel</a>
+{% endblock content_post_remove %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content_post_details %}
+
+# ---- POST DETAILS ----
+<h2>Post Details</h2>
+
+<article class="post-details">
+    <img class="post-image" src="{{ post.image.url }}" alt="Post Image">
+    <div class="post-content">
+      <h2 class="post-author">Posted by: {{ post.author.username }}</h2>
+        <p class="post-text">{{ post.content }}</p>
+    </div>
+</article>
+
+# ------- COMMENTS -------
+<h3>Comments</h3>
+{% for comment in post.comments.all %}
+    <div class="comment">
+        <p>{{ comment.text }}</p>
+        <span class="comment-author">Comment by: {{ comment.author.username }}</span>
+    </div>
+  
+{% endfor %}
+
+{% include 'post_comment.html' %}
+
+# ------- LIKES -------
+<button class="like-btn" data-post-id="{{ post.id }}">Like ({{ post.likes }})</button>
+
+<script>
+document.querySelectorAll('.like-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const postId = btn.dataset.postId;
+    const response = await fetch(`/post_like/${postId}/`, { method: 'POST' });
+    const data = await response.json();
+    btn.textContent = `Like (${data.likes})`;
+  });
+});
+</script>
+
+{% endblock content_post_details %}

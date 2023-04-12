@@ -1,32 +1,39 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content_user_profile %}
 
-<!-- Profile banner -->
-<div class="profile-banner" style="background-image: url('{{ user.profile.banner_image.url }}');">
-</div>
 
+<!-- PROFILE -->
 
-<!-- Profile information -->
-<h1>{{ profile.user.username }}'s Profile</h1>
+<!-- Profile - User Banner -->
+{% if user.profile.banner_image %}
+    <div class="profile-banner" style="background-image: url('{{ user.profile.banner_image.url }}');">
+    </div>
+{% else %}
+    <div class="profile-banner">
+    </div>
+{% endif %}
+
+<!-- Profile - User Information -->
+<h1>{{ user.first_name }}'s Profile</h1>
 <div class="profile-info-container">
-  <div class="profile-avatar" style="background-image: url('{{ user.profile.profile_image.url }}');">
-  </div>
+  {% if user.profile.profile_picture %}
+  <img class="profile-image" src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}'s profile picture">
+{% else %}
+  <img class="profile-image" src="{% static '/css/media/img/default_profile_picture.png' %}" alt="{{ user.username }}'s profile picture">
+{% endif %}
   <div class="profile-details">
-    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+    {% comment %} <h2>{{ user.first_name }} {{ user.last_name }}</h2> {% endcomment %}
     <p>{{ user.profile.bio }}</p>
   </div>
 </div>
 
+<a href="{% url 'user_profile_image' user_id=request.user.id %}">Update Profile Image and Banner</a>
 
 
 
-{% for friend in friends %}
-  <div class="friend">
-    <img src="{{ friend.profile.profile_picture.url }}" alt="{{ friend.username }}'s profile picture">
-    <p>{{ friend.username }}</p>
-  </div>
-{% endfor %}
 
 
 {% endblock content_user_profile %}

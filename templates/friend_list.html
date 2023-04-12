@@ -1,10 +1,41 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block content %}
-<h1>Friends List</h1>
-{% for friend in friends %}
-  <div class="friend">
-    <h2>{{ friend.user.username }}</h2>
-  </div>
-{% endfor %}
-{% endblock %}
+{% block content_friend_list %}
+  <h1>Friend List</h1>
+  <h2>Friends</h2>
+  <ul>
+    {% for friend in friends %}
+      <li>{{ friend.username }}</li>
+    {% empty %}
+      <li>No friends found.</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Pending Sent Requests</h2>
+  <ul>
+    {% for request in pending_sent %}
+      <li>{{ request.recipient.username }}</li>
+    {% empty %}
+      <li>No pending sent requests found.</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Pending Received Requests</h2>
+  <ul>
+    {% for request in pending_received %}
+      <li>
+        {{ request.sender.username }}
+        <form method="POST" action="{% url 'accept_friend_request' request.id %}">
+          {% csrf_token %}
+          <input type="submit" value="Accept">
+        </form>
+        <form method="POST" action="{% url 'reject_friend_request' request.id %}">
+          {% csrf_token %}
+          <input type="submit" value="Reject">
+        </form>
+      </li>
+    {% empty %}
+      <li>No pending received requests found.</li>
+    {% endfor %}
+  </ul>
+{% endblock content_friend_list %}
