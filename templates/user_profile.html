@@ -9,29 +9,42 @@
 
 <!-- Profile - User Banner -->
 {% if user.profile.banner_image %}
+<a href="{% url 'user_profile_image' user_id=user.id %}">
     <div class="profile-banner" style="background-image: url('{{ user.profile.banner_image.url }}');">
     </div>
+  </a>
 {% else %}
+<a href="{% url 'user_profile_image' user_id=user.id %}">
     <div class="profile-banner">
     </div>
+  </a>
 {% endif %}
 
 <!-- Profile - User Information -->
-<h1>{{ user.first_name }}'s Profile</h1>
+<h1 class="profile-header">{{ user.first_name }} {{ user.last_name }}</h1>
 <div class="profile-info-container">
-  {% if user.profile.profile_picture %}
-  <img class="profile-image" src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}'s profile picture">
-{% else %}
-  <img class="profile-image" src="{% static '/css/media/img/default_profile_picture.png' %}" alt="{{ user.username }}'s profile picture">
-{% endif %}
+  {% if user.profile.profile_image %}
+  <a href="{% url 'user_profile_image' user_id=user.id %}">
+  <img class="profile-image" src="{{ user.profile.profile_image.url }}" alt="{{ user.username }}'s profile picture">
+  </a>
+  {% else %}
+  <a href="{% url 'user_profile_image' user_id=user.id %}">  
+  <img class="profile-image" src="{% static '/css/media/img/default_profile_picture.png' %}" alt="{{ user.username }}'s profile image">
+  </a>
+  {% endif %}
   <div class="profile-details">
     {% comment %} <h2>{{ user.first_name }} {{ user.last_name }}</h2> {% endcomment %}
-    <p>{{ user.profile.bio }}</p>
+    <!-- Render your profile fields and the pencil icons -->
+<div>
+  <h3>Bio: <span data-field-name="bio">{{ user_profile.bio }}</span> <a href="#" class="edit-pencil" data-field-selector="[data-field-name='bio']">&#9998;</a></h3>
+  <h3>Gender: <span data-field-name="gender">{{ user_profile.gender }}</span> <a href="#" class="edit-pencil" data-field-selector="[data-field-name='gender']">&#9998;</a></h3>
+  <h3>Profession: <span data-field-name="profession">{{ user_profile.profession }}</span><a href="#" class="edit-pencil" data-field-selector="[data-field-name='profession']">&#9998;</a></h3>
+  </div>
   </div>
 </div>
 
-<a href="{% url 'user_profile_image' user_id=request.user.id %}">Update Profile Image and Banner</a>
-
+{% comment %} <a href="{% url 'user_profile_image' user_id=request.user.id %}">Update Profile Image and Banner</a>
+ {% endcomment %}
 
 
 

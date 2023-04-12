@@ -76,8 +76,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='profile',
-            name='profile_picture',
-            field=models.ImageField(blank=True, null=True, upload_to='profile_pictures/'),
+            name='profile_image',
+            field=models.ImageField(blank=True, null=True, upload_to='profile_images/'),
         ),
         migrations.AlterField(
             model_name='profile',

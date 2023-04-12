@@ -16,8 +16,8 @@
       <!-- Author information -->
     <div class="author-info">
       <!-- Display author's profile picture -->
-      {% if post.author.profile.profile_picture %}
-        <img src="{{ post.author.profile.profile_picture.url }}" alt="{{ post.author.get_full_name }}" class="author-image">
+      {% if post.author.profile.profile_image %}
+        <img src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.get_full_name }}" class="author-image">
       {% else %}
         <img src="{% static 'default_profile_picture.png' %}" alt="{{ post.author.get_full_name }}" class="author-image">
       {% endif %}

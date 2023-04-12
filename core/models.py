@@ -11,14 +11,21 @@ from django.contrib.auth import get_user_model
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)  # One-to-one relationship with User
     bio = models.TextField(blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    profile_image = models.ImageField(upload_to='profile_images/', default='default_profile_picture.png')
     date_of_birth = models.DateField(blank=True, null=True)
     privacy_settings = models.CharField(max_length=30, blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     banner_image = models.ImageField(upload_to='banner_images/', blank=True, null=True)
-    # website = models.URLField(blank=True)
-    # phone_number = models.CharField(max_length=20, blank=True)
-    # gender = models.CharField(choices=GENDER_CHOICES, max_length=2, blank=True)
+    profession = models.CharField(max_length=100, blank=True, null=True)
+    # website = models.URLField(max_length=30, blank=True, null=True)
+
+    GENDER_CHOICES = (
+        ('M', 'He/Him'),
+        ('F', 'She/Her'),
+        ('T', 'They/Them'),
+        ('O', 'Other'),
+        ('N', 'Prefer not to say'),
+    )
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='N')
     
     def __str__(self):
         return f"{self.user.username}'s Profile"
@@ -85,47 +92,4 @@ class FriendList(models.Model):
 
     def __str__(self):
         return f"{self.user1.username} and {self.user2.username} are friends"
-# MODEL 8 - NOTIFICATION
-class Notification(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    type = models.CharField(max_length=30)  # "friend_request", "like", "comment", etc.
-    content = models.TextField(blank=True, null=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)  # Set to False by default
-    def __str__(self):
-        return f"{self.user.username}'s {self.type} Notification"
-# MODEL 9 - PRIVATE MESSAGES 
-class Message(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages_sent')
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages_received')
-    content = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return f"{self.sender.username} sent a message to {self.recipient.username}"
-# MODEL 10 - GROUP
-class Group(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.TextField(blank=True, null=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return f"{self.name} Group"
-# MODEL 11 - GROUP MEMBERS
-class GroupMember(models.Model):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return f"{self.user.username} is a member of {self.group.name}"
-# MODEL 12 - GROUP POSTS
-class GroupPost(models.Model):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='group_posts/', blank=True, null=True)
-    video = models.FileField(upload_to='group_videos/', blank=True, null=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return f"{self.author.username}'s Post in {self.group.name} Group"
-    
 

@@ -11,7 +11,13 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['content']
 
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['bio', 'gender', 'profession', ]
+
 class UpdateProfileImageForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['profile_picture', 'banner_image']
+        fields = ['profile_image', 'banner_image' ]
+

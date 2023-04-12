@@ -3,14 +3,15 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from .forms import PostForm, CommentForm, UpdateProfileForm, UpdateProfileImageForm
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import PostForm, CommentForm, UpdateProfileImageForm
 from django.contrib.auth import get_user_model, authenticate, login, logout
-from .models import Comment, Post, Profile, FriendList, FriendRequest, Notification, Group, GroupMember, Message
+from .models import Comment, Post, Profile, FriendList, FriendRequest
 
 
 # VIEW 1 - HOME 
@@ -98,10 +99,18 @@ def user_profile(request, user_id):
     user_posts = Post.objects.filter(author=user).order_by('-timestamp')
     friends = friend_list(request)
 
-    context = {'user_profile': user_profile, 'user_posts': user_posts, 'friends': friends}
-    return render(request, 'user_profile.html', context)
+    if request.method == 'POST':
+        form = UpdateProfileForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully.')
+            return redirect('user_profile', user_id=user.id)
+    else:
+        form = UpdateProfileForm(instance=user_profile)
 
-# VIEW X - LOGGED-IN - PROFILE - UPLOAD IMAGES
+    context = {'user_profile': user_profile, 'user_posts': user_posts, 'friends': friends, 'form': form}
+    return render(request, 'user_profile.html', context)
+# VIEW 6 - LOGGED-IN - PROFILE - UPLOAD IMAGES
 @login_required
 def user_profile_image(request, user_id):
     user = request.user
@@ -118,13 +127,28 @@ def user_profile_image(request, user_id):
     
     context = {'form': form}
     return render(request, 'user_profile_image.html', context)
+# VIEW 7 - LOGGED-IN - PROFILE - UPDATE PROFILE DETAILS
+@csrf_exempt
+@login_required
+def user_profile_field_update(request, user_id):
+    if request.method == 'POST' and request.is_ajax():
+        field_name = request.POST.get('field_name')
+        field_value = request.POST.get('field_value')
 
-
-# ---------> VIEW 6 - [ LOG-OUT ] --------->
+        if field_name in ['bio', 'gender', 'profession']:
+            user_profile = Profile.objects.get(user__id=user_id)
+            setattr(user_profile, field_name, field_value)
+            user_profile.save()
+            return JsonResponse({"status": "success"})
+        else:
+            return JsonResponse({"status": "error", "message": "Invalid field"})
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request"})
+# ---------> VIEW 8 - [ LOG-OUT ] --------->
 def logout_view(request):
     logout(request)
     return redirect('login_view')
-# VIEW 7 - POST: CREATE
+# VIEW 9 - POST: CREATE
 @login_required
 def post_create(request):
     if request.method == 'POST':
@@ -137,7 +161,7 @@ def post_create(request):
     else:
         form = PostForm()
     return render(request, 'post_create.html', {'form': form})
-# VIEW 8 - POST: COMMENTS
+# VIEW 10 - POST: COMMENTS
 def post_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'POST':
@@ -151,7 +175,7 @@ def post_comment(request, post_id):
     else:
         form = CommentForm()
     return render(request, 'post_comment.html', {'form': form, 'post': post})
-# VIEW 9 - POST: LIKES
+# VIEW 11 - POST: LIKES
 @require_POST
 def post_like(request, post_id):
     if request.method == 'POST':
@@ -161,12 +185,12 @@ def post_like(request, post_id):
         return JsonResponse({"likes": post.likes})
     else:
         return HttpResponseNotAllowed(['POST'])
-# VIEW 10 - POST: DETAILS
+# VIEW 12 - POST: DETAILS
 def post_details(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     comments = Comment.objects.filter(post=post).order_by('-created_at')
     return render(request, 'post_details.html', {'post': post, 'comments': comments})
-# VIEW 11 - POST: EDIT
+# VIEW 13 - POST: EDIT
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -184,7 +208,7 @@ def post_edit(request, post_id):
 
     context = {'form': form, 'post': post}
     return render(request, 'post_edit.html', context)
-# VIEW 12 - POST: REMOVE
+# VIEW 14 - POST: REMOVE
 @login_required
 def post_remove(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -198,26 +222,26 @@ def post_remove(request, post_id):
 
     context = {'post': post}
     return render(request, 'post_remove.html', context)
-# VIEW 13 - POST: LIST
+# VIEW 15 - POST: LIST
 def post_list(request):
     posts = Post.objects.all().order_by('-created_at')
     paginator = Paginator(posts, 10)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
     return render(request, 'post_list.html', {'posts': posts})
-# --------- VIEW 14 - FRIEND REQUEST ---------
+# --------- VIEW 16 - FRIEND REQUEST ---------
 @login_required
 def friend_request(request):
     pending_friend_requests = FriendRequest.objects.filter(recipient=request.user, status='pending')
     
     return render(request, 'friend_request.html', {'pending_friend_requests': pending_friend_requests})
-# VIEW 15 - FRIENDSHIPS
+# VIEW 17 - FRIENDSHIPS
 def friendships(user):
     friends_sent = FriendRequest.objects.filter(sender=user, status='accepted')
     friends_received = FriendRequest.objects.filter(recipient=user, status='accepted')
     friends = [fr.recipient for fr in friends_sent] + [fr.sender for fr in friends_received]
     return friends
-# VIEW 16 - FRIEND REQUEST: ACCEPT
+# VIEW 18 - FRIEND REQUEST: ACCEPT
 @login_required
 def friend_request_accept(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)
@@ -231,7 +255,7 @@ def friend_request_accept(request, request_id):
 
     messages.success(request, f"You are now friends with {friend_request.sender.username}.")
     return redirect('friend_list')
-# VIEW 17 - FRIEND REQUEST: REJECT
+# VIEW 19 - FRIEND REQUEST: REJECT
 @login_required
 def friend_request_reject(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)
@@ -245,7 +269,7 @@ def friend_request_reject(request, request_id):
 
     messages.success(request, f"You have rejected the friend request from {friend_request.sender.username}.")
     return redirect('friend_list')
-# VIEW 18 - FRIEND LIST 
+# VIEW 20 - FRIEND LIST 
 @login_required
 def friend_list(request):
     # Fetching friend relationships
@@ -265,26 +289,4 @@ def friend_list(request):
         'pending_received': pending_received,
     }
     return render(request, 'friend_list.html', context)
-# VIEW 19 - NOTIFICATIONS
-@login_required
-def notifications(request):
-    notifications = Notification.objects.filter(user=request.user).order_by('-timestamp')
-    return render(request, 'notifications.html', {'notifications': notifications})
-# VIEW 20 - PRIVATE MESSAGES - VIEW
-@login_required
-def private_messages(request):
-    sent_messages = Message.objects.filter(sender=request.user).order_by('-timestamp')
-    received_messages = Message.objects.filter(recipient=request.user).order_by('-timestamp')
-    return render(request, 'private_messages.html', {'sent_messages': sent_messages, 'received_messages': received_messages})
-# VIEW 21 - GROUPS - VIEW
-@login_required
-def groups(request):
-    group_memberships = GroupMember.objects.filter(user=request.user)
-    return render(request, 'groups.html', {'group_memberships': group_memberships})
-# VIEW 22 - GROUP DETAILS - VIEW
-@login_required
-def group_details(request, group_id):
-    group = get_object_or_404(Group, id=group_id)
-    group_members = GroupMember.objects.filter(group=group)
-    return render(request, 'group_details.html', {'group': group, 'group_members': group_members})
 

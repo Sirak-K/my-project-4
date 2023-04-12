@@ -56,3 +56,110 @@ function getCookie(name) {
   }
   return cookieValue;
 }
+
+// AUTO-SAVE: PROFILE DETAILS
+$(document).ready(function() {
+  function autoSaveProfileField(field_name, field_value) {
+    $.ajax({
+      url: '{% url "user_profile_field_update" user_profile.user.id %}',
+      method: 'POST',
+      data: {
+        'field_name': field_name,
+        'field_value': field_value,
+        'csrfmiddlewaretoken': '{{ csrf_token }}'
+      },
+      success: function(data) {
+        if (data.status === 'success') {
+          console.log('Profile field updated successfully');
+        } else {
+          console.error('Error updating profile field:', data.message);
+        }
+      }
+    });
+  }
+
+  function makeEditable(element) {
+    element.setAttribute('contenteditable', 'true');
+    element.focus();
+  }
+
+  function makeUneditable(element) {
+    element.removeAttribute('contenteditable');
+    autoSaveProfileField(element.dataset.fieldName, element.textContent.trim());
+  }
+
+  $('.edit-pencil').click(function(event) {
+    event.preventDefault();
+    const fieldElement = document.querySelector(this.dataset.fieldSelector);
+    makeEditable(fieldElement);
+  });
+
+  $('[data-field-name]').blur(function() {
+    makeUneditable(this);
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('#update-profile-form');
+  if (!form) return;
+
+  const editElements = document.querySelectorAll('.edit-pencil, .edit-image');
+  for (const editElement of editElements) {
+    editElement.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      const fieldName = editElement.getAttribute('data-field-name');
+      const fieldSelector = editElement.getAttribute('data-field-selector');
+
+      const activeField = document.querySelector('.active-edit-field');
+      if (activeField) {
+        activeField.classList.remove('active-edit-field');
+      }
+
+      const formField = document.querySelector(fieldSelector);
+      formField.classList.add('active-edit-field');
+
+      formField.focus();
+      if (formField.tagName === 'INPUT' || formField.tagName === 'TEXTAREA') {
+        formField.select();
+      }
+
+      formField.addEventListener('input', autoSave);
+      formField.addEventListener('change', autoSave);
+      formField.addEventListener('blur', autoUpdate);
+    });
+  }
+
+  function autoSave(event) {
+    const formField = event.target;
+
+    const form = formField.closest('form');
+    const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    const fieldName = formField.getAttribute('data-field-name');
+    const fieldValue = formField.value;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', form.getAttribute('data-url'), true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('X-CSRFToken', csrfToken);
+
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        const response = JSON.parse(xhr.responseText);
+        if (response.status === 'success') {
+          console.log('Profile field updated successfully');
+        } else {
+          console.error('Error updating profile field:', response.message);
+        }
+      }
+    };
+
+    xhr.send(`field_name=${encodeURIComponent(fieldName)}&field_value=${encodeURIComponent(fieldValue)}`);
+  }
+
+  function autoUpdate(event) {
+    const formField = event.target;
+    formField.classList.remove('active-edit-field');
+  }
+});

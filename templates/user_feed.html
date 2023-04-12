@@ -8,10 +8,10 @@
 <div class="user-feed-container">
   <section class="user-feed-section">
     <div class="user-info">
-      {% if user.profile.profile_picture %}
-        <img class="profile-image" src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}'s profile picture">
+      {% if user.profile.profile_image %}
+        <img class="profile-image" src="{{ user.profile.profile_image.url }}" alt="{{ user.username }}'s profile picture">
       {% else %}
-        <img class="profile-image" src="{% static '/css/media/img/default_profile_picture.png' %}" alt="{{ user.username }}'s profile picture">
+        <img class="profile-image" src="{% static '/css/media/img/default_profile_picture.png' %}" alt="{{ user.username }}'s profile image">
       {% endif %}
       <h2>{{ user.username }}</h2>
     </div>

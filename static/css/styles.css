@@ -294,7 +294,10 @@ align-items: center;
 background-color: black;
 }
 
-
+/* USER PROFILE */
+.profile-image {
+        width: 5em;
+}
 
 /* FOOTER */
 .footer-container {  
@@ -367,15 +370,42 @@ display: none;
 
 .header-container-mobile{
 /* width: 100%; */
+/* outline: auto; */
 display: flex;
 flex-wrap: wrap;
+flex-direction: row;
 justify-content: center;
 align-items: center;
 background-color: rgb(27, 105, 223);
+height: 3.3em;
+/* padding: 1em; */
+/* gap: 3em; */
 }
 
 .navbar-mobile {
+        width:100%;
+        /* outline: auto; */
+}
 
+.navbar-list {
+/* outline: auto; */
+display: flex;
+flex-wrap: wrap;
+flex-direction: row;
+justify-content: space-evenly;
+align-items: center;
+
+}
+
+.navbar-list-item-mobile {
+        text-decoration: none;
+color:white;
+}
+
+.navbar-link-mobile {
+        
+        font-size: 1.2rem;
+        color:white;
 }
 
 /* HEADER */
@@ -457,29 +487,19 @@ align-items: center;
 /* outline: red auto; */
 width: 100%;
 }
-/* ---------- USER PROFILE ---------- */
 .user-info {
-/* outline: auto; */
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-width: 100%;
-/* padding: 0 5em; */
-}
+        /* outline: auto; */
+        display:flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        /* padding: 0 5em; */
+        }
+/* ---------- USER PROFILE ---------- */
 
-.profile-image {
-object-fit: contain;
-width: 8em;
-aspect-ratio: 1.2;
-}
-.profile-image {
-        /* object-fit: contain; */
-        width: 5em;
-        /* aspect-ratio: 2.2; */
-        background-image: url('media/img/default_profile_picture.png');
-}
+
 .profile-banner {
         width: 100%;
         aspect-ratio: 2.2;
@@ -488,6 +508,27 @@ aspect-ratio: 1.2;
         background-repeat: no-repeat;
         background-image: url('media/img/default_banner_picture.png');
 }
+
+.profile-header {
+        font-size: 2rem;
+        text-align: center;
+}
+
+.profile-info-container {
+        display:flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+ 
+}
+
+
+.profile-image {
+        
+        width: 8em;
+        aspect-ratio: 0.7;
+        background-image: url('media/img/default_profile_picture.png');
+}
+
 
 
 /* ---------- POSTS ---------- */
