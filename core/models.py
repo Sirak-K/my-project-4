@@ -9,14 +9,12 @@ from django.contrib.auth import get_user_model
 
 # MODEL 1 - PROFILE
 class Profile(models.Model):
+    date_of_birth = models.DateField(blank=True, null=True)
+    profile_image = models.ImageField(upload_to='profile_images/')
+    banner_image = models.ImageField(upload_to='banner_images/', blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)  # One-to-one relationship with User
     bio = models.TextField(blank=True, null=True)
-    profile_image = models.ImageField(upload_to='profile_images/', default='default_profile_picture.png')
-    date_of_birth = models.DateField(blank=True, null=True)
-    privacy_settings = models.CharField(max_length=30, blank=True, null=True)
-    banner_image = models.ImageField(upload_to='banner_images/', blank=True, null=True)
     profession = models.CharField(max_length=100, blank=True, null=True)
-    # website = models.URLField(max_length=30, blank=True, null=True)
 
     GENDER_CHOICES = (
         ('M', 'He/Him'),
@@ -41,7 +39,6 @@ class Post(models.Model):
     image = models.ImageField(upload_to='post_images/', blank=True, null=True)
     video = models.FileField(upload_to='post_videos/', blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
-    privacy_settings = models.CharField(max_length=30, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)  # Automatically set the timestamp when the post is created
     def time_since_posted(self):
         now = timezone.now()

@@ -35,6 +35,5 @@ urlpatterns = [
     path('user_feed', views.user_feed, name='user_feed'),
 ]
 
-
-# if settings.DEBUG:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

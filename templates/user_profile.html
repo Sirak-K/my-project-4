@@ -25,11 +25,11 @@
 <div class="profile-info-container">
   {% if user.profile.profile_image %}
   <a href="{% url 'user_profile_image' user_id=user.id %}">
-  <img class="profile-image" src="{{ user.profile.profile_image.url }}" alt="{{ user.username }}'s profile picture">
+  <img class="profile-image" src="{{ user.profile.profile_image.url }}" alt="{{ user.username }}'s profile image">
   </a>
   {% else %}
   <a href="{% url 'user_profile_image' user_id=user.id %}">  
-  <img class="profile-image" src="{% static '/css/media/img/default_profile_picture.png' %}" alt="{{ user.username }}'s profile image">
+  <img class="profile-image" src="{% static 'img/default_profile_picture.png' %}" alt="{{ user.username }}'s profile image">
   </a>
   {% endif %}
   <div class="profile-details">
@@ -42,10 +42,6 @@
   </div>
   </div>
 </div>
-
-{% comment %} <a href="{% url 'user_profile_image' user_id=request.user.id %}">Update Profile Image and Banner</a>
- {% endcomment %}
-
 
 
 
