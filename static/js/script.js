@@ -1,165 +1,210 @@
-document.querySelectorAll(".like-btn").forEach((btn) => {
-  btn.addEventListener("click", async () => {
-    const postId = btn.dataset.postId;
-    const response = await fetch(`/post_like/${postId}/`, { method: "POST" });
-    const data = await response.json();
-    btn.textContent = `Like (${data.likes})`;
-
-    // Update the displayed like count
-    const likeCountElement = document.querySelector(`#like-count-${postId}`);
-    likeCountElement.textContent = data.likes;
-  });
-});
-
-function toggleCommentInput(button) {
-  const input = button.nextElementSibling;
-  input.style.display = input.style.display === "none" ? "block" : "none";
-  input.addEventListener("keydown", async (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const postId = button.parentElement.dataset.postId;
-      const content = input.value;
-      const response = await fetch(`/post_comment/${postId}/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken"),
-        },
-        body: JSON.stringify({ content: content }),
+(function () {
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+  function initializeCropper() {
+    const editImageButton = document.getElementById('btn-edit-image');
+    const saveChangesButton = document.getElementById('btn-save-changes');
+  
+    // Check if elements exist before adding event listeners
+    if (editImageButton && saveChangesButton) {
+      editImageButton.addEventListener('click', () => {
+        const image = document.getElementById('uploaded-image');
+        const cropper = new Cropper(image, {
+          aspectRatio: 1,
+          viewMode: 1,
+          autoCropArea: 1,
+          cropBoxResizable: false,
+          dragMode: 'move',
+          crop(event) {
+            // You can access the cropping data here
+          },
+        });
+  
+        saveChangesButton.style.display = 'block';
+        editImageButton.style.display = 'none';
+  
+        saveChangesButton.addEventListener('click', () => {
+          const croppedImageDataUrl = cropper.getCroppedCanvas().toDataURL();
+          // Save the cropped image data
+          // You can now send this croppedImageDataUrl to the server to save the new profile image
+          // ...
+          cropper.destroy();
+          saveChangesButton.style.display = 'none';
+          editImageButton.style.display = 'block';
+        });
       });
-      if (response.ok) {
-        input.value = "";
-
-        // Update the displayed comment count
-        const commentCountElement = document.querySelector(
-          `#comment-count-${postId}`
-        );
-        commentCountElement.textContent = parseInt(commentCountElement.textContent) + 1;
-
-        // Optionally, refresh the page or update the comments section.
-      }
-    }
-  });
-}
-
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== "") {
-    const cookies = document.cookie.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      if (cookie.substring(0, name.length + 1) === name + "=") {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
     }
   }
-  return cookieValue;
-}
+  function likePost() {
+    document.querySelectorAll(".like-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const postId = btn.dataset.postId;
+        const response = await fetch(`/post_like/${postId}/`, { method: "POST" });
+        const data = await response.json();
+        btn.textContent = `Like (${data.likes})`;
 
-// AUTO-SAVE: PROFILE DETAILS
-$(document).ready(function() {
-  function autoSaveProfileField(field_name, field_value) {
-    $.ajax({
-      url: '{% url "user_profile_field_update" user_profile.user.id %}',
-      method: 'POST',
-      data: {
-        'field_name': field_name,
-        'field_value': field_value,
-        'csrfmiddlewaretoken': '{{ csrf_token }}'
+        // Update the displayed like count
+        const likeCountElement = document.querySelector(`#like-count-${postId}`);
+        likeCountElement.textContent = data.likes;
+      });
+    });
+  }
+  function initializeCommentInput() {
+    document.querySelectorAll(".comment-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = button.nextElementSibling;
+        input.style.display = input.style.display === "none" ? "block" : "none";
+        input.addEventListener("keydown", async (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            const postId = button.parentElement.dataset.postId;
+            const content = input.value;
+            const response = await fetch(`/post_comment/${postId}/`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"),
+              },
+              body: JSON.stringify({ content: content }),
+            });
+            if (response.ok) {
+              input.value = "";
+
+              // Update the displayed comment count
+              const commentCountElement = document.querySelector(
+                `#comment-count-${postId}`
+              );
+              commentCountElement.textContent = parseInt(commentCountElement.textContent) + 1;
+
+              // Optionally, refresh the page or update the comments section.
+            }
+          }
+        });
+      });
+    });
+  }
+  function updateProfileField(fieldElement, newValue, newTextContent) {
+    fieldElement.setAttribute("data-value", newValue);
+    fieldElement.textContent = newTextContent;
+    const fieldName = fieldElement.getAttribute("data-field-name");
+    sendUpdatedValueToServer(fieldName, newValue);
+  }
+  
+  function sendUpdatedValueToServer(fieldName, newValue) {
+    const user_id = document.querySelector("[data-user-id]").getAttribute("data-user-id");
+    const data = { fieldName: fieldName, value: newValue };
+  
+    fetch(`/user_profile/${user_id}/update_field/`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"), // Include the CSRF token
       },
-      success: function(data) {
-        if (data.status === 'success') {
-          console.log('Profile field updated successfully');
-        } else {
-          console.error('Error updating profile field:', data.message);
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Field update success:", data);
+      })
+      .catch((error) => {
+        console.error("Field update error:", error);
+      });
+  }
+  
+  // FUNCTION: EDIT-PENCIL - BIO
+  function initializeBioEditing() {
+    const editPencilBio = document.querySelector('.edit-pencil-bio');
+    // EVENT: EDIT-PENCIL - BIO
+    if (editPencilBio) {
+      editPencilBio.addEventListener('click', function (event) {
+        event.preventDefault();
+        const bioElement = document.querySelector("[data-field-name='bio']");
+        bioElement.focus();
+      });
+
+    // EVENT: 'contenteditable' 
+    const bioElement = document.querySelector("[data-field-name='bio']");
+    if (bioElement) {
+      bioElement.addEventListener('blur', () => {
+        const newValue = bioElement.textContent;
+        sendUpdatedValueToServer('bio', newValue);
+      });
+    }
+  }
+}
+
+  document.addEventListener('DOMContentLoaded', function () {
+    initializeCropper();
+    likePost();
+    initializeCommentInput();
+    initializeBioEditing();
+
+
+    // EVENT: PROFILE DETAILS
+    document.querySelectorAll("[data-field-name]").forEach((fieldElement) => {
+      fieldElement.addEventListener("change", () => {
+        const fieldName = fieldElement.getAttribute("data-field-name");
+        const newValue = fieldElement.getAttribute("data-value");
+        sendUpdatedValueToServer(fieldName, newValue);
+      });
     });
-  }
+    // EVENT: EDIT-PENCIL - DROPDOWN MENU
+    document.querySelectorAll(".edit-pencil").forEach(function (pencil) {
+      pencil.addEventListener("click", function (event) {
+        event.preventDefault();
 
-  function makeEditable(element) {
-    element.setAttribute('contenteditable', 'true');
-    element.focus();
-  }
-
-  function makeUneditable(element) {
-    element.removeAttribute('contenteditable');
-    autoSaveProfileField(element.dataset.fieldName, element.textContent.trim());
-  }
-
-  $('.edit-pencil').click(function(event) {
-    event.preventDefault();
-    const fieldElement = document.querySelector(this.dataset.fieldSelector);
-    makeEditable(fieldElement);
-  });
-
-  $('[data-field-name]').blur(function() {
-    makeUneditable(this);
-  });
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.querySelector('#update-profile-form');
-  if (!form) return;
-
-  const editElements = document.querySelectorAll('.edit-pencil, .edit-image');
-  for (const editElement of editElements) {
-    editElement.addEventListener('click', function(event) {
-      event.preventDefault();
-
-      const fieldName = editElement.getAttribute('data-field-name');
-      const fieldSelector = editElement.getAttribute('data-field-selector');
-
-      const activeField = document.querySelector('.active-edit-field');
-      if (activeField) {
-        activeField.classList.remove('active-edit-field');
-      }
-
-      const formField = document.querySelector(fieldSelector);
-      formField.classList.add('active-edit-field');
-
-      formField.focus();
-      if (formField.tagName === 'INPUT' || formField.tagName === 'TEXTAREA') {
-        formField.select();
-      }
-
-      formField.addEventListener('input', autoSave);
-      formField.addEventListener('change', autoSave);
-      formField.addEventListener('blur', autoUpdate);
-    });
-  }
-
-  function autoSave(event) {
-    const formField = event.target;
-
-    const form = formField.closest('form');
-    const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
-
-    const fieldName = formField.getAttribute('data-field-name');
-    const fieldValue = formField.value;
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', form.getAttribute('data-url'), true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('X-CSRFToken', csrfToken);
-
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        const response = JSON.parse(xhr.responseText);
-        if (response.status === 'success') {
-          console.log('Profile field updated successfully');
+        const dropdownMenu = pencil.nextElementSibling;
+        if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") {
+          dropdownMenu.style.display = "block";
         } else {
-          console.error('Error updating profile field:', response.message);
+          dropdownMenu.style.display = "none";
         }
+      });
+    });
+
+    // Add event listeners to the dropdown menu items
+    document.querySelectorAll(".dropdown-menu a").forEach(function (menuItem) {
+      menuItem.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const dropdownMenu = event.target.parentElement;
+        const fieldName = dropdownMenu.getAttribute("data-field-name");
+        const fieldElement = document.querySelector(`[data-field-name="${fieldName}"]`);
+        const selectedValue = event.target.getAttribute("data-value");
+
+        updateProfileField(fieldElement, selectedValue, event.target.textContent);
+        dropdownMenu.style.display = "none";
+      });
+    });
+    
+    const showMoreButtons = document.querySelectorAll('.btn-show-more');
+
+    showMoreButtons.forEach((button) => {
+      const postText = button.previousElementSibling;
+      const postHeight = postText.offsetHeight;
+      const fullHeight = postText.scrollHeight;
+
+      if (postHeight >= fullHeight) {
+        button.style.display = 'none';
       }
-    };
 
-    xhr.send(`field_name=${encodeURIComponent(fieldName)}&field_value=${encodeURIComponent(fieldValue)}`);
-  }
-
-  function autoUpdate(event) {
-    const formField = event.target;
-    formField.classList.remove('active-edit-field');
-  }
-});
+      button.addEventListener('click', () => {
+        if (postText.style.height === '60px') {
+          postText.style.height = `${fullHeight}px`;
+          button.textContent = 'Show Less';
+        } else {
+          postText.style.height = '60px';
+          button.textContent = 'Show More';
+        }
+      });
+    });
+  })
+})();

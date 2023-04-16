@@ -10,18 +10,26 @@ from django.contrib.auth import get_user_model
 # MODEL 1 - PROFILE
 class Profile(models.Model):
     date_of_birth = models.DateField(blank=True, null=True)
-    profile_image = models.ImageField(upload_to='profile_images/')
+    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     banner_image = models.ImageField(upload_to='banner_images/', blank=True, null=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)  # One-to-one relationship with User
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True) 
     bio = models.TextField(blank=True, null=True)
-    profession = models.CharField(max_length=100, blank=True, null=True)
+
+    PROFESSION_CHOICES = (
+        ('O', 'Student'),
+        ('M', 'Working'),
+        ('F', 'Not Working'),
+        ('T', 'Other'),
+        ('N', 'None selected'),
+    )
+    profession = models.CharField(max_length=50, choices=PROFESSION_CHOICES, default="N", blank=True, null=True)
 
     GENDER_CHOICES = (
+        ('O', 'Other'),
         ('M', 'He/Him'),
         ('F', 'She/Her'),
         ('T', 'They/Them'),
-        ('O', 'Other'),
-        ('N', 'Prefer not to say'),
+        ('N', 'None selected'),
     )
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='N')
     
@@ -39,13 +47,13 @@ class Post(models.Model):
     image = models.ImageField(upload_to='post_images/', blank=True, null=True)
     video = models.FileField(upload_to='post_videos/', blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True)  # Automatically set the timestamp when the post is created
+    created_at = models.DateTimeField(auto_now_add=True)  # Automatically set the timestamp when the post is created
     def time_since_posted(self):
         now = timezone.now()
-        time_difference = now - self.timestamp
+        time_difference = now - self.created_at
         if time_difference.seconds < 60:
             return "Just now"
-        return f"{timesince(self.timestamp)} ago"
+        return f"{timesince(self.created_at)} ago"
 
     def count_likes(self):
         return self.likes.count()

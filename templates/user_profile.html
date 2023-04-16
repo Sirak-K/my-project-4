@@ -7,41 +7,77 @@
 
 <!-- PROFILE -->
 
-<!-- Profile - User Banner -->
-{% if user.profile.banner_image %}
-<a href="{% url 'user_profile_image' user_id=user.id %}">
-    <div class="profile-banner" style="background-image: url('{{ user.profile.banner_image.url }}');">
-    </div>
-  </a>
-{% else %}
-<a href="{% url 'user_profile_image' user_id=user.id %}">
-    <div class="profile-banner">
-    </div>
-  </a>
-{% endif %}
+<div class="profile-container">
+  <!-- Profile Banner -->
 
-<!-- Profile - User Information -->
-<h1 class="profile-header">{{ user.first_name }} {{ user.last_name }}</h1>
-<div class="profile-info-container">
-  {% if user.profile.profile_image %}
-  <a href="{% url 'user_profile_image' user_id=user.id %}">
-  <img class="profile-image" src="{{ user.profile.profile_image.url }}" alt="{{ user.username }}'s profile image">
-  </a>
-  {% else %}
-  <a href="{% url 'user_profile_image' user_id=user.id %}">  
-  <img class="profile-image" src="{% static 'img/default_profile_picture.png' %}" alt="{{ user.username }}'s profile image">
-  </a>
-  {% endif %}
-  <div class="profile-details">
-    {% comment %} <h2>{{ user.first_name }} {{ user.last_name }}</h2> {% endcomment %}
-    <!-- Render your profile fields and the pencil icons -->
-<div>
-  <h3>Bio: <span data-field-name="bio">{{ user_profile.bio }}</span> <a href="#" class="edit-pencil" data-field-selector="[data-field-name='bio']">&#9998;</a></h3>
-  <h3>Gender: <span data-field-name="gender">{{ user_profile.gender }}</span> <a href="#" class="edit-pencil" data-field-selector="[data-field-name='gender']">&#9998;</a></h3>
-  <h3>Profession: <span data-field-name="profession">{{ user_profile.profession }}</span><a href="#" class="edit-pencil" data-field-selector="[data-field-name='profession']">&#9998;</a></h3>
-  </div>
-  </div>
+  <section class="profile-images-section">
+    <a href="{% url 'user_profile_image' user_id=user.id %}">
+      <div class="profile-banner" style="background-image: url('{% if user.profile.banner_image %}{{ user.profile.banner_image.url }}{% else %}/media/img/default_profile_banner.png{% endif %}');">
+      </div>
+    </a>
+  
+    <!-- Profile Image -->
+    <a href="{% url 'user_profile_image' user_id=user.id %}">
+      <img class="profile-image" src="{% if user.profile.profile_image %}{{ user.profile.profile_image.url }}{% else %}/media/img/default_profile_image.png{% endif %}" alt="{{ user.first_name }} {{ user.last_name }}'s profile image">
+    </a>
+  </section>
+
+  
+  
+
+    <!-- PROFILE DETAILS -->
+
+    <h3 class="profile-detail-header">{{ user.first_name }} {{ user.last_name }}</h3>
+
+    <section class="profile-details-section">
+    
+    <div class="profile-details" data-user-id="{{ user.id }}">
+      
+      <h3 class="profile-detail-bio"><strong>Bio:</strong> <span data-field-name="bio" contenteditable>{{ user_profile.bio }}</span>
+        <span class="edit-pencil-container">
+          <a href="#" class="edit-pencil-bio">&#9998;</a>
+        </span>
+      </h3>
+      
+   
+
+<!-- Add dropdown menus for gender and profession -->
+<h3 class="profile-detail-gender"><strong>Gender:</strong> <span data-field-name="gender">{{ user_profile.get_gender_display }}</span>
+  <span class="edit-pencil-container">
+    <a href="#" class="edit-pencil" data-field-selector="[data-field-name='gender']">&#9998;</a>
+    <div class="dropdown-menu" data-field-name="gender">
+      {% for value, display_name in user_profile.GENDER_CHOICES %}
+        <a href="#" data-value="{{ value }}">{{ display_name }}</a>
+      {% endfor %}
+    </div>
+  </span>
+</h3>
+
+<h3 class="profile-detail-profession"><strong>Profession:</strong> <span data-field-name="profession">{{ user_profile.get_profession_display }}</span>
+  <span class="edit-pencil-container">
+    <a href="#" class="edit-pencil" data-field-selector="[data-field-name='profession']">&#9998;</a>
+    <div class="dropdown-menu" data-field-name="profession">
+      {% for value, display_name in user_profile.PROFESSION_CHOICES %}
+        <a href="#" data-value="{{ value }}">{{ display_name }}</a>
+      {% endfor %}
+    </div>
+  </span>
+</h3>
+
+
+  
+  
+    </div>
+  </section>
 </div>
+
+
+<div class="profile-section-posts">
+{% with user_posts as posts %}
+{% include 'post_list.html' %}
+{% endwith %}
+</div>
+
 
 
 

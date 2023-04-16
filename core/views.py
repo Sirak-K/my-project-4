@@ -1,3 +1,6 @@
+import json
+import traceback  # Add this import
+
 from django.db.models import Q
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -8,7 +11,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm, CommentForm, UpdateProfileForm, UpdateProfileImageForm
-from django.http import JsonResponse, HttpResponseNotAllowed
+from django.http import JsonResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from .models import Comment, Post, Profile, FriendList, FriendRequest
@@ -17,7 +20,7 @@ from .models import Comment, Post, Profile, FriendList, FriendRequest
 # VIEW 1 - HOME 
 def index(request):
     if request.user.is_authenticated:
-        post_list = Post.objects.all().order_by('-timestamp')
+        post_list = Post.objects.all().order_by('-created_at')
         paginator = Paginator(post_list, 10)  # Show 10 posts per page
 
         page = request.GET.get('page')
@@ -27,7 +30,7 @@ def index(request):
         friends_received = FriendRequest.objects.filter(recipient=request.user, status='accepted')
         friends = [fr.from_user for fr in friends_received] + [fr.to_user for fr in friends_sent]
 
-        latest_posts = Post.objects.filter(author__in=friends).order_by('-timestamp')[:10]
+        latest_posts = Post.objects.filter(author__in=friends).order_by('-created_at')[:10]
 
         context = {
             'posts': posts,
@@ -79,7 +82,7 @@ def user_feed(request):
     friends = friendships(request.user)
 
     # Fetching posts from friends and the current user
-    posts = Post.objects.filter(author__in=friends + [request.user]).order_by('-timestamp')
+    posts = Post.objects.filter(author__in=friends + [request.user]).order_by('-created_at')
     
     # Adding pagination
     paginator = Paginator(posts, 10)  # Show 10 posts per page
@@ -92,11 +95,13 @@ def user_feed(request):
     }
     return render(request, 'user_feed.html', context)
 # VIEW 5 - LOGGED-IN - PROFILE
+
+@csrf_exempt
 @login_required
 def user_profile(request, user_id):
     user = User.objects.get(id=user_id)
     user_profile = Profile.objects.get(user=user)
-    user_posts = Post.objects.filter(author=user).order_by('-timestamp')
+    user_posts = Post.objects.filter(author=user).order_by('-created_at')
     friends = friend_list(request)
 
     if request.method == 'POST':
@@ -128,22 +133,29 @@ def user_profile_image(request, user_id):
     context = {'form': form}
     return render(request, 'user_profile_image.html', context)
 # VIEW 7 - LOGGED-IN - PROFILE - UPDATE PROFILE DETAILS
+
+@require_POST
 @csrf_exempt
 @login_required
 def user_profile_field_update(request, user_id):
-    if request.method == 'POST' and request.is_ajax():
-        field_name = request.POST.get('field_name')
-        field_value = request.POST.get('field_value')
+    try:
+        data = json.loads(request.body)
+        print(f"Received data: {data}")
 
+        field_name = data.get('fieldName')
+        field_value = data.get('value')
         if field_name in ['bio', 'gender', 'profession']:
             user_profile = Profile.objects.get(user__id=user_id)
             setattr(user_profile, field_name, field_value)
             user_profile.save()
             return JsonResponse({"status": "success"})
         else:
-            return JsonResponse({"status": "error", "message": "Invalid field"})
-    else:
-        return JsonResponse({"status": "error", "message": "Invalid request"})
+            return HttpResponseBadRequest("Invalid field")
+    except Exception as e:
+        print(f"Error: {e}")
+        print(traceback.format_exc())
+        return JsonResponse({"status": "error", "message": str(e)})
+
 # ---------> VIEW 8 - [ LOG-OUT ] --------->
 def logout_view(request):
     logout(request)
@@ -190,25 +202,7 @@ def post_details(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     comments = Comment.objects.filter(post=post).order_by('-created_at')
     return render(request, 'post_details.html', {'post': post, 'comments': comments})
-# VIEW 13 - POST: EDIT
-@login_required
-def post_edit(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-
-    if request.user != post.author:
-        return redirect('home')
-
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES, instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect('user_feed')
-    else:
-        form = PostForm(instance=post)
-
-    context = {'form': form, 'post': post}
-    return render(request, 'post_edit.html', context)
-# VIEW 14 - POST: REMOVE
+# VIEW 13 - POST: REMOVE
 @login_required
 def post_remove(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -222,26 +216,26 @@ def post_remove(request, post_id):
 
     context = {'post': post}
     return render(request, 'post_remove.html', context)
-# VIEW 15 - POST: LIST
+# VIEW 14 - POST: LIST
 def post_list(request):
     posts = Post.objects.all().order_by('-created_at')
     paginator = Paginator(posts, 10)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
     return render(request, 'post_list.html', {'posts': posts})
-# --------- VIEW 16 - FRIEND REQUEST ---------
+# --------- VIEW 15 - FRIEND REQUEST ---------
 @login_required
 def friend_request(request):
     pending_friend_requests = FriendRequest.objects.filter(recipient=request.user, status='pending')
     
     return render(request, 'friend_request.html', {'pending_friend_requests': pending_friend_requests})
-# VIEW 17 - FRIENDSHIPS
+# VIEW 16 - FRIENDSHIPS
 def friendships(user):
     friends_sent = FriendRequest.objects.filter(sender=user, status='accepted')
     friends_received = FriendRequest.objects.filter(recipient=user, status='accepted')
     friends = [fr.recipient for fr in friends_sent] + [fr.sender for fr in friends_received]
     return friends
-# VIEW 18 - FRIEND REQUEST: ACCEPT
+# VIEW 17 - FRIEND REQUEST: ACCEPT
 @login_required
 def friend_request_accept(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)
@@ -255,7 +249,7 @@ def friend_request_accept(request, request_id):
 
     messages.success(request, f"You are now friends with {friend_request.sender.username}.")
     return redirect('friend_list')
-# VIEW 19 - FRIEND REQUEST: REJECT
+# VIEW 18 - FRIEND REQUEST: REJECT
 @login_required
 def friend_request_reject(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)
@@ -269,7 +263,7 @@ def friend_request_reject(request, request_id):
 
     messages.success(request, f"You have rejected the friend request from {friend_request.sender.username}.")
     return redirect('friend_list')
-# VIEW 20 - FRIEND LIST 
+# VIEW 19 - FRIEND LIST 
 @login_required
 def friend_list(request):
     # Fetching friend relationships

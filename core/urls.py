@@ -21,7 +21,6 @@ urlpatterns = [
     path('post_comment/<int:post_id>/', views.post_comment, name='post_comment'), 
     path('post_create/', views.post_create, name='post_create'),
     path('post_details/<int:post_id>/', views.post_details, name='post_details'),  
-    path('post_edit/<int:post_id>/', views.post_edit, name='post_edit'),
     path('post_like/<int:post_id>/', views.post_like, name='post_like'),
     path('post_remove/<int:post_id>/', views.post_remove, name='post_remove'),
     # URLS - PROFILE

@@ -2,47 +2,61 @@
 
 {% load static %}
 
+
 {% block content_user_feed %}
 
-{% comment %} <h1>User is Logged In - Feed Page</h1> {% endcomment %}
+<!-- USER FEED -->
 <div class="user-feed-container">
+
   <section class="user-feed-section">
-    <div class="user-info">
+
+    <div class="user-feed-header-section">
+
       {% if user.profile.profile_image %}
-        <img class="profile-image" src="{{ user.profile.profile_image.url }}" alt="{{ user.username }}'s profile image">
+        <img class="user-feed-profile-image" src="{{ user.profile.profile_image.url }}" alt="{{ user.first_name }} {{ user.last_name }}'s profile image">
       {% else %}
-        <img class="profile-image" src="{% static 'img/default_profile_picture.png' %}" alt="{{ user.username }}'s profile image">
+        <img class="user-feed-profile-image" src="/media/img/default_profile_image.png" alt="{{ user.first_name }} {{ user.last_name }}'s profile image">
       {% endif %}
-      <h2>{{ user.username }}</h2>
+      <p class="user-feed-current-date">{% now "F j, Y" %}</p>
+    
     </div>
 
-    <div class="post-form-section">
-      <form class="post-form" method="post" action="{% url 'post_create' %}">
-        {% csrf_token %}
-        <textarea class="post-text" name="content" placeholder="What's on your mind, {{ user.username }}?" rows="3"></textarea>
-        
-        <div class="post-option-section">
 
-          <label class="post-option">
-            <i class="post-option-icon fa-solid fa-image"></i>
+<!-- CREATE NEW POST -->
+    <div class="create-post-form-section">
+      <form class="create-post-form" method="post" action="{% url 'post_create' %}">
+        {% csrf_token %}
+        <textarea class="create-post-text" name="content" placeholder="How are you feeling today, {{ user.first_name }} {{ user.last_name }}?" rows="3"></textarea>
+        
+        <div class="create-post-option-section">
+
+          <label class="create-post-option">
+            <i class="create-post-option-icon fa-solid fa-image"></i>
             <input type="file" name="image" accept="image/*" style="display:none;">
           </label>
 
-          <label class="post-option">
-            <i class="post-option-icon fa-solid fa-video"></i>
+          <label class="create-post-option">
+            <i class="create-post-option-icon fa-solid fa-video"></i>
             <input type="file" name="video" accept="video/*" style="display:none;">
           </label>
         </div>
-  
-        
-        <button class="post-button" type="submit" >Share!</button>
+
+        <button class="create-post-button" type="submit" >Share!</button>
+
       </form>
     </div>
+
+
+
     <div class="posts">
       {% include 'post_list.html' %}
     </div>
-  </section>
 
+
+  </section>
 </div>
 
+
 {% endblock content_user_feed %}
+
+

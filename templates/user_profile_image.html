@@ -1,10 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content_user_profile_image %}
-<h1>Update Image Page </h1>
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Changes</button>
-</form>
+
+<div class="profile-image-updater-container">
+
+    <h1 class="pim-header">Update Image Page </h1>
+    
+    <section class="image-updater-section">
+    <form class="pim-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="pim-button" id="btn-edit-image">Edit Image</button>
+        <button class="pim-button" id="btn-save-changes" type="submit">Save Changes</button>
+    </form>
+</section>
+    {% if user.profile.profile_image %}
+    <img id="uploaded-image" src="{{ user.profile.profile_image.url }}" alt="Uploaded Profile image">
+  {% else %}
+    <img id="uploaded-image" src="/media/img/default_profile_image.png" alt="Default Profile image">
+  {% endif %}
+
+
+
+
+</div>
+
 {% endblock content_user_profile_image %}

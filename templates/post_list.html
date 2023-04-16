@@ -4,7 +4,7 @@
 
 <!-- POSTS SECTION -->
 
-<h1>Post List</h1>
+<!-- <h1>Post List</h1> -->
 
 {% for post in posts %}
 
@@ -13,33 +13,11 @@
 
     <article class="post">
 
-      <!-- Author information -->
-    <div class="author-info">
-      <!-- Display author's profile picture -->
-      {% if post.author.profile.profile_image %}
-        <img src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.get_full_name }}" class="author-image">
-      {% else %}
-        <img src="{% static 'default_profile_picture.png' %}" alt="{{ post.author.get_full_name }}" class="author-image">
-      {% endif %}
-
-      <!-- Display author's full name -->
-      <span class="author-name">{{ post.author.get_full_name }}</span>
-
-      <!-- Display the time since the post was created -->
-      <span class="time-since-posted">{{ post.time_since_posted }}</span>
-    </div>
-
-
-      {% if post.image %}
-      <!-- POST -->
-      <img class="post-image" src="{{ post.image.url }}" alt="Post Image 1">
-      {% endif %}
-      <h2 class="post-author">Posted by: {{ post.author.username }}</h2>
-      <div class="post-content">
-        <p class="post-text">{{ post.content }}</p>
-      </div>  
-     
-    <!-- REMOVE / EDIT BUTTON -->
+      <!-- POST-AUTHOR -->
+    <div class="post-author-details">
+      <div class="post-header">
+         <!-- REMOVE / EDIT BUTTON -->
+         <div class="remove-post-section">
       {% if request.user == post.author %}
       <form method="POST" action="{% url 'post_remove' post.id %}">
         {% csrf_token %}
@@ -47,10 +25,38 @@
           <i class="fas fa-times"></i>
         </button>
       </form>
-      <a class="edit-post-btn" title="Edit Post" href="{% url 'post_edit' post.id %}">
-        <i class="fas fa-pencil-alt"></i>
-      </a>
+
     {% endif %}
+  </div>
+  
+      {% if post.author.profile.profile_image %}
+        <img class="post-author-image" src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.get_full_name }}">
+      {% else %}
+        <img class="post-author-image" src="/media/img/default_profile_image.png" alt="{{ post.author.get_full_name }}">
+      {% endif %}
+
+      <!-- Display author's full name -->
+      
+      <h2 class="post-author-name">{{ post.author.get_full_name }}</h2>
+      <span class="post-time">{{ post.time_since_posted }}</span>
+      </div>
+
+      <div class="post-content">
+        <p class="post-text">{{ post.content|safe }}</p>
+      </div>  
+      <button class="btn-show-more">Show More</button>
+    
+    
+    </div>
+
+
+      {% if post.image %}
+      <!-- POST -->
+      <img class="post-image" src="{{ post.image.url }}" alt="Post Image 1">
+      {% endif %}
+      
+     
+   
 
     <!-- LIKES -->
     <button class="like-btn" data-post-id="{{ post.id }}">

@@ -1,22 +1,22 @@
 
 {% block header_not_logged_in %}
-<header class="header-container-not-logged-in">
+{% comment %} <header class="header-container-not-logged-in"> {% endcomment %}
 
     <!--SITE LOGO-->
-    <div class="logotype-section">
+    {% comment %} <div class="logotype-section"> {% endcomment %}
         {% comment %} <a class="logotype" href="index.html"><img src="media/img/logotype_placeholder.png" alt="Logo Image"></a> {% endcomment %}
-        <a class="logotype" href={% url 'login_view' %} >Logo</a>
-    </div>
+        {% comment %} <a class="logotype" href={% url 'login_view' %} >Logo</a> {% endcomment %}
+    {% comment %} </div> {% endcomment %}
 
     <!-- NAVBAR--> 
-    <nav class="navbar">
-        <ul class="navbar-list">
+    {% comment %} <nav class="navbar"> {% endcomment %}
+        {% comment %} <ul class="navbar-list"> {% endcomment %}
         {% comment %} <li class="navbar-list-item"><a class="navbar-link" href="{% url 'home' %}">Home</a></li> {% endcomment %}
 
 
-        </ul>
-    </nav>      
-</header>
+        {% comment %} </ul> {% endcomment %}
+    {% comment %} </nav>       {% endcomment %}
+{% comment %} </header> {% endcomment %}
 
 
 {% endblock header_not_logged_in %}
