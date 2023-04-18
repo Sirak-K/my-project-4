@@ -1,21 +1,25 @@
 
 {% block header_not_logged_in %}
+
+
 {% comment %} <header class="header-container-not-logged-in"> {% endcomment %}
 
-    <!--SITE LOGO-->
-    {% comment %} <div class="logotype-section"> {% endcomment %}
-        {% comment %} <a class="logotype" href="index.html"><img src="media/img/logotype_placeholder.png" alt="Logo Image"></a> {% endcomment %}
-        {% comment %} <a class="logotype" href={% url 'login_view' %} >Logo</a> {% endcomment %}
-    {% comment %} </div> {% endcomment %}
+        <!-- NAVBAR --> 
+        {% comment %} <nav class="navbar"> {% endcomment %}
+            {% comment %} <ul class="navbar-list"> {% endcomment %}
+    
+         <!--SITE LOGO-->
+         <a class="logotype" href={% url 'login_view' %} >
+            <img class="logo svg-logo" src="/media/img/logotype.svg" alt="Socialize Logo" >
+        </a>
+    
+           
+            {% comment %} <li class="navbar-list-item"><a href="{% url 'post_create' %}"><i class="navbar-link fas fa-plus"></i></a></li> {% endcomment %}
+            {% comment %} <li class="navbar-list-item"><a href="{% url 'user_profile' user_id=request.user.id %}"><i class="navbar-link fas fa-user"></i></a></li> {% endcomment %}
+            {% comment %} <li class="navbar-list-item"><a class="navbar-link" href="{% url 'search_results' %}">Search</a></li> {% endcomment %}
+            </ul>
+        </nav>  
 
-    <!-- NAVBAR--> 
-    {% comment %} <nav class="navbar"> {% endcomment %}
-        {% comment %} <ul class="navbar-list"> {% endcomment %}
-        {% comment %} <li class="navbar-list-item"><a class="navbar-link" href="{% url 'home' %}">Home</a></li> {% endcomment %}
-
-
-        {% comment %} </ul> {% endcomment %}
-    {% comment %} </nav>       {% endcomment %}
 {% comment %} </header> {% endcomment %}
 
 

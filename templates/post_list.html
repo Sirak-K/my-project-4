@@ -4,19 +4,58 @@
 
 <!-- POSTS SECTION -->
 
-<!-- <h1>Post List</h1> -->
-
 {% for post in posts %}
 
 <section class="post-section-container">
+
+  <!-- CREATE NEW POST -->
+  <div class="create-post-form-section">
+    <form class="create-post-form" method="post" action="{% url 'post_create' %}">
+      {% csrf_token %}
+      <textarea class="create-post-text" name="content" placeholder="How are you feeling today, {{ user.first_name }} {{ user.last_name }}?" rows="3"></textarea>
+      
+      <div class="create-post-option-section">
+
+        <label class="create-post-option">
+          <i class="create-post-option-icon fa-solid fa-image"></i>
+          <input type="file" name="image" accept="image/*" style="display:none;">
+        </label>
+
+        <label class="create-post-option">
+          <i class="create-post-option-icon fa-solid fa-video"></i>
+          <input type="file" name="video" accept="video/*" style="display:none;">
+        </label>
+      </div>
+
+      <button class="create-post-button" type="submit" >Share!</button>
+
+    </form>
+  </div>
+
+  
   <div class="post-section">
 
     <article class="post">
 
       <!-- POST-AUTHOR -->
     <div class="post-author-details">
-      <div class="post-header">
-         <!-- REMOVE / EDIT BUTTON -->
+      <div class="post-author-header">
+        <div class="post-author-header-main">
+        
+      <!-- AUTHOR - IMAGE -->
+        {% if post.author.profile.profile_image %}
+        <img class="post-author-image" src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.get_full_name }}">
+      {% else %}
+        <img class="post-author-image" src="/media/img/default_profile_image.png" alt="{{ post.author.get_full_name }}">
+      {% endif %}
+
+      <!-- AUTHOR - NAME -->
+      <h2 class="post-author-name">{{ post.author.get_full_name }}</h2>
+      <!-- POSTS - TIME OF CREATION -->
+      <span class="post-time">{{ post.time_since_posted }}</span>
+    </div>
+
+         <!-- POST - REMOVE BUTTON -->
          <div class="remove-post-section">
       {% if request.user == post.author %}
       <form method="POST" action="{% url 'post_remove' post.id %}">
@@ -24,67 +63,36 @@
         <button class="remove-post-btn" title="Remove Post" type="submit">
           <i class="fas fa-times"></i>
         </button>
+        
       </form>
 
-    {% endif %}
-  </div>
-  
-      {% if post.author.profile.profile_image %}
-        <img class="post-author-image" src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.get_full_name }}">
-      {% else %}
-        <img class="post-author-image" src="/media/img/default_profile_image.png" alt="{{ post.author.get_full_name }}">
       {% endif %}
+        </div>
 
-      <!-- Display author's full name -->
-      
-      <h2 class="post-author-name">{{ post.author.get_full_name }}</h2>
-      <span class="post-time">{{ post.time_since_posted }}</span>
       </div>
 
+
+      <!-- POSTS - CONTENT -->
       <div class="post-content">
         <p class="post-text">{{ post.content|safe }}</p>
       </div>  
       <button class="btn-show-more">Show More</button>
     
-    
     </div>
-
 
       {% if post.image %}
       <!-- POST -->
       <img class="post-image" src="{{ post.image.url }}" alt="Post Image 1">
       {% endif %}
       
-     
-   
-
-    <!-- LIKES -->
-    <button class="like-btn" data-post-id="{{ post.id }}">
-      <i class="fas fa-thumbs-up"></i>{{ post.count_likes }}
-    </button>
-
-    <!-- COMMENTS -->
-    <button class="comment-btn" onclick="toggleCommentInput(this)">Comments: {{ post.count_comments }}</button>
-    <p>
-      <span id="comment-count-{{ post.id }}"></span>
-    </p>
-    <input
-  class="comment-input"
-  type="text"
-  style="display: none;"
-  placeholder="Write a comment..."
-  />
-    <div class="comment-input" style="display:none;">
-      <input type="text" placeholder="Write a comment...">
-    </div>
-
+      {% include 'post_comment.html' with post=post %}
 
     </article>
+
   </div>
 </section>
+
 {% endfor %}
-
-
 
 
 <!-- PAGINATION -->
@@ -95,9 +103,9 @@
       <a href="?page={{ posts.previous_page_number }}">previous</a>
     {% endif %}
 
-    <span class="current">
+    <!-- <span class="current">
       Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
-    </span>
+    </span> -->
 
     {% if posts.has_next %}
       <a href="?page={{ posts.next_page_number }}">next</a>

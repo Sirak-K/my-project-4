@@ -1,39 +1,23 @@
 
 {% block header_logged_in %}
 
+
 <header class="header-container">
-
-
-    <!-- NAVBAR - DESKTOP --> 
+    <!-- NAVBAR --> 
     <nav class="navbar">
-        <ul class="navbar-list">
-        
-        <!--SITE LOGO-->
-        <a class="logotype" href={% url 'login_view' %} >Logo</a>
-        <!--SITE LOGO-->
+    <ul class="navbar-list">
 
-        <li class="navbar-list-item"><a class="navbar-link" href="{% url 'user_profile' user_id=request.user.id %}">Profile</a></li>
-        <li class="navbar-list-item"><a class="navbar-link" href="{% url 'post_create' %}">New Post</a></li>
-        <li class="navbar-list-item"><a class="navbar-link" href="{% url 'friend_list' %}">Friends</a></li>
-        </ul>
+    <!--SITE LOGO-->
+    <a class="logotype" href={% url 'login_view' %} >
+    <img class="logo svg-logo" src="/media/img/logotype.svg" alt="Socialize Logo" >
+    </a>
+       
+    <li class="navbar-list-item"><a href="{% url 'post_create' %}"><i class="navbar-link fas fa-plus"></i></a></li>
+    <li class="navbar-list-item"><a href="{% url 'user_profile' user_id=request.user.id %}"><i class="navbar-link fas fa-user"></i></a></li>
+   
+    </ul>
     </nav>      
 </header>
 
-<div class="header-container-mobile">
-    <!-- NAVBAR - MOBILE --> 
-    <nav class="navbar-mobile">
-        <ul class="navbar-list">
-
-            <!--SITE LOGO-->
-        <a class="logotype" href={% url 'user_feed' %} >Logo</a>
-        <!--SITE LOGO-->
-
-       
-        <li class="navbar-list-item-mobile"><a href="{% url 'post_create' %}"><i class="navbar-link-mobile fas fa-plus"></i></a></li>
-        <li class="navbar-list-item-mobile"><a href="{% url 'user_profile' user_id=request.user.id %}"><i class="navbar-link-mobile fas fa-user"></i></a></li>
-        {% comment %} <li class="navbar-list-item"><a class="navbar-link" href="{% url 'search_results' %}">Search</a></li> {% endcomment %}
-        </ul>
-    </nav>      
-</div>
 
 {% endblock header_logged_in %}

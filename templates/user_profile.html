@@ -7,7 +7,7 @@
 
 <!-- PROFILE -->
 
-<div class="profile-container">
+
   <!-- Profile Banner -->
 
   <section class="profile-images-section">
@@ -23,26 +23,35 @@
   </section>
 
   
-  
-
+  <div class="profile-container">
     <!-- PROFILE DETAILS -->
 
     <h3 class="profile-detail-header">{{ user.first_name }} {{ user.last_name }}</h3>
 
-    <section class="profile-details-section">
+  <section class="profile-details-section">
     
-    <div class="profile-details" data-user-id="{{ user.id }}">
-      
-      <h3 class="profile-detail-bio"><strong>Bio:</strong> <span data-field-name="bio" contenteditable>{{ user_profile.bio }}</span>
-        <span class="edit-pencil-container">
-          <a href="#" class="edit-pencil-bio">&#9998;</a>
-        </span>
-      </h3>
-      
-   
+      <div class="profile-details" data-user-id="{{ user.id }}">
+        
 
-<!-- Add dropdown menus for gender and profession -->
-<h3 class="profile-detail-gender"><strong>Gender:</strong> <span data-field-name="gender">{{ user_profile.get_gender_display }}</span>
+<!-- BIO -->
+<div class="profile-detail-bio">
+  <span class="bio-label">Bio:</span>
+  <span class="bio-text" data-field-name="bio" contenteditable>{{ user_profile.bio }}</span>
+  
+      <!-- BIO - EDIT -->
+      <span class="edit-pencil-container">
+        <a href="#" class="edit-pencil-bio">&#9998;</a>
+      </span>
+    </div>
+
+      
+      
+<!-- GENDER -->
+<div class="profile-detail-gender">
+  <span class="gender-label">Gender: </span>
+  <span class="gender-text" data-field-name="gender">{{ user_profile.get_gender_display }}</span>
+  
+  <!-- GENDER - EDIT -->
   <span class="edit-pencil-container">
     <a href="#" class="edit-pencil" data-field-selector="[data-field-name='gender']">&#9998;</a>
     <div class="dropdown-menu" data-field-name="gender">
@@ -51,9 +60,14 @@
       {% endfor %}
     </div>
   </span>
-</h3>
+</div>
 
-<h3 class="profile-detail-profession"><strong>Profession:</strong> <span data-field-name="profession">{{ user_profile.get_profession_display }}</span>
+
+<!-- PROFESSION -->
+<div class="profile-detail-profession">
+  <span class="profession-label">Profession:</span>
+  <span class="profession-text" data-field-name="profession">{{ user_profile.get_profession_display }}</span>
+  <!-- PROFESSION - EDIT -->
   <span class="edit-pencil-container">
     <a href="#" class="edit-pencil" data-field-selector="[data-field-name='profession']">&#9998;</a>
     <div class="dropdown-menu" data-field-name="profession">
@@ -62,14 +76,14 @@
       {% endfor %}
     </div>
   </span>
-</h3>
+</div>
 
 
   
   
     </div>
   </section>
-</div>
+
 
 
 <div class="profile-section-posts">
@@ -77,7 +91,7 @@
 {% include 'post_list.html' %}
 {% endwith %}
 </div>
-
+</div>
 
 
 

@@ -1,0 +1,87 @@
+JS Functions:
+└─ FUNC - 1: UTILITY ~ COOKIE
+   └─ getCookie
+      └─ <no specific HTML attribute>
+
+└─ FUNC - 2: PROFILE IMAGE - CROPPER
+   └─ initializeCropper
+      ├─ RELATED ATTRIBUTE-2-A: id="profile-image"
+      └─ RELATED ATTRIBUTE-2-B: id="uploaded-image"
+
+└─ FUNC - 3: POST - LIKE
+   └─ likePost
+      ├─ RELATED ATTRIBUTE-3-A: class="like-btn"
+      └─ RELATED ATTRIBUTE-3-B: data-post-id="{{ post.id }}"
+
+└─ FUNC - 4: POST - COMMENTS - SHOW/HIDE
+   ├─ commentsSection.style.display = "block";
+   │  ├─ RELATED ATTRIBUTE-4-A: class="comments-section"
+   │  └─ RELATED ATTRIBUTE-4-B: data-post-id="{{ post.id }}"
+   ├─ btn-show-comments event listener
+   │  └─ RELATED ATTRIBUTE-4-C: class="btn-show-more"
+   └─ Click event listener
+
+└─ FUNC - 5: POST - COMMENTS - INPUT
+   └─ submitCommentHandler
+      ├─ RELATED ATTRIBUTE-5-A: class="comment-input"
+      ├─ RELATED ATTRIBUTE-5-B: name="content"
+      └─ RELATED ATTRIBUTE-5-C: data-post-id="{{ post.id }}"
+
+└─ FUNC - 6: PROFILE DETAILS
+   ├─ updateProfileField
+   │  ├─ RELATED ATTRIBUTE-6-A: data-field-name="bio"
+   │  ├─ RELATED ATTRIBUTE-6-B: data-field-name="gender"
+   │  └─ RELATED ATTRIBUTE-6-C: data-field-name="profession"
+   └─ sendUpdatedValueToServer
+      └─ <no specific HTML attribute>
+
+└─ FUNC - 7: PROFILE DETAILS - SAVE DETAIL
+   ├─ RELATED ATTRIBUTE-7-A: class="dropdown-menu"
+   └─ RELATED ATTRIBUTE-7-B: data-field-name="{{ user_profile.field_name }}"
+
+└─ FUNC - 8: PROFILE DETAIL - CLOSE DROPDOWN
+   └─ RELATED ATTRIBUTE-8-A: class="edit-pencil"
+
+└─ FUNC - 9: EDIT-PENCIL - BIO
+   └─ initializeBioEditing
+      ├─ RELATED ATTRIBUTE-9-A: class="edit-pencil"
+      └─ RELATED ATTRIBUTE-9-B: class="edit-pencil-bio"
+
+└─ FUNC - 10: POST REMOVAL - CONFIRMATION WINDOW
+   └─ RemovePostConfirmation
+      ├─ RELATED ATTRIBUTE-10-A: class="remove-post-btn"
+      └─ RELATED ATTRIBUTE-10-B: data-post-id="{{ post.id }}"
+
+└─ FUNC - 11: POST REMOVAL - CONFIRMATION BUTTON
+   ├─ RELATED ATTRIBUTE-11-A: class="pim-button"
+   └─ RELATED ATTRIBUTE-11-B: type="submit"
+
+└─ DOMContentLoaded event listener
+   ├─ RELATED ATTRIBUTE-12-A: class="profile-details"
+   ├─ RELATED ATTRIBUTE-12-B: data-user-id="{{ user.id }}"
+   └─ RELATED ATTRIBUTE-12-C: data-field-name="{{ user_profile.field_name }}"
+
+
+
+
+
+
+
+The script.js file contains a self-invoking function that sets up the interactivity and functionality
+ for the Social Networking Project.
+This function consists of several smaller utility functions and event handlers. 
+Here's a brief overview of what each function does:
+
+getCookie: This utility function retrieves a cookie value given its name.
+postComment: Posts a comment on a post and updates the DOM with the new comment.
+initializeCropper: Initializes the profile image cropper using the Cropper.js library and adds event listeners to handle cropping and saving the cropped image.
+likePost: Adds event listeners to like buttons for posts, and sends a request to the server to update the like count.
+toggleCommentsSection: Toggles the display of the comments section for a post.
+initializeCommentInput: Initializes the comment input fields and adds event listeners to handle comment submission.
+updateProfileField: Updates the user's profile field with a new value and sends the updated value to the server.
+sendUpdatedValueToServer: Sends the updated profile field value to the server.
+closeOpenDropdownAndDisableBio: Closes any open dropdown menus and disables editing for the bio field.
+initializeBioEditing: Initializes the bio editing functionality by adding event listeners to the edit pencil icon and the contenteditable bio element.
+confirmRemovePost: Displays a confirmation window for removing a post.
+RemovePostConfirmation: Adds event listeners to post removal buttons, and asks for user confirmation before removing a post.
+

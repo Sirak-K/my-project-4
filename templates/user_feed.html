@@ -21,33 +21,6 @@
     
     </div>
 
-
-<!-- CREATE NEW POST -->
-    <div class="create-post-form-section">
-      <form class="create-post-form" method="post" action="{% url 'post_create' %}">
-        {% csrf_token %}
-        <textarea class="create-post-text" name="content" placeholder="How are you feeling today, {{ user.first_name }} {{ user.last_name }}?" rows="3"></textarea>
-        
-        <div class="create-post-option-section">
-
-          <label class="create-post-option">
-            <i class="create-post-option-icon fa-solid fa-image"></i>
-            <input type="file" name="image" accept="image/*" style="display:none;">
-          </label>
-
-          <label class="create-post-option">
-            <i class="create-post-option-icon fa-solid fa-video"></i>
-            <input type="file" name="video" accept="video/*" style="display:none;">
-          </label>
-        </div>
-
-        <button class="create-post-button" type="submit" >Share!</button>
-
-      </form>
-    </div>
-
-
-
     <div class="posts">
       {% include 'post_list.html' %}
     </div>

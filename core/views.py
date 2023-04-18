@@ -1,5 +1,5 @@
 import json
-import traceback  # Add this import
+import traceback  
 
 from django.db.models import Q
 from django.contrib import messages
@@ -13,8 +13,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import PostForm, CommentForm, UpdateProfileForm, UpdateProfileImageForm
 from django.http import JsonResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import get_user_model, authenticate, login, logout
-from .models import Comment, Post, Profile, FriendList, FriendRequest
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from .models import Comment, Post, Profile, FriendRequest, FriendList
 
 
 # VIEW 1 - HOME 
@@ -95,7 +95,6 @@ def user_feed(request):
     }
     return render(request, 'user_feed.html', context)
 # VIEW 5 - LOGGED-IN - PROFILE
-
 @csrf_exempt
 @login_required
 def user_profile(request, user_id):
@@ -133,7 +132,6 @@ def user_profile_image(request, user_id):
     context = {'form': form}
     return render(request, 'user_profile_image.html', context)
 # VIEW 7 - LOGGED-IN - PROFILE - UPDATE PROFILE DETAILS
-
 @require_POST
 @csrf_exempt
 @login_required
@@ -155,7 +153,6 @@ def user_profile_field_update(request, user_id):
         print(f"Error: {e}")
         print(traceback.format_exc())
         return JsonResponse({"status": "error", "message": str(e)})
-
 # ---------> VIEW 8 - [ LOG-OUT ] --------->
 def logout_view(request):
     logout(request)
@@ -174,6 +171,7 @@ def post_create(request):
         form = PostForm()
     return render(request, 'post_create.html', {'form': form})
 # VIEW 10 - POST: COMMENTS
+@login_required
 def post_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'POST':
@@ -183,11 +181,35 @@ def post_comment(request, post_id):
             comment.post = post
             comment.author = request.user
             comment.save()
-            return redirect('post_details', post_id=post_id)
+            post.count_comments = post.comments.count()
+            post.save()
+            return JsonResponse({'success': True, 'content': comment.content})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
     else:
         form = CommentForm()
-    return render(request, 'post_comment.html', {'form': form, 'post': post})
-# VIEW 11 - POST: LIKES
+
+    comments = post.comments.all()
+
+    context = {
+        'form': form,
+        'post': post,
+        'comments': comments
+    }
+    return render(request, 'post_comment.html', context)
+# VIEW 11 - POST: SHOW COMMENTS
+def post_comment_show(request, post_id):
+    comments = Comment.objects.filter(post_id=post_id)
+    comment_list = []
+
+    for comment in comments:
+        comment_list.append({
+            'content': comment.content,
+            'timestamp': comment.timestamp.strftime('%b %d, %Y at %I:%M %p')
+        })
+
+    return JsonResponse({'comments': comment_list})
+# VIEW 12 - POST: LIKES
 @require_POST
 def post_like(request, post_id):
     if request.method == 'POST':
@@ -197,12 +219,12 @@ def post_like(request, post_id):
         return JsonResponse({"likes": post.likes})
     else:
         return HttpResponseNotAllowed(['POST'])
-# VIEW 12 - POST: DETAILS
+# VIEW 13 - POST: DETAILS
 def post_details(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     comments = Comment.objects.filter(post=post).order_by('-created_at')
     return render(request, 'post_details.html', {'post': post, 'comments': comments})
-# VIEW 13 - POST: REMOVE
+# VIEW 14 - POST: REMOVE
 @login_required
 def post_remove(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -216,26 +238,27 @@ def post_remove(request, post_id):
 
     context = {'post': post}
     return render(request, 'post_remove.html', context)
-# VIEW 14 - POST: LIST
-def post_list(request):
+# VIEW 15 - POST: LIST
+def post_list():
     posts = Post.objects.all().order_by('-created_at')
-    paginator = Paginator(posts, 10)
-    page = request.GET.get('page')
-    posts = paginator.get_page(page)
-    return render(request, 'post_list.html', {'posts': posts})
-# --------- VIEW 15 - FRIEND REQUEST ---------
+    data = {
+        'posts': list(posts.values())
+    }
+    return JsonResponse(data)
+    
+# --------- VIEW 16 - FRIEND REQUEST ---------
 @login_required
 def friend_request(request):
     pending_friend_requests = FriendRequest.objects.filter(recipient=request.user, status='pending')
     
     return render(request, 'friend_request.html', {'pending_friend_requests': pending_friend_requests})
-# VIEW 16 - FRIENDSHIPS
+# VIEW 17 - FRIENDSHIPS
 def friendships(user):
     friends_sent = FriendRequest.objects.filter(sender=user, status='accepted')
     friends_received = FriendRequest.objects.filter(recipient=user, status='accepted')
     friends = [fr.recipient for fr in friends_sent] + [fr.sender for fr in friends_received]
     return friends
-# VIEW 17 - FRIEND REQUEST: ACCEPT
+# VIEW 18 - FRIEND REQUEST: ACCEPT
 @login_required
 def friend_request_accept(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)
@@ -249,7 +272,7 @@ def friend_request_accept(request, request_id):
 
     messages.success(request, f"You are now friends with {friend_request.sender.username}.")
     return redirect('friend_list')
-# VIEW 18 - FRIEND REQUEST: REJECT
+# VIEW 19 - FRIEND REQUEST: REJECT
 @login_required
 def friend_request_reject(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)
@@ -263,7 +286,7 @@ def friend_request_reject(request, request_id):
 
     messages.success(request, f"You have rejected the friend request from {friend_request.sender.username}.")
     return redirect('friend_list')
-# VIEW 19 - FRIEND LIST 
+# VIEW 20 - FRIEND LIST 
 @login_required
 def friend_list(request):
     # Fetching friend relationships

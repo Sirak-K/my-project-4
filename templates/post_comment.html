@@ -1,13 +1,38 @@
-{% extends 'base.html' %}
-
 {% block content_post_comment %}
 
-# ADD COMMENT
-<h3>Add a Comment</h3>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Submit</button>
-</form>
+
+<div class="post-comment-like-section">
+
+
+  <!-- COMMENTS -->
+  <div class="comment-count-container">
+  <span id="comment-count-{{ post.id }}">{{ post.count_comments }}</span>
+  <span> <i class="fa-solid fa-comment"></i> {{ post.count_comments }}</span>
+
+  <!-- LIKES -->
+  <button class="like-btn" data-post-id="{{ post.id }}">
+    <i class="fas fa-thumbs-up"></i>{{ post.count_likes }}
+  </button>
+
+  <button class="btn-show-comments hide show" data-comments-count="{{ post.count_comments }}" >Show Comments</button>
+</div>
+
+
+  <!-- COMMENT INPUT SECTION -->
+  <section class="comment" data-post-id="{{ post.id }}">
+    <div id="comment-container-{{ post.id }}"></div>
+  </section>
+
+  <form method="post" action="{% url 'post_comment' post.id %}">
+    {% csrf_token %}
+    <div class="comment-input-section" data-post-id="{{ post.id }}">
+      <input class="comment-input" type="text" name="content" placeholder="Write a comment...">
+      <button class="btn-submit-comment" data-post-id="{{ post.id }}" type="submit">Send Comment</button>
+    </div>
+  </form>
+
+
+
+</div>
 
 {% endblock content_post_comment %}

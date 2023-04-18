@@ -48,6 +48,7 @@ class Post(models.Model):
     video = models.FileField(upload_to='post_videos/', blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)  # Automatically set the timestamp when the post is created
+    
     def time_since_posted(self):
         now = timezone.now()
         time_difference = now - self.created_at
@@ -69,7 +70,7 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
+    # modified_date = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return f"{self.author.username}'s comment on {self.post}"
