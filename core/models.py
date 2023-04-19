@@ -45,7 +45,6 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)  # Foreign key relationship with User
     content = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='post_images/', blank=True, null=True)
-    video = models.FileField(upload_to='post_videos/', blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)  # Automatically set the timestamp when the post is created
     
@@ -56,24 +55,15 @@ class Post(models.Model):
             return "Just now"
         return f"{timesince(self.created_at)} ago"
 
-    def count_likes(self):
-        return self.likes.count()
-
-    def count_comments(self):
-        return self.comments.count()
     
     def __str__(self):
         return f"{self.author.username}'s Post"
 # MODEL 4 - COMMENT
 class Comment(models.Model):
-    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
-    created_date = models.DateTimeField(auto_now_add=True)
-    # modified_date = models.DateTimeField(auto_now=True)
-    
-    def __str__(self):
-        return f"{self.author.username}'s comment on {self.post}"
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 # MODEL 5 - LIKE
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

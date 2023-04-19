@@ -1,0 +1,15 @@
+{{ post.id }} - Check if post id is rendered correctly
+
+{% block content_post_comment_list %}
+<div id="post-comment-list-section-{{ post.id }}" class="post-comment-list-section">
+  {% for comment in post.comments.all %}
+    <div class="post-comment-list">
+      <p>{{ comment.text }}</p>
+      <span class="post-comment-list-author">Comment by: {{ comment.author.username }}</span>
+    </div>
+  {% empty %}
+    <p>No comments yet.</p>
+  {% endfor %}
+</div>
+
+{% endblock content_post_comment_list %}

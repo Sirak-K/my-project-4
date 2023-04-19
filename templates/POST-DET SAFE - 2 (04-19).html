@@ -1,34 +1,34 @@
 
-{% load static %}
+
+{% block content_post_details %}
 
 
-{% block content_post_list %}
-
-
-
-<!-- POSTS SECTION -->
-
+<!-- POSTS -->
 
 
 <section class="post-section-container">
-  
+
+
   <div class="post-section">
 
     <article class="post">
 
+<!-- POST DETAILS -->
       <!-- POST-AUTHOR -->
+
     <div class="post-author-details">
       <div class="post-author-header">
         <div class="post-author-header-main">
         
-      <!-- AUTHOR - IMAGE -->
+      <!-- POST-AUTHOR - IMAGE -->
+      
         {% if post.author.profile.profile_image %}
         <img class="post-author-image" src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.get_full_name }}">
       {% else %}
         <img class="post-author-image" src="/media/img/default_profile_image.png" alt="{{ post.author.get_full_name }}">
       {% endif %}
 
-      <!-- AUTHOR - NAME -->
+      <!-- POST-AUTHOR - NAME -->
       <h2 class="post-author-name">{{ post.author.get_full_name }}</h2>
       <!-- POSTS - TIME OF CREATION -->
       <span class="post-time">{{ post.time_since_posted }}</span>
@@ -52,10 +52,10 @@
 
 
       <!-- POSTS - CONTENT -->
-      <div class="post-content">
+      <!-- <div class="post-content">
         <p class="post-text">{{ post.content|safe }}</p>
       </div>  
-      <button class="btn-show-more">Show More</button>
+      <button class="btn-show-more">Show More</button> -->
     
     </div>
 
@@ -64,13 +64,37 @@
       <img class="post-image" src="{{ post.image.url }}" alt="Post Image 1">
       {% endif %}
       
-      <!-- {% include 'post_comment.html' with post=post %} -->
+
 
     </article>
 
-  </div>
+ 
+
+ <!-- ------- INCLUDE POST CREATION ------- -->
+<!-- WORKING GOOD  -->
+  {% include 'post_create.html' %}
+  
+  
+  <!-- ------- INCLUDE COMMENTS ------- -->
+  
+
+  
+  <!-- ------- INCLUDE LIST OF COMMENTS ------- -->
+  
+
+  
+  
+  <!-- ------- INCLUDE LIKES ------- -->
+  
+  
+
+  
+  
+</div>
+
 </section>
 
 
 
-{% endblock content_post_list %}
+
+{% endblock content_post_details %}

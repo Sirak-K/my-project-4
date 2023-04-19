@@ -1,42 +1,71 @@
-{% extends 'base.html' %}
+
 
 {% block content_post_details %}
 
-# ---- POST DETAILS ----
-<h2>Post Details</h2>
 
-<article class="post-details">
-    <img class="post-image" src="{{ post.image.url }}" alt="Post Image">
-    <div class="post-content">
-      <h2 class="post-author">Posted by: {{ post.author.username }}</h2>
-        <p class="post-text">{{ post.content }}</p>
-    </div>
-</article>
 
-# ------- COMMENTS -------
-<h3>Comments</h3>
-{% for comment in post.comments.all %}
-    <div class="comment">
-        <p>{{ comment.text }}</p>
-        <span class="comment-author">Comment by: {{ comment.author.username }}</span>
+<!-- POST DETAILS -->
+
+<section class="post-details-section-container">
+
+  <div class="post-details-section">
+
+    <article class="post-details">
+     
+
+      <!-- POST-AUTHOR - NAME -->
+      <h2 class="post-details-author-name">{{ post.author.get_full_name }}</h2>
+      <!-- POSTS - TIME OF CREATION -->
+      <span class="post-details-time">{{ post.time_since_posted }}</span>
     </div>
+
+         <!-- POST - REMOVE BUTTON -->
+         <div class="remove-post-section">
+      {% if request.user == post.author %}
+      <form method="POST" action="{% url 'post_remove' post.id %}">
+        {% csrf_token %}
+        <button class="remove-post-btn" title="Remove Post" type="submit">
+          <i class="fas fa-times"></i>
+        </button>
+        
+      </form>
+
+      {% endif %}
+        </div>
+
+      </div>
+
+
+
+    </article>
+
+ 
+
+ <!-- ------- INCLUDE POST CREATION ------- -->
+<!-- WORKING GOOD  -->
+  {% include 'post_create.html' %}
   
-{% endfor %}
+  
+  <!-- ------- INCLUDE COMMENTS ------- -->
+  
 
-{% include 'post_comment.html' %}
+  
+  <!-- ------- INCLUDE LIST OF COMMENTS ------- -->
+  
 
-# ------- LIKES -------
-<button class="like-btn" data-post-id="{{ post.id }}">Like ({{ post.likes }})</button>
+  
+  
+  <!-- ------- INCLUDE LIKES ------- -->
+  
+  
 
-<script>
-document.querySelectorAll('.like-btn').forEach(btn => {
-  btn.addEventListener('click', async () => {
-    const postId = btn.dataset.postId;
-    const response = await fetch(`/post_like/${postId}/`, { method: 'POST' });
-    const data = await response.json();
-    btn.textContent = `Like (${data.likes})`;
-  });
-});
-</script>
+  
+  
+</div>
+
+</section>
+
+
+
 
 {% endblock content_post_details %}

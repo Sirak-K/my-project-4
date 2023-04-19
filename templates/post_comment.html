@@ -1,38 +1,30 @@
-{% block content_post_comment %}
+
+<div class="post-comments">
 
 
-<div class="post-comment-like-section">
+<!-- COMMENT CONTAINER -->
+<div class="post-comment-input-container">
+    <!-- COMMENT ICON & COUNTER -->
+    <button class="btn-toggle-comment" type="submit" >Show Comments</button>
+    <i class="fas fa-comments" data-post-id="{{ post.id }}"></i>
+    <span>({{ post.comments.all.count }})</span>
 
 
-  <!-- COMMENTS -->
-  <div class="comment-count-container">
-  <span id="comment-count-{{ post.id }}">{{ post.count_comments }}</span>
-  <span> <i class="fa-solid fa-comment"></i> {{ post.count_comments }}</span>
-
-  <!-- LIKES -->
-  <button class="like-btn" data-post-id="{{ post.id }}">
-    <i class="fas fa-thumbs-up"></i>{{ post.count_likes }}
-  </button>
-
-  <button class="btn-show-comments hide show" data-comments-count="{{ post.count_comments }}" >Show Comments</button>
+    <!-- COMMENT INPUT-->
+    <form  class="post-comment-form" method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <input class="post-comment-input" type="text" name="content" placeholder="Write a comment..." required>
+        <button class="post-comment-submit-btn" type="submit">Submit</button>
+    </form>
 </div>
-
-
-  <!-- COMMENT INPUT SECTION -->
-  <section class="comment" data-post-id="{{ post.id }}">
-    <div id="comment-container-{{ post.id }}"></div>
-  </section>
-
-  <form method="post" action="{% url 'post_comment' post.id %}">
-    {% csrf_token %}
-    <div class="comment-input-section" data-post-id="{{ post.id }}">
-      <input class="comment-input" type="text" name="content" placeholder="Write a comment...">
-      <button class="btn-submit-comment" data-post-id="{{ post.id }}" type="submit">Send Comment</button>
-    </div>
-  </form>
+<!-- Debugging output: -->
+{% if post_id %}
+    <p>post_id: {{ post_id }}</p>
+{% else %}
+    <p>post_id is empty!</p>
+{% endif %}
 
 
 
-</div>
 
-{% endblock content_post_comment %}

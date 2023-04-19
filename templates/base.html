@@ -26,10 +26,19 @@
     {% endblock content_user_profile %}
     {% block content_user_profile_image %}
     {% endblock content_user_profile_image %}
+    
+    {% block content_post_create %}
+    {% endblock content_post_create %}
+
+    {% block content_post_details %}
+    {% endblock content_post_details %}
+
     {% block content_post_comment %}
     {% endblock content_post_comment %}
-    {% block content_post_comments_list %}
-    {% endblock content_post_comments_list %}
+    {% block content_post_comment_list %}
+    {% endblock content_post_comment_list %}
+
+
     <!-- Log Out button -->
     <form method="post" action="{% url 'logout_view' %}">
       {% csrf_token %}

@@ -18,13 +18,20 @@
         <img class="user-feed-profile-image" src="/media/img/default_profile_image.png" alt="{{ user.first_name }} {{ user.last_name }}'s profile image">
       {% endif %}
       <p class="user-feed-current-date">{% now "F j, Y" %}</p>
+      {% include 'post_details.html' %}
+      
     
     </div>
 
-    <div class="posts">
-      {% include 'post_list.html' %}
-    </div>
+    {% include 'post_list.html' %}
 
+
+
+    
+    
+
+
+    
 
   </section>
 </div>
