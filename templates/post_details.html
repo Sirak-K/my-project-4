@@ -6,66 +6,16 @@
 
 <!-- POST DETAILS -->
 
-<section class="post-details-section-container">
-
-  <div class="post-details-section">
-
-    <article class="post-details">
+<section class="post-details-section">
+  <div class="post-details">
      
+    <!-- POST DETAILS -->
+    <h3 class="post-author">{{ post.author.get_full_name }}</h3>
+    <p class="post-content">{{ post.content }}</p>
+    <p class="post-date">{{ post.time_since_posted }}</p>
 
-      <!-- POST-AUTHOR - NAME -->
-      <h2 class="post-details-author-name">{{ post.author.get_full_name }}</h2>
-      <!-- POSTS - TIME OF CREATION -->
-      <span class="post-details-time">{{ post.time_since_posted }}</span>
-    </div>
-
-         <!-- POST - REMOVE BUTTON -->
-         <div class="remove-post-section">
-      {% if request.user == post.author %}
-      <form method="POST" action="{% url 'post_remove' post.id %}">
-        {% csrf_token %}
-        <button class="remove-post-btn" title="Remove Post" type="submit">
-          <i class="fas fa-times"></i>
-        </button>
-        
-      </form>
-
-      {% endif %}
-        </div>
-
-      </div>
-
-
-
-    </article>
-
- 
-
- <!-- ------- INCLUDE POST CREATION ------- -->
-<!-- WORKING GOOD  -->
-  {% include 'post_create.html' %}
-  
-  
-  <!-- ------- INCLUDE COMMENTS ------- -->
-  
-
-  
-  <!-- ------- INCLUDE LIST OF COMMENTS ------- -->
-  
-
-  
-  
-  <!-- ------- INCLUDE LIKES ------- -->
-  
-  
-
-  
-  
-</div>
-
+  </div>
 </section>
-
-
 
 
 {% endblock content_post_details %}

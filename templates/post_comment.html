@@ -1,17 +1,17 @@
+{% block content_post_comment %}
+<div class="post-comment-container" data-post-id="{{ post.id }}" >
 
-<div class="post-comments">
 
-
-<!-- COMMENT CONTAINER -->
 <div class="post-comment-input-container">
-    <!-- COMMENT ICON & COUNTER -->
-    <button class="btn-toggle-comment" type="submit" >Show Comments</button>
+
+    <button class="btn-toggle-comment" data-post-id="{{ post.id }}" type="submit" >Show Comments</button>
+    
     <i class="fas fa-comments" data-post-id="{{ post.id }}"></i>
     <span>({{ post.comments.all.count }})</span>
 
 
     <!-- COMMENT INPUT-->
-    <form  class="post-comment-form" method="post">
+    <form class="post-comment-form" method="post">
         {% csrf_token %}
         {{ comment_form.as_p }}
         <input class="post-comment-input" type="text" name="content" placeholder="Write a comment..." required>
@@ -27,4 +27,4 @@
 
 
 
-
+{% endblock content_post_comment %}

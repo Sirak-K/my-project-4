@@ -20,6 +20,8 @@
             <!-- NAVBAR -->
     {% include 'header_logged_in.html' %}
             <!-- .MAIN. -->
+    {% block content_index %}
+    {% endblock content_index %}
     {% block content_user_feed %}
     {% endblock content_user_feed %}
     {% block content_user_profile %}
@@ -29,6 +31,9 @@
     
     {% block content_post_create %}
     {% endblock content_post_create %}
+    
+    {% block content_post_list %}
+    {% endblock content_post_list %}
 
     {% block content_post_details %}
     {% endblock content_post_details %}
@@ -76,7 +81,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" 
 integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  <script src="{% static 'js/script.js' %}"></script>
-  
+  <script type="module" src="{% static 'js/script.js' %}"></script>
+
+
  </body>
 </html>

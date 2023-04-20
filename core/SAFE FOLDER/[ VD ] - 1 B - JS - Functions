@@ -1,0 +1,57 @@
+└─ FUNC - 1: FETCH AND DISPLAY POSTS
+   └─ fetchAndDisplayPosts
+      └─ RELATED ATTRIBUTE-1-A: id="post-list"
+
+└─ FUNC - 2: CREATE AND APPEND NEW POST
+   └─ createAndAppendNewPost
+      ├─ RELATED ATTRIBUTE-2-A: id="post-form"
+      └─ RELATED ATTRIBUTE-2-B: id="post-create-button"
+
+└─ FUNC - 3: INIT COMMENT FORM LISTENER
+   └─ initCommentFormListener
+      ├─ RELATED ATTRIBUTE-3-A: class="post-comment-form"
+      └─ RELATED ATTRIBUTE-3-B: data-post-id="{{ post.id }}"
+
+└─ FUNC - 4: LIKE POST
+   └─ likePost
+      ├─ RELATED ATTRIBUTE-4-A: class="like-btn"
+      └─ RELATED ATTRIBUTE-4-B: data-post-id="{{ post.id }}"
+
+└─ FUNC - 5: REMOVE POST CONFIRMATION
+   └─ RemovePostConfirmation
+      ├─ RELATED ATTRIBUTE-5-A: class="remove-post-btn"
+      └─ RELATED ATTRIBUTE-5-B: data-post-id="{{ post.id }}"
+
+
+
+
+
+
+
+HTML Django Templates:
+├─ post_create.html
+├─ post_details.html
+└─ post_comment_list.html
+
+Views.py:
+├─ VIEW 9 - POST: CREATE
+├─ VIEW 10 - POST: DETAILS
+├─ VIEW 11 - POST: LIST
+├─ VIEW 12 - POST: LIST API
+├─ VIEW 13 - POST: COMMENTS
+├─ VIEW 14 - POST: COMMENTS LIST (SHOW)
+├─ VIEW 15 - POST: COMMENTS LIST API
+└─ VIEW 16 - POST: LIKES
+
+URL Patterns:
+├─ POSTS
+│  ├─ post_list_api
+│  ├─ post_list
+│  ├─ post_create
+│  ├─ post_details
+│  ├─ post_like
+│  └─ post_remove
+└─ POSTS - COMMENTS
+   ├─ post_comment_list_api
+   ├─ post_comment
+   └─ post_comment_list

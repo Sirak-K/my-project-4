@@ -1,76 +1,28 @@
-
-{% load static %}
-
-
 {% block content_post_list %}
 
-
-
 <!-- POSTS SECTION -->
+<section class="post-list-section-wrapper">
+  <div class="post-list-section" id="post-list-section-container">
+    <div id="post-list"></div>
 
-
-
-<section class="post-section-container">
-  
-  <div class="post-section">
-
-    <article class="post">
-
-      <!-- POST-AUTHOR -->
-    <div class="post-author-details">
-      <div class="post-author-header">
-        <div class="post-author-header-main">
-        
-      <!-- AUTHOR - IMAGE -->
-        {% if post.author.profile.profile_image %}
-        <img class="post-author-image" src="{{ post.author.profile.profile_image.url }}" alt="{{ post.author.get_full_name }}">
-      {% else %}
-        <img class="post-author-image" src="/media/img/default_profile_image.png" alt="{{ post.author.get_full_name }}">
-      {% endif %}
-
-      <!-- AUTHOR - NAME -->
-      <h2 class="post-author-name">{{ post.author.get_full_name }}</h2>
-      <!-- POSTS - TIME OF CREATION -->
-      <span class="post-time">{{ post.time_since_posted }}</span>
-    </div>
-
-         <!-- POST - REMOVE BUTTON -->
-         <div class="remove-post-section">
-      {% if request.user == post.author %}
-      <form method="POST" action="{% url 'post_remove' post.id %}">
-        {% csrf_token %}
-        <button class="remove-post-btn" title="Remove Post" type="submit">
-          <i class="fas fa-times"></i>
-        </button>
-        
-      </form>
-
-      {% endif %}
-        </div>
-
+    <!-- Post item template -->
+    <template id="post-item-template">
+      <div class="post-item">
+        {% include 'post_details.html' %}
+        {% include 'post_comment.html' %}
+        {% include 'post_comment_list.html' %}
       </div>
+    </template>
 
-
-      <!-- POSTS - CONTENT -->
-      <div class="post-content">
-        <p class="post-text">{{ post.content|safe }}</p>
-      </div>  
-      <button class="btn-show-more">Show More</button>
-    
+    <!-- Pagination controls -->
+    <div class="pagination-controls" id="pagination-controls">
+      <a href="#" class="first">&laquo; first</a>
+      <a href="#" class="previous">previous</a>
+      <span class="current-page">Page <span id="current-page"></span> of <span id="total-pages"></span>.</span>
+      <a href="#" class="next">next</a>
+      <a href="#" class="last">last &raquo;</a>
     </div>
-
-      {% if post.image %}
-      <!-- POST -->
-      <img class="post-image" src="{{ post.image.url }}" alt="Post Image 1">
-      {% endif %}
-      
-      <!-- {% include 'post_comment.html' with post=post %} -->
-
-    </article>
-
   </div>
 </section>
-
-
 
 {% endblock content_post_list %}

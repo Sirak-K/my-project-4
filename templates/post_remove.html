@@ -1,11 +1,19 @@
-{% extends "base.html" %}
-
 {% block content_post_remove %}
+
+
+<div class="remove-post-section">
+
+
   <h1>Remove Post</h1>
   <p>Are you sure you want to remove this post?</p>
-  <form method="POST">
-    {% csrf_token %}
-    <button type="submit">Yes, remove the post</button>
-  </form>
-  <a href="{% url 'user_feed' %}">Cancel</a>
+  {% if request.user == post.author %}
+    <form method="POST" action="{% url 'post_remove' post.id %}">
+  {% csrf_token %}
+  <button class="remove-post-btn" title="Remove Post" type="submit">Yes, remove the post
+      <i class="fas fa-times"></i></button>
+    </form>
+    <a href="{% url 'user_feed' %}">Cancel</a>
+  {% endif %}
+  </div>
+
 {% endblock content_post_remove %}

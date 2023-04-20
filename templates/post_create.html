@@ -5,22 +5,28 @@
  <!-- CREATE NEW POST -->
  <div class="create-post-container">
  <section class="create-post-form-section">
-  <form class="create-post-form" method="post" action="{% url 'post_create'  %}">
+  <form id="create-post-form" class="create-post-form" method="post" action="{% url 'post_create' %}">
+
+
     {% csrf_token %}
-    <textarea class="create-post-text" name="content" placeholder="How are you feeling today, {{ user.first_name }} {{ user.last_name }}?" rows="3"></textarea>
+    <textarea id="create-post-text" class="create-post-text" name="content" 
+    placeholder="How are you feeling today, {{ user.first_name }} {{ user.last_name }}?" rows="3"></textarea>
     
     <div class="create-post-option-section">
 
       <label class="create-post-option">
+
         <i class="create-post-option-icon fa-solid fa-image"></i>
         <input type="file" name="image" accept="image/*" style="display:none;">
+        
       </label>
 
+      
     <button class="create-post-button" type="submit" >Share!</button>
+
 
   </form>
 </section>
-
 </div>
 
 {% endblock content_post_create %}

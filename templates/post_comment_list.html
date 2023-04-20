@@ -1,7 +1,6 @@
-{{ post.id }} - Check if post id is rendered correctly
-
 {% block content_post_comment_list %}
-<div id="post-comment-list-section-{{ post.id }}" class="post-comment-list-section">
+
+<div id="post-comment-list-section-{{ post.pk }}" class="post-comment-list-section" data-post-id="{{ post.pk }}">
   {% for comment in post.comments.all %}
     <div class="post-comment-list">
       <p>{{ comment.text }}</p>

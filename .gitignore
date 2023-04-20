@@ -30,3 +30,11 @@ core/SAFE FOLDER/[ VISUAL DIAGRAM ]
 templates/post_comment_list safe kl1340.html
 .gitignore
 templates/POST-DET SAFE
+core/SAFE FOLDER/views safe (04-19).py
+core/SAFE FOLDER/[ VISUAL DIAGRAM ] - 2 (depr.)
+core/SAFE FOLDER/[ VD ] - 2 - JS - Exports & Imports
+core/SAFE FOLDER/[ VD ] - 1 B - JS - Functions
+core/SAFE FOLDER/[ VD ] - 1 - JS - Functions
+static/js/postFunctions copy.js
+static/js/profileDetails copy.js
+templates/post_list copy (innan adda pagination 04-20).html

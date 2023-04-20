@@ -1148,7 +1148,7 @@ z-index: -10;
 }
 
 /* ---------- POSTS ---------- */
-.post-section-container{
+.post-section-wrapper{
 display: flex;
 flex-wrap: wrap;
 flex-direction: column;
