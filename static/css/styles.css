@@ -638,7 +638,7 @@ flex-direction: row;
 flex-wrap: wrap;
 justify-content: end;
 }
-.remove-post-btn {
+.btn-remove-post {
 font-size: 1rem;
 
 }
@@ -1239,7 +1239,7 @@ flex-direction: row;
 flex-wrap: wrap;
 justify-content: end;
 }
-.remove-post-btn {
+.btn-remove-post {
 font-size: 1rem;
 
 }

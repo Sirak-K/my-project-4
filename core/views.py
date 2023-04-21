@@ -1,6 +1,7 @@
 import json
 import traceback  
 
+from django.template.loader import render_to_string
 from django.core import serializers
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -9,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
-from django.http import JsonResponse, HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -57,7 +58,6 @@ def login_view(request):
         else:
             logout(request) 
             return render(request, 'login.html')
-
 # VIEW 3 - HOME [ LOGGED-IN ] --------->
 @login_required
 def index(request):
@@ -68,7 +68,6 @@ def index(request):
         'posts': posts,
     }
     return render(request, 'user_feed.html', context)
-    
 # VIEW 4 - LOGGED-IN - USER FEED
 @login_required
 def user_feed(request):
@@ -80,25 +79,6 @@ def user_feed(request):
         'posts': posts,
     }
     return render(request, 'user_feed.html', context)
-
-
-def fetch_paginated_posts(request, queryset):
-    paginator = Paginator(queryset, ITEMS_PER_PAGE)
-    page = request.GET.get('page')
-
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-
-    return posts
-
-
-
-
-
 # VIEW 5 - LOGGED-IN - PROFILE
 @login_required
 def user_profile(request, user_id):
@@ -156,16 +136,24 @@ def user_profile_field_update(request, user_id):
         print(f"Error: {e}")
         print(traceback.format_exc())
         return JsonResponse({"status": "error", "message": str(e)})
+# VIEW 8 - LOGGED-IN - USER FEE
+def fetch_paginated_posts(request, queryset):
+    paginator = Paginator(queryset, ITEMS_PER_PAGE)
+    page = request.GET.get('page')
 
-# The serializers.serialize() function is used 
-# to convert a QuerySet or a list of model instances 
-# into serialized data. 
-# The function takes the desired output format (e.g., 'json')
-#  and the list of model instances as its arguments. 
-# In your project, this function is used 
-# to convert the Post and Comment instances into JSON format.
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
 
-# VIEW 8 - POST:SERIALIZER
+    return posts
+
+
+
+
+# VIEW 9 - POST:SERIALIZER
 def custom_serialize_posts(posts):
     serialized_posts = []
 
@@ -189,10 +177,9 @@ def custom_serialize_posts(posts):
         serialized_posts.append(serialized_post)
 
     return serialized_posts
-# VIEW 9 - POST: CREATE
+# VIEW 10 - POST: CREATE
 @login_required
 def post_create(request):
-    posts = Post.objects.all().order_by('-created_at')
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -200,8 +187,16 @@ def post_create(request):
             post.author = request.user
             post.save()
 
+            # Debugging statement
+            print('Post saved:', post)
+
             # Serialize the post object using the custom serialization function
-            serialized_post = custom_serialize_posts([post])[0]  # Get the first item in the list
+            # Get the first item in the list
+            serialized_post = custom_serialize_posts([post])[0] 
+
+            # Debugging statement
+            print('Serialized post:', serialized_post)
+
             return JsonResponse({"status": "success", "post": serialized_post}, safe=False)
 
         else:
@@ -211,8 +206,10 @@ def post_create(request):
     else:
         form = PostForm()
 
-    return render(request, 'post_create.html', {'form': form, 'posts': posts})
-# VIEW 10 - POST: DETAILS
+    return render(request, 'post_create.html', {'form': form})
+
+
+# VIEW 11 - POST: DETAILS
 def post_details(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     comments = Comment.objects.filter(post=post).order_by('-created_at')
@@ -229,24 +226,37 @@ def post_details(request, post_id):
     }
 
     return render(request, 'post_details.html', context)
-# VIEW 11 - POST: LIST
+# VIEW 12 - POST: LIST
 def post_list(request):
     page = request.GET.get('page', 1)
     posts = Post.objects.all().order_by('-created_at')
     paginator = Paginator(posts, 10)  # Show 10 posts per page
     posts = paginator.get_page(page)
+    # Get comments for each post and add them to the post object
+    for post in posts:
+        post.comments = Comment.objects.filter(post=post).order_by('-created_at')
 
     serialized_posts = custom_serialize_posts(posts)
-    
 
-    # Include the current page number and the total number of pages in the JSON response
-    return JsonResponse({"posts": serialized_posts, "current_page": page, "total_pages": paginator.num_pages})
-# VIEW 12 - POST: LIST API
-def post_list_api(request):
+    # Render the post list using the Django template
+    rendered_posts = render_to_string('user_feed.html', {
+        'posts': serialized_posts,
+        'current_page': page,
+        'total_pages': paginator.num_pages
+    })
+
+    return render(request, rendered_posts, 'post_list.html', {'posts': posts, 'paginator': paginator})
+
+# VIEW 13 - POST: LIST API
+def post_list_api():
     posts = Post.objects.all().order_by('-created_at')
     serialized_posts = custom_serialize_posts(posts)
     return JsonResponse({"posts": serialized_posts})
-# VIEW 13 - POST: COMMENTS
+
+
+
+
+# VIEW 14 - POST: COMMENTS
 @require_POST
 def post_comment(request, post_id):
     if request.method == "POST":
@@ -261,12 +271,12 @@ def post_comment(request, post_id):
             return JsonResponse({"status": "error", "message": "Content is empty"})
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method"})
-# VIEW 14 - POST: COMMENTS LIST (SHOW)
+# VIEW 15 - POST: COMMENTS LIST (SHOW)
 def post_comment_list(request, post_id):
     post = Post.objects.get(pk=post_id)
     comments = Comment.objects.filter(post=post).order_by('-created_at')
     return render(request, 'post_comment_list.html', {'post': post, 'comments': comments})
-# VIEW 15 - POST: COMMENTS LIST API
+# VIEW 16 - POST: COMMENTS LIST API
 def post_comment_list_api(request):
     post_id = request.GET.get('post', None)
     if post_id is not None:
@@ -276,7 +286,7 @@ def post_comment_list_api(request):
         comments = Comment.objects.all().order_by('-created_at')
     serialized_comments = serializers.serialize('json', comments)
     return JsonResponse({"comments": serialized_comments})
-# VIEW 16 - POST: LIKES
+# VIEW 17 - POST: LIKES
 @require_POST
 def post_like(request, post_id):
     if request.method == 'POST':
@@ -286,7 +296,7 @@ def post_like(request, post_id):
         return JsonResponse({"likes": post.likes}, safe=False)
     else:
         return HttpResponseNotAllowed(['POST'])
-# VIEW 17 - POST: REMOVE
+# VIEW 18 - POST: REMOVE
 @login_required
 def post_remove(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -300,19 +310,24 @@ def post_remove(request, post_id):
 
     context = {'post': post}
     return render(request, 'post_remove.html', context)
-# ---- VIEW 18 - FRIEND REQUEST ----
+
+
+
+
+
+# ---- VIEW 19 - FRIEND REQUEST ----
 @login_required
 def friend_request(request):
     pending_friend_requests = FriendRequest.objects.filter(recipient=request.user, status='pending')
     
     return render(request, 'friend_request.html', {'pending_friend_requests': pending_friend_requests})
-# VIEW 19 - FRIENDSHIPS
+# VIEW 20 - FRIENDSHIPS
 def friendships(user):
     friends_sent = FriendRequest.objects.filter(sender=user, status='accepted')
     friends_received = FriendRequest.objects.filter(recipient=user, status='accepted')
     friends = [fr.recipient for fr in friends_sent] + [fr.sender for fr in friends_received]
     return friends
-# VIEW 20 - FRIEND REQUEST: ACCEPT
+# VIEW 21 - FRIEND REQUEST: ACCEPT
 @login_required
 def friend_request_accept(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)
@@ -326,7 +341,7 @@ def friend_request_accept(request, request_id):
 
     messages.success(request, f"You are now friends with {friend_request.sender.username}.")
     return redirect('friend_list')
-# VIEW 21 - FRIEND REQUEST: REJECT
+# VIEW 22 - FRIEND REQUEST: REJECT
 @login_required
 def friend_request_reject(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)
@@ -340,7 +355,7 @@ def friend_request_reject(request, request_id):
 
     messages.success(request, f"You have rejected the friend request from {friend_request.sender.username}.")
     return redirect('friend_list')
-# VIEW 22 - FRIEND LIST 
+# VIEW 23 - FRIEND LIST 
 @login_required
 def friend_list(request):
     # Fetching friend relationships
@@ -360,7 +375,7 @@ def friend_list(request):
         'pending_received': pending_received,
     }
     return render(request, 'friend_list.html', context)
-# ---------> VIEW 23 - [ LOG-OUT ] --------->
+# ---------> VIEW 24 - [ LOG-OUT ] --------->
 def logout_view(request):
     logout(request)
     return redirect('login_view')

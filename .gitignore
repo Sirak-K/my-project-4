@@ -38,3 +38,5 @@ core/SAFE FOLDER/[ VD ] - 1 - JS - Functions
 static/js/postFunctions copy.js
 static/js/profileDetails copy.js
 templates/post_list copy (innan adda pagination 04-20).html
+core/views.py
+static/js/postFunctions copy 2.js

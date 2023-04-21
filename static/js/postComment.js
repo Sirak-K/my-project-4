@@ -86,7 +86,7 @@ async function fetchAndDisplayComments(postId, postElement) {
   if (response.ok) {
     const commentsData = await response.json();
     const commentsContainer = postElement.querySelector('.post-comment-container'); // updated query selector
-    commentsContainer.innerHTML = ""; // clear previous comments<
+    commentsContainer.innerHTML = ""; // clear previous comments
     for (const commentData of commentsData.comments) {
       const commentElement = createCommentElement(postId, commentData.user, commentData.content, commentData.date);
       commentsContainer.appendChild(commentElement);

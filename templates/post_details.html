@@ -9,11 +9,23 @@
 <section class="post-details-section">
   <div class="post-details">
      
-    <!-- POST DETAILS -->
-    <h3 class="post-author">{{ post.author.get_full_name }}</h3>
-    <p class="post-content">{{ post.content }}</p>
-    <p class="post-date">{{ post.time_since_posted }}</p>
-
+    
+    <div class="post">
+    
+     <!-- POST DETAILS -->
+     <h3 class="post-author">{{ post.fields.author.get_full_name }}</h3>
+     {% if post.fields.author.profile.profile_image_url %}
+     <img class="post-author-image" src="{{ post.fields.author.profile.profile_image_url }}" alt="{{ post.fields.author.get_full_name }}">
+     {% else %}
+     <img class="post-author-image" src="/media/img/default_profile_image.png" alt="{{ post.fields.author.get_full_name }}">
+     {% endif %}
+     <p class="post-content">{{ post.fields.content|safe }}</p>
+     <p class="post-date">{{ post.fields.time_since_posted }}</p>
+ 
+     <!-- POST-REMOVAL BUTTON-->
+     {% include 'post_remove.html' %} 
+    
+    </div>
   </div>
 </section>
 

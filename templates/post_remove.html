@@ -1,19 +1,15 @@
 {% block content_post_remove %}
 
+<div class="post-remove-modal" id="post-remove-modal-{{ post.id }}" style="display:none;">
 
-<div class="remove-post-section">
-
-
-  <h1>Remove Post</h1>
+  {% if user == post.author %}
   <p>Are you sure you want to remove this post?</p>
-  {% if request.user == post.author %}
-    <form method="POST" action="{% url 'post_remove' post.id %}">
-  {% csrf_token %}
-  <button class="remove-post-btn" title="Remove Post" type="submit">Yes, remove the post
-      <i class="fas fa-times"></i></button>
-    </form>
-    <a href="{% url 'user_feed' %}">Cancel</a>
-  {% endif %}
-  </div>
+  <button class="btn-remove-post-{{ post.id }}">"Remove Post"</button>
+  <i class="fas fa-times"></i>
+  <button class="btn-post-remove-confirm-btn" data-post-id="{{ post.id }}">Yes</button>
+  <button class="btn-post-remove-cancel-btn">No</button>    
+  
 
+</div>
+  {% endif %}
 {% endblock content_post_remove %}

@@ -5,7 +5,8 @@
  <!-- CREATE NEW POST -->
  <div class="create-post-container">
  <section class="create-post-form-section">
-  <form id="create-post-form" class="create-post-form" method="post" action="{% url 'post_create' %}">
+  <form id="create-post-form" class="create-post-form" 
+  method="post" action="{% url 'post_create' %}" enctype="multipart/form-data">
 
 
     {% csrf_token %}
@@ -26,6 +27,8 @@
 
 
   </form>
+
+
 </section>
 </div>
 

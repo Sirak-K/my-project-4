@@ -9,8 +9,6 @@ import {
   fetchAndDisplayPosts,
   likePost,
   RemovePostConfirmation,
-  submitPost,
-  initPostsWithComments
 } from './postFunctions.js';
 
 import {
@@ -31,12 +29,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   initBioEditing();
   RemovePostConfirmation();
   initCommentFormListener(getCookie);
+  fetchAndDisplayPosts();
 
-  // Initialize the event listener for form submission
-  document.querySelector('#create-post-form').addEventListener('submit', submitPost);
-
-  // Call initPostsWithComments to fetch and display posts and their comments
-  await initPostsWithComments();
 
 });
 
