@@ -1,3 +1,6 @@
+// WORK IN PROGRESS //
+
+
 ![Last commit](https://img.shields.io/github/last-commit/sirak-k/my-project-4) 
 ![Languages used](https://img.shields.io/github/languages/count/sirak-k/my-project-4)
 ![Top Language used](https://img.shields.io/github/languages/top/sirak-k/my-project-4)
@@ -7,32 +10,26 @@
 
 - [Table of Contents](#table-of-contents)
 - [Site Overview](#site-overview)
-  - [Goal](#goal)
   - [Technologies used](#technologies-used)
 - [UX](#ux)
   - [Target Audience](#target-audience)
   - [Wireframes](#wireframes)
 - [Features](#features)
   - [Existing Features](#existing-features)
-  - [Future Features](#future-features)
 - [Design](#design)
 - [Testing](#testing)
-  - [Bugs](#bugs)
-  - [Known Issues](#known-issues)
 - [Deployment](#deployment)
   - [Deployment to Heroku](#deployment-to-heroku)
   - [How to Fork](#how-to-fork)
 - [Credits](#credits)
-  - [Code](#code)
     - [Version Control](#version-control)
 - [Acknowledgments](#acknowledgments)
   
 
 
 # Site Overview
-Deployed Site: 
 
-## Goal
+
 
 
 ## Technologies used
@@ -54,23 +51,11 @@ Deployed Site:
           <img src="readme_docs/wireframes/home_page.png">
           <br>
           <img src="readme_docs/wireframes/.png">
-          <br>
-          <img src="readme_docs/wireframes/.png">
-          <br>
-          <img src="readme_docs/wireframes/.png">
-          <br>
-          <img src="readme_docs/wireframes/.png">
-          <br>
-          <img src="readme_docs/wireframes/.png">
           </p>
           </details>
           <details>
           <summary>Profile Pages</summary>
         <p>
-          <img src="readme_docs/wireframes/.png">
-          <br>
-          <img src="readme_docs/wireframes/.png">
-          <br>
           <img src="readme_docs/wireframes/.png">
           <br>
           <img src="readme_docs/wireframes/.png">
@@ -86,7 +71,7 @@ Deployed Site:
 ## Existing Features
 
 
-## Future Features
+
 
 
 # Design
@@ -117,12 +102,10 @@ Deployed Site:
 3. Click on the 'Fork' button in the upper left.
 4. Your forked version of this repo will be generated!
 # Credits
-## Code
-- Integrating Tailwind CSS with Django video [here](https://www.youtube.com/watch?v=lsQVukhwpqQ) & source code adapted found [here](https://github.com/codingforentrepreneurs/django-tailwindcss)
+
 
 
 ### Version Control
-*   Git was used as the version control software. Commands such as git add ., git status, git commit and git push were used to add, save, stage and push the code to the GitHub repository where the source code is stored.
 
 
 

@@ -6,32 +6,29 @@ import {
 } from './profileDetails.js';
 
 import {
-  fetchAndDisplayPosts,
-  likePost,
-  RemovePostConfirmation,
+  createPost,
+  appendLikesToCreatedPost,
+  appendCommentsToCreatedPost,
+  handlePostRemovalButton,
+  submitPost,
+  displayPostList,
+  fetchAllCreatedPosts,
+  displayAllCreatedPosts
 } from './postFunctions.js';
 
 import {
   initCommentFormListener,
 } from './postComment.js';
 
-
 import {
   getCookie
 } from './utility.js';
-
-
-
 
 // EVENT: DOMContentLoaded
 document.addEventListener('DOMContentLoaded', async function () {
   likePost();
   initBioEditing();
-  RemovePostConfirmation();
+  handlePostRemovalButton(); // Updated function name
   initCommentFormListener(getCookie);
-  fetchAndDisplayPosts();
-
-
+  displayPostList(); // Updated function name
 });
-
-

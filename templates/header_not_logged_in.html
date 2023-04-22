@@ -2,25 +2,22 @@
 {% block header_not_logged_in %}
 
 
-{% comment %} <header class="header-container-not-logged-in"> {% endcomment %}
+<header class="header-container-not-logged-in">
 
         <!-- NAVBAR --> 
-        {% comment %} <nav class="navbar"> {% endcomment %}
-            {% comment %} <ul class="navbar-list"> {% endcomment %}
+        <nav class="navbar">
+            <ul class="navbar-list">
     
+
          <!--SITE LOGO-->
          <a class="logotype" href={% url 'login_view' %} >
             <img class="logo svg-logo" src="/media/img/logotype.svg" alt="Socialize Logo" >
         </a>
-    
-           
-            {% comment %} <li class="navbar-list-item"><a href="{% url 'post_create' %}"><i class="navbar-link fas fa-plus"></i></a></li> {% endcomment %}
-            {% comment %} <li class="navbar-list-item"><a href="{% url 'user_profile' user_id=request.user.id %}"><i class="navbar-link fas fa-user"></i></a></li> {% endcomment %}
-            {% comment %} <li class="navbar-list-item"><a class="navbar-link" href="{% url 'search_results' %}">Search</a></li> {% endcomment %}
+
             </ul>
         </nav>  
 
-{% comment %} </header> {% endcomment %}
+</header>
 
 
 {% endblock header_not_logged_in %}

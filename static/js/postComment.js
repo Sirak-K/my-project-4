@@ -2,6 +2,7 @@
 
 // FUNC - 1: COMMENTS - CREATION
 function createCommentElement(postId, user, content, date) {
+  
     const commentElement = document.createElement("div");
     commentElement.classList.add("comment");
     commentElement.dataset.postId = postId;

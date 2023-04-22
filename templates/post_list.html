@@ -1,17 +1,20 @@
 {% block content_post_list %}
 
 <!-- POSTS SECTION -->
-<section id="post-list-section"  data-current-page="{{ current_page }}" data-total-pages="{{ total_pages }}">
-    <div id="post-list">
+<section id="post-list-section">
+    
+    <div id="post-list" data-current-page="{{ current_page }}" data-total-pages="{{ total_pages }}">
         {% if posts %}
             {% for post in posts %}
-                <template id="post-item-template">
-                    <div class="post-item">
-                        {% include 'post_details.html' %}
-                        {% include 'post_comment.html' %}
-                        {% include 'post_comment_list.html' %}
-                    </div>
-                </template>
+
+
+                <div class="post-item" data-post-id="{{ post.id }}">
+                    {% include 'post_details.html' %}
+                    {% include 'post_comment.html' %}
+                    {% include 'post_comment_list.html' %}
+                </div>
+
+
             {% endfor %}
         {% else %}
             <p>No posts available.</p>
@@ -22,12 +25,10 @@
     <div class="pagination-controls" id="pagination-controls">
         <a href="#" class="first">&laquo; first</a>
         <a href="#" class="previous">previous</a>
-        <span class="current-page">Page <span id="current-page"></span> of <span id="total-pages"></span>.</span>
+        <span class="current-page">Page <span id="current-page">{{ current_page }}</span> of <span id="total-pages">{{ total_pages }}</span>.</span>
         <a href="#" class="next">next</a>
         <a href="#" class="last">last &raquo;</a>
     </div>
 </section>
-
-
 
 {% endblock content_post_list %}

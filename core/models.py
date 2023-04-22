@@ -46,7 +46,7 @@ class Post(models.Model):
     content = models.TextField(max_length=300, blank=True, null=True)
     image = models.ImageField(upload_to='post_images/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)  # Automatically set the timestamp when the post is created
-    # likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
+    likes_count = models.PositiveIntegerField(default=0) 
     
     def time_since_posted(self):
         now = timezone.now()

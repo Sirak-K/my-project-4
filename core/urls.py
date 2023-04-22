@@ -18,14 +18,12 @@ urlpatterns = [
     path('login/', views.login_view, name='login_view'),
     path('logout/', views.logout_view, name='logout_view'),
     # URLS - POSTS
-    path('api/posts/', views.post_list_api, name='post_list_api'),
     path('post_list/', views.post_list, name='post_list'),
     path('post_create/', views.post_create, name='post_create'),
     path('post_details/<int:post_id>/', views.post_details, name='post_details'),  
     path('post_like/<int:post_id>/', views.post_like, name='post_like'),
     path('post_remove/<int:post_id>/', views.post_remove, name='post_remove'),
     # URLS - POSTS - COMMENTS
-    path('api/comments/', views.post_comment_list_api, name='post_comment_list_api'),
     path('post_comment/<int:post_id>/', views.post_comment, name='post_comment'),
     path('post_comment_list/<int:post_id>/', views.post_comment_list, name='post_comment_list'),
     # URLS - PROFILE

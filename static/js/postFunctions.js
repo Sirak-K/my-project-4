@@ -8,208 +8,171 @@ import {
 import { getCookie } from './utility.js';
 
 
-// FUNC - 1: POST - LIKES
-function likePost() {
-    document.querySelectorAll(".like-btn").forEach((btn) => {
-    btn.addEventListener("click", async () => {
-    const postId = btn.dataset.postId;
-    const response = await fetch(`/post_like/${postId}/`, { method: "POST" });
-    const data = await response.json();
-    btn.textContent = `Like (${data.likes})`;
+
+// FILE: postFunctions.js
+
+// IMPORTS
+import {
+  toggleComments,
+  fetchAndDisplayComments
+} from './postComment.js';
+import { getCookie } from './utility.js';
+
+// CSRF Token
+const csrfToken = getCookie('csrftoken');
+
+
+
+
+// -- FUNC-1: POST-CREATION
+async function createPost(e) {
+e.preventDefault();
+
+const form = e.target;
+const formData = new FormData(form);
+
+// IMPLEMENT LOGIC FOR CREATING A POST
+const response = await fetch(form.action, {
+  method: 'POST',
+  headers: {
+    'X-CSRFToken': csrfToken
+  },
+  body: formData
+});
+
+const data = await response.json();
+
+// CALL SUB-FUNCTIONS TO HANDLE POST CREATION DETAILS
+const postId = data.id;
+appendLikesToCreatedPost(postId);
+appendCommentsToCreatedPost(postId);
+  handlePostRemovalButton(postId);
+  
+// Append the new post to the existing list of posts
+const postList = document.getElementById('post-list');
+const postItem = document.createElement('div');
+postItem.classList.add('post-item');
+postItem.innerHTML = `
+  <div>
+    <h3>${data.title}</h3>
+    <<p>${data.content}</p>
+    <span>Likes: ${data.likes}</span>
+  </div>
+`;
+postList.insertBefore(postItem, postList.firstChild);
+
+// Clear the form fields
+form.reset();
+
+}
+
+
+// FUNC-1 A
+function appendLikesToCreatedPost(postId) {
+// IMPLEMENT LOGIC TO APPEND LIKES TO CREATED POST
+const likeBtn = document.querySelector(`.like-btn[data-post-id="${postId}"]`);
+likeBtn.addEventListener('click', () => {
+  // Call the function that handles liking a post
+});
+}
+
+
+// FUNC-1 B
+function appendCommentsToCreatedPost(postId) {
+// IMPLEMENT LOGIC TO APPEND COMMENTS TO CREATED POST
+const commentForm = document.querySelector(`.post-comment-form[data-post-id="${postId}"]`);
+commentForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  // Call the function that handles adding a comment to a post
+});
+}
+
+
+// FUNC-1 C
+function handlePostRemovalButton(postId) {
+// IMPLEMENT LOGIC FOR POST REMOVAL BUTTON
+// INCLUDING CONFIRMATION WINDOW AND MODAL
+const removeBtn = document.querySelector(`.btn-remove-post-${postId}`);
+removeBtn.addEventListener('click', async () => {
+  if (confirm('Are you sure you want to remove this post?')) {
+    // Call the function that handles post removal
+    await removePost(postId);
+  }
+});
+}
+
+
+
+
+// -- FUNC-2: POST-SUBMISSION
+async function submitPost(postData) {
+// IMPLEMENT LOGIC TO SUBMIT POST TO DATABASE
+const response = await fetch('/post_create/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-CSRFToken': csrfToken
+  },
+  body: JSON.stringify(postData)
+});
+
+const data = await response.json();
+return data;
+}
+
+// -- FUNC-3: POST LIST - DISPLAY POSTS
+async function displayPostList() {
+// RETRIEVE DATA FROM DATABASE
+const posts = await fetchAllCreatedPosts();
+
+// DISPLAY ALL CREATED POSTS
+displayAllCreatedPosts(posts);
+}
+// FUNC-3 A
+async function fetchAllCreatedPosts() {
+// IMPLEMENT LOGIC TO FETCH ALL CREATED POSTS
+// FROM "FUNC-1"
+const response = await fetch('/api/post_list/');
+const data = await response.json();
+return data;
+}
+// FUNC-3 B
+function displayAllCreatedPosts(posts) {
+  // IMPLEMENT LOGIC TO DISPLAY ALL CREATED POSTS
+  const postList = document.getElementById('post-list');
+  
+  for (const post of posts) {
+    const postItem = document.createElement('div');
+    postItem.classList.add('post-item');
     
-    // Update the displayed like count
-    const likeCountElement = document.querySelector(`#like-count-${postId}`);
-    likeCountElement.textContent = data.likes;
-    });
-    });
-}
-// FUNC - 2: POST - REMOVAL - CONFIRMATION BUTTON
-function RemovePostConfirmation() {
-  const removeBtns = document.querySelectorAll('.btn-remove-post');
-
-  removeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const postId = btn.getAttribute('data-post-id');
-      const modal = document.querySelector(`#post-remove-modal-${postId}`);
-      modal.style.display = 'block';
-
-      // Add event listeners for the confirmation and cancel buttons
-      modal.querySelector('.btn-post-remove-confirm').addEventListener('click', async () => {
-        // Call your function to remove the post here
-        
-        modal.style.display = 'none';
-      });
-
-      modal.querySelector('.btn-post-remove-cancel').addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
-    });
-  });
-}
-// FUNC - 3: POST - INITIALIZE EVENTS
-function initPostEvents(postId) {
-    likePost(postId);
-    RemovePostConfirmation(postId);
-}
-// FUNC - 4: POST - FETCH & DISPLAY
-async function fetchAndDisplayPosts(page = 1) {
-  const response = await fetch(`/post_list/?page=${page}`);
-  if (response.ok) {
-    const renderedPosts = await response.text(); // Get the rendered HTML as text
-    const postList = document.querySelector("#post-list");
-
-    // Update the post list with the rendered HTML
-    postList.innerHTML = renderedPosts;
-
-    // Update the current page and total pages in the pagination controls
-    // These values should be part of the rendered HTML or returned separately as JSON data.
-    // The following code assumes you have the values as data attributes on the post-list element.
-    document.querySelector('#current-page').textContent = postList.dataset.currentPage;
-    document.querySelector('#total-pages').textContent = postList.dataset.totalPages;
-
-    return Array.from(postList.children); // Return the post elements
-  } else {
-    console.error("Error fetching posts");
-    return []; // Return an empty array if the response is not ok
+    // Replace this line with actual HTML content of the post.
+    // You may use a template string or a separate function to build the HTML content
+    postItem.innerHTML = `
+      <div>
+        <h3>${post.title}</h3>
+        <p>${post.content}</p>
+        <span>Likes: ${post.likes}</span>
+      </div>
+    `;
+    
+    postList.appendChild(postItem);
   }
 }
 
-// FUNC - 5 - POST - SUBMIT
-async function submitPost(event) {
-  event.preventDefault();
+// Event Listener #1
+document.querySelector('.create-post-form').addEventListener('submit', createPost);
 
-  const form = event.target;
-  const formData = new FormData(form);
-  const url = '/post_create/';
-
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'X-CSRFToken': getCookie('csrftoken'),
-      },
-      body: formData,
-    });
-
-    if (response.ok) {
-      const jsonResponse = await response.json();
-      console.log('Server response:', jsonResponse); // Debugging statement 1
-
-      if (jsonResponse.status === 'success' && jsonResponse.post) {
-        // Add the new post to the list
-        const postData = jsonResponse.post; // Extract the post object from the response
-        createAndAppendNewPost(postData)
-        form.reset();
-      } else {
-        // Handle errors
-        console.error('Error in response:', jsonResponse);
-      }
-    } else {
-      console.error('Error submitting form:', response.statusText);
-    }
-  } catch (error) {
-    console.error('Error submitting form:', error);
-  }
-}
-
-// FUNC - 6 - POST - HANDLE CREATION OF NEW POSTS
-function createAndAppendNewPost(postData) {
-
-  // DEBUGGING
-  console.log('createAndAppendNewPost: postData:', postData);
-  console.log('post content:', postData.fields.content); 
-
-  // Get the post item template
-  const postItemTemplate = document.getElementById('post-item-template').content.cloneNode(true);
-
-  // Update the post details
-  postItemTemplate.querySelector('.post-author').textContent = postData.fields.author.get_full_name;
-  postItemTemplate.querySelector('.post-content').textContent = postData.fields.content;
-  postItemTemplate.querySelector('.post-date').textContent = postData.fields.time_since_posted;
-
-  // Append the updated post item template to the post-list section
-  const postListSection = document.getElementById('post-list');
-  postListSection.appendChild(postItemTemplate);
-
-  console.log('Post created:', postData); // Debugging statement
-}
-
-
-
-
-// FUNC - 7 - POST - INIT POSTS 
-async function initPostsWithComments() {
-    // Fetch and display posts
-    const postElements = await fetchAndDisplayPosts();
-  
-    // Fetch and display comments for each post
-    for (const postElement of postElements) {
-      const postId = postElement.dataset.postId;
-      await fetchAndDisplayComments(postId, postElement);
-  }
-
-
-  // Add click event listeners for the pagination controls
-document.querySelector('#pagination-controls .first').addEventListener('click', async (event) => {
-  event.preventDefault();
-  await fetchAndDisplayPosts(1);
-});
-
-document.querySelector('#pagination-controls .previous').addEventListener('click', async (event) => {
-  event.preventDefault();
-  const currentPage = parseInt(document.querySelector('#current-page').textContent, 10);
-  await fetchAndDisplayPosts(Math.max(currentPage - 1, 1));
-});
-
-document.querySelector('#pagination-controls .next').addEventListener('click', async (event) => {
-  event.preventDefault();
-  const currentPage = parseInt(document.querySelector('#current-page').textContent, 10);
-  const totalPages = parseInt(document.querySelector('#total-pages').textContent, 10);
-  await fetchAndDisplayPosts(Math.min(currentPage + 1, totalPages));
-});
-
-document.querySelector('#pagination-controls .last').addEventListener('click', async (event) => {
-  event.preventDefault();
-  const totalPages = parseInt(document.querySelector('#total-pages').textContent, 10);
-  await fetchAndDisplayPosts(totalPages);
-});
-
-}
-  
- // Initialize the event listener for form submission
- document.addEventListener('DOMContentLoaded', () => {
-  const createPostForm = document.querySelector('#create-post-form');
-  if (createPostForm) {
-    createPostForm.addEventListener('submit', submitPost);
-  }
-});
+// Event Listener #5
+window.addEventListener('DOMContentLoaded', displayPostList);
 
 // EXPORTS
-export {
-    likePost,
-    RemovePostConfirmation,
-    fetchAndDisplayPosts,
-    submitPost,
-    initPostEvents,
-    initPostsWithComments,
-    createAndAppendNewPost
+export { 
+  createPost,
+  appendLikesToCreatedPost,
+  appendCommentsToCreatedPost,
+  handlePostRemovalButton,
+  submitPost,
+  displayPostList,
+  fetchAllCreatedPosts,
+  displayAllCreatedPosts
 };
-
-
-
-  // // Update the author image
-  // const authorImage = postItemTemplate.querySelector('.post-author-image');
-  // if (postData.fields.author.profile && postData.fields.author.profile.profile_image_url) {
-  //   authorImage.src = postData.fields.author.profile.profile_image_url;
-  //   authorImage.alt = postData.fields.author.get_full_name;
-  // } else {
-  //   authorImage.src = "/media/img/default_profile_image.png";
-  //   authorImage.alt = "";
-  // }
-
-  // // Add post image if it exists
-  // if (postData.fields.image_url) {
-  //   const postImage = postItemTemplate.querySelector('.post-image');
-  //   postImage.src = postData.image_url;
-  //   postImage.alt = "Post Image";
-  // }

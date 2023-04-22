@@ -77,8 +77,7 @@ function initProfileDetailsEventListeners() {
     });
   
     // ... (other event listeners) ...
-  }
-
+}
 
 // EVENT 1: PROFILE DETAILS - EDIT BIO
 document.addEventListener("click", (event) => {
