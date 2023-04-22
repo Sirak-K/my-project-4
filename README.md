@@ -1,5 +1,9 @@
 // WORK IN PROGRESS //
 
+![Draft Presentation](https://user-images.githubusercontent.com/122515678/233766526-4c3b50d0-388f-43d4-920d-f48681569a92.png)
+
+
+// WORK IN PROGRESS //
 
 ![Last commit](https://img.shields.io/github/last-commit/sirak-k/my-project-4) 
 ![Languages used](https://img.shields.io/github/languages/count/sirak-k/my-project-4)
