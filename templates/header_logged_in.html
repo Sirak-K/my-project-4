@@ -8,12 +8,18 @@
     <ul class="navbar-list">
 
     <!--SITE LOGO-->
-    <a class="logotype" href={% url 'login_view' %} >
+    <a class="logotype" href="{% url 'user_feed' %}">
     <img class="logo svg-logo" src="/media/img/logotype.svg" alt="Socialize Logo" >
     </a>
-       
+
+
     <li class="navbar-list-item"><a href="{% url 'post_create' %}"><i class="navbar-link fas fa-plus"></i></a></li>
-    <li class="navbar-list-item"><a href="{% url 'user_profile' user_id=request.user.id %}"><i class="navbar-link fas fa-user"></i></a></li>
+    <li class="navbar-list-item">
+        <a href="{% url 'user_profile' %}">
+          <i class="navbar-link fas fa-user"></i>
+        </a>
+      </li>
+      
    
     </ul>
     </nav>      

@@ -1,19 +1,20 @@
+# File: models.py
 from django.db import models
 from django.utils import timezone
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.utils.timesince import timesince
 from django.db.models.signals import post_save
-from django.contrib.auth import get_user_model
 
 
 # MODEL 1 - PROFILE
 class Profile(models.Model):
-    date_of_birth = models.DateField(blank=True, null=True)
+    date_of_birth = models.DateField(auto_now=False, blank=True, null=True)
     profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     banner_image = models.ImageField(upload_to='banner_images/', blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True) 
     bio = models.TextField(blank=True, null=True)
+   
 
     PROFESSION_CHOICES = (
         ('O', 'Student'),
@@ -33,49 +34,67 @@ class Profile(models.Model):
     )
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='N')
     
+
+    def get_user_name(self):
+        return self.user.get_full_name()
+
     def __str__(self):
         return f"{self.user.username}'s Profile"
-# DECOR 2 - PROFILE: CREATE
+
+# DECORATOR - PROFILE: CREATE
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-# MODEL 3 - POST
+
+
+# MODEL 2 - POST
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)  # Foreign key relationship with User
-    content = models.TextField(max_length=300, blank=True, null=True)
-    image = models.ImageField(upload_to='post_images/', blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)  # Automatically set the timestamp when the post is created
-    likes_count = models.PositiveIntegerField(default=0) 
+    post_title = models.CharField(max_length=50, default='')
+    post_content = models.TextField(max_length=200, default='')
+    post_created_at = models.DateTimeField(auto_now_add=True)
+    post_author = models.ForeignKey(User, on_delete=models.CASCADE)
     
+
     def time_since_posted(self):
         now = timezone.now()
-        time_difference = now - self.created_at
+        time_difference = now - self.post_created_at
         if time_difference.seconds < 60:
             return "Just now"
-        return f"{timesince(self.created_at)} ago"
+        return f"{timesince(self.post_created_at)} ago"
 
-    
+    def get_post_author_name(self):
+            return self.post_author.get_full_name()
+
     def __str__(self):
-        return f'Post {self.pk} by {self.author.username}'
+        return f'Post {self.pk} by {self.post_author}'
     
     def save(self, *args, **kwargs):
         print('Post save called')
         super().save(*args, **kwargs)
-
-# MODEL 4 - COMMENT
+ 
+# MODEL 3 - COMMENT
 class Comment(models.Model):
-    content = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-# MODEL 5 - LIKE
-class Like(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    comment_for_post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments_on_post')
+    comment_author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    comment_content = models.TextField(max_length=300, blank=False)
+    comment_created_at = models.DateTimeField(default=timezone.now)
+
+    def time_since_posted(self):
+        now = timezone.now()
+        time_difference = now - self.comment_created_at
+        if time_difference.seconds < 60:
+            return "Just now"
+        return f"{timesince(self.comment_created_at)} ago"
+
+
     def __str__(self):
-        return f"{self.user.username} liked {self.post.author.username}'s Post"
+        return f'Comment {self.pk} by {self.comment_author}'
+
+
+
+
+
 # MODEL 6 - FRIEND REQUEST
 class FriendRequest(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_requests_sent')
@@ -93,4 +112,3 @@ class FriendList(models.Model):
 
     def __str__(self):
         return f"{self.user1.username} and {self.user2.username} are friends"
-

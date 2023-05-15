@@ -1,36 +1,72 @@
+<!-- File: user_feed.html -->
 {% extends 'base.html' %}
 
-{% load static %}
-
-
 {% block content_user_feed %}
-
+{% include 'header_logged_in.html' %}
 <!-- USER FEED -->
-<div class="user-feed-container">
 
-  <section class="user-feed-section">
 
+<section class="user-feed-section">
     <div class="user-feed-header-section">
-
       {% if user.profile.profile_image %}
+      <a href="{% url 'user_profile_image' user_id=user.id %}">
         <img class="user-feed-profile-image" src="{{ user.profile.profile_image.url }}" alt="{{ user.first_name }} {{ user.last_name }}'s profile image">
-      {% else %}
+      </a>
+    {% else %}
+      <a href="{% url 'user_profile_image' user_id=user.id %}">
         <img class="user-feed-profile-image" src="/media/img/default_profile_image.png" alt="{{ user.first_name }} {{ user.last_name }}'s profile image">
-      {% endif %}
+      </a>
+    {% endif %}
+    
       <p class="user-feed-current-date">{% now "F j, Y" %}</p>
-      
-      
+    
     </div>
-
-    {% include 'post_create.html' %}
-    {% include 'post_list.html' with posts=posts %}
-
-
-
   </section>
-</div>
 
 
+
+<!-- CODE SECTION - CREATE NEW POST -->
+<section id="post-create-section">
+    <form class="post-create-form" method="post" action="{% url 'post_create' %}">
+      {% csrf_token %}
+
+    
+          <label for="post_title"></label>
+          <input class="post-create-title" placeholder="Post Title" type="text" id="post_title" name="post_title"  required>
+    
+
+          <label for="post_content"></label>
+          <textarea class="post-create-text" name="post_content" 
+          placeholder="How are you feeling today, {{ user.first_name }}?" required></textarea>
+
+
+      <button type="submit" class="post-create-btn">Create Post</button>
+      
+    </form> 
+</section>
+
+<!-- DISPLAY POSTS -->
+    {% for post in all_posts %}
+        <div class="post">
+          <section id="post-delete-section">
+          <form class="post-delete-form" method="post" action="{% url 'post_delete' post_id=post.id %}">
+            {% csrf_token %}
+            <button class="post-delete-btn fa fa-trash" type="submit"></button>
+        </form>
+      </section>
+
+        <div class="post-details">
+          <div class="post-details-secondary">
+
+            <p class="post-author">{{ post.get_post_author_name }}</p>
+            <p class="post-time">{{ post.post_created_at }}</p>
+          </div>
+            <h2 class="post-title">{{ post.post_title }}</h2>
+            <div class="post-content"> {{ post.post_content }}</div>
+          
+          
+        </div>
+
+        </div>
+    {% endfor %}
 {% endblock content_user_feed %}
-
-

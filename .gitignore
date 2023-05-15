@@ -8,35 +8,7 @@ node_modules/
 .github/
 cloudinary_python.txt
 node_modules
-core/CODEBASE.py
-core/CODEBASE.py
-CODEBASE.py
-core/SAFE FOLDER/views SAFE 04-06.py
-.gitignore
-doc/P4 - HTML Hierarchy Diagram.png
-doc/wireframes/1-Homepage-Login-.png
-doc/wireframes/2-Timeline.png
-doc/wireframes/3-Profile.png
-core/SAFE FOLDER/CODEBASE safe (04-10).py
-static/css/styles.css
-static/js/script - safe 2 (04-15).js
-static/js/script safe 1 (04-15 BEFORE OPT-1 TO OPT-4.js
-static/js/script - safe 3 (04-17).js
-core/SAFE FOLDER/CODEBASE safe (04-17).py
-.gitignore
-core/SAFE FOLDER/[ VISUAL DIAGRAM ]
-core/SAFE FOLDER/[ VISUAL DIAGRAM ]
-.gitignore
-templates/post_comment_list safe kl1340.html
-.gitignore
-templates/POST-DET SAFE
-core/SAFE FOLDER/views safe (04-19).py
-core/SAFE FOLDER/[ VISUAL DIAGRAM ] - 2 (depr.)
-core/SAFE FOLDER/[ VD ] - 2 - JS - Exports & Imports
-core/SAFE FOLDER/[ VD ] - 1 B - JS - Functions
-core/SAFE FOLDER/[ VD ] - 1 - JS - Functions
-static/js/postFunctions copy.js
-static/js/profileDetails copy.js
-templates/post_list copy (innan adda pagination 04-20).html
-core/views.py
-static/js/postFunctions copy 2.js
+core/SAFE-FOLDER
+core/doc
+static/js
+

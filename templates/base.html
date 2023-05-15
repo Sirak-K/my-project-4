@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Social Network{% endblock %}</title>
+    <title>My Social Network</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,40 +12,33 @@
 </head>
 
 <body>
+  <!-- File: base.html -->
   
   {% if user.is_authenticated %}
-
     <!-- ......LOGGED-IN...... -->
 
-            <!-- NAVBAR -->
-    {% include 'header_logged_in.html' %}
+            
             <!-- .MAIN. -->
-    {% block content_index %}
-    {% endblock content_index %}
-    {% block content_user_feed %}
-    {% endblock content_user_feed %}
-    {% block content_user_profile %}
-    {% endblock content_user_profile %}
-    {% block content_user_profile_image %}
-    {% endblock content_user_profile_image %}
+ 
+           
+        
+
+            {% block content_user_feed  %}
+            {% endblock content_user_feed  %}
+
+            {% block content_user_profile  %}
+            {% endblock content_user_profile  %}
+            
+            {% block content_user_profile_image %}
+            {% endblock content_user_profile_image %}
+            
+
+
+           
     
-    {% block content_post_create %}
-    {% endblock content_post_create %}
-    
-    {% block content_post_list %}
-    {% endblock content_post_list %}
-
-    {% block content_post_details %}
-    {% endblock content_post_details %}
-
-    {% block content_post_comment %}
-    {% endblock content_post_comment %}
-    {% block content_post_comment_list %}
-    {% endblock content_post_comment_list %}
-
 
     <!-- Log Out button -->
-    <form method="post" action="{% url 'logout_view' %}">
+    <form method="post" action="{% url 'signup' %}">
       {% csrf_token %}
       <button type="submit">Log Out</button>
     </form>
@@ -58,12 +51,12 @@
             <!-- NAVBAR -->
     {% include 'header_not_logged_in.html' %}
             <!-- .MAIN. -->
-    <main class="main-not-logged-in">
+    
       {% block content_login  %}
       {% endblock content_login  %}
       {% block content_signup  %}
       {% endblock content_signup  %}
-    </main>
+
 
 
 {% endif %}
@@ -77,11 +70,11 @@
   </footer>
  
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" 
-integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
-  <script type="module" src="{% static 'js/script.js' %}"></script>
+  <!-- <script type="module" src="{% static 'js/script.js' %}"></script> -->
 
 
  </body>

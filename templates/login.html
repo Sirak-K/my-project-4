@@ -1,12 +1,8 @@
 {% extends 'base.html' %}
 
-
 {% load static %}
 
-
-
 {% block content_login %}
-
 
 
 <header>
@@ -29,7 +25,7 @@
   <section class="logged-out-section">
     <h1 class="logged-out-header">Welcome!</h1>
   
-    <form class="form-logged-out" method="post" action="{% url 'login_view' %}">
+    <form class="form-logged-out" method="post" action="">
       {% csrf_token %}
       
       <label class="label-username" for="username">Username:</label>
@@ -43,11 +39,10 @@
     
     </form>
 
-    <a class="link-signup" href="{% url 'signup_view' %}">Sign Up</a>
+    <a class="link-signup" href="{% url 'signup' %}">Sign Up</a>
 
   </section>
   </div>
-
 
 
 </div>

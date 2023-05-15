@@ -1,33 +1,12 @@
-
-
-{% block content_post_details %}
-
-
-
-<!-- POST DETAILS -->
-
-<section class="post-details-section">
-  <div class="post-details">
-     
+<!-- File: post_details.html -->
+<div>
+    <form method="post" action="{% url 'post_delete' post_id=post.id %}">
+        {% csrf_token %}
+        <button class="post-delete-btn fa fa-trash" type="submit">Delete</button>
+    </form>
+    <h2>Post Title: {{ post.post_title }}</h2>
+    <p>Post Author: {{ post.post_author }}</p>
+    <p>Post Created At: {{ post.post_created_at }}</p>
+    <div>Post Content: {{ post.post_content }}</div>
     
-    <div class="post">
-    
-     <!-- POST DETAILS -->
-     <h3 class="post-author">{{ post.author.get_full_name }}</h3>
-     {% if post.author.profile.profile_image_url %}
-     <img class="post-author-image" src="{{ post.author.profile.profile_image_url }}" alt="{{ post.author.get_full_name }}">
-     {% else %}
-     <img class="post-author-image" src="/media/img/default_profile_image.png" alt="{{ post.author.get_full_name }}">
-     {% endif %}
-     <p class="post-content">{{ post.content }}</p>
-     <p class="post-date">{{ post.time_since_posted }}</p>
- 
-     <!-- POST-REMOVAL BUTTON-->
-     {% include 'post_remove.html' %} 
-    
-    </div>
-  </div>
-</section>
-
-
-{% endblock content_post_details %}
+</div>

@@ -1,25 +1,17 @@
-import json
-import traceback  
-
-from django.template.loader import render_to_string
-
-from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import Q
-from django.http import JsonResponse, HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponseNotFound
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
+# File: views.py
+from django.views.generic import CreateView, ListView, DetailView
 from .forms import PostForm, CommentForm, UpdateProfileForm, UpdateProfileImageForm
 from .models import Comment, Post, Profile, FriendRequest, FriendList
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.http import require_POST, require_http_methods
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound
+from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 
-ITEMS_PER_PAGE = 10 
 
-# VIEW 1 - SIGNUP
+# VIEW - SIGN-UP
 def signup_view(request):
     # Check if the request is a POST request
     if request.method == 'POST':
@@ -32,13 +24,13 @@ def signup_view(request):
             # Log the user in
             login(request, user)
             # Redirect the user to the user_feed page
-            return redirect('user_feed')  # Change this line
+            return redirect('user_feed') 
     else:
         # If it's not a POST request, create an empty form
         form = UserCreationForm()
     # Render the signup template with the form
     return render(request, 'signup.html', {'form': form})
-# VIEW 2 - LOGIN
+# VIEW - LOG-IN
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('user_feed')
@@ -56,64 +48,105 @@ def login_view(request):
         else:
             logout(request) 
             return render(request, 'login.html')
+# ---------> VIEW [ LOG-OUT ] --------->
+def logout_view(request):
+    logout(request)
+    return redirect('login_view')
+
 # VIEW 3 - HOME [ LOGGED-IN ] --------->
 @login_required
 def index(request):
-    post_list = Post.objects.all().order_by('-created_at')
-    posts = fetch_paginated_posts(request, post_list)
+   
+    return render(request, 'user_feed.html')
 
-    context = {
-        'posts': posts,
-    }
-    return render(request, 'user_feed.html', context)
-# VIEW 4 - LOGGED-IN - USER FEED
-@login_required
+# VIEW 4 - USER FEED (displays created posts)
 def user_feed(request):
-    friends = friendships(request.user)
-    queryset = Post.objects.filter(author__in=friends + [request.user]).order_by('-created_at')
-    posts = fetch_paginated_posts(request, queryset)
+    get_all_posts = Post.objects.all()  
+    return render(request, 'user_feed.html', {'all_posts': get_all_posts})
 
-    context = {
-        'posts': posts,
-    }
-    return render(request, 'user_feed.html', context)
-# VIEW 5 - LOGGED-IN - PROFILE
+
+# VIEW - Post List
+class PostListView(ListView):
+    model = Post
+    template_name = 'post_list.html'
+    context_object_name = 'post_list_context'
+
+# VIEW - Post Details
+class PostDetailsView(DetailView):
+    model = Post
+    template_name = 'post_details.html'
+    context_object_name = 'post_details_context'
+
+
+
+class PostCreateView(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'post_create.html'
+    success_url = '/user_feed/'
+
+    def form_valid(self, form):
+        form.instance.post_author = self.request.user
+        return super().form_valid(form)
+
+
+@require_POST
 @login_required
-def user_profile(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    user_profile = get_object_or_404(Profile, user=user)
-    user_posts = Post.objects.filter(author=user).order_by('-created_at')
-    friends = friend_list(request)
+def post_delete_view(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if post.post_author == request.user:
+        post.delete()
+        return redirect('post_list')
+    else:
+        return HttpResponseForbidden()
+
+
+# VIEW - LOGGED-IN - PROFILE
+@login_required
+def user_profile(request):
+    get_all_posts = Post.objects.all()  
+    user_profile = request.user.profile
+
 
     if request.method == 'POST':
         form = UpdateProfileForm(request.POST, instance=user_profile)
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile updated successfully.')
-            return redirect('user_profile', user_id=user.id)
+            return redirect('user_profile')
     else:
         form = UpdateProfileForm(instance=user_profile)
 
-    context = {'user_profile': user_profile, 'user_posts': user_posts, 'friends': friends, 'form': form}
+    context = {
+        'user_profile': user_profile,
+        'form': form,
+        'all_posts': get_all_posts
+    }
     return render(request, 'user_profile.html', context)
-# VIEW 6 - LOGGED-IN - PROFILE - UPLOAD IMAGES
+
+# VIEW- LOGGED-IN - PROFILE - UPLOAD IMAGES
 @login_required
-def user_profile_image(request, user_id):
-    user = request.user
-    profile = user.profile
+def user_profile_image(request):
+    user_profile = request.user.profile
 
     if request.method == 'POST':
-        form = UpdateProfileImageForm(request.POST, request.FILES, instance=profile)
+        form = UpdateProfileImageForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile image and banner updated successfully.')
-            return redirect('user_profile', user_id=user.id)
+            # Store the updated user profile image URL in the session
+            request.session['user_profile_image_url'] = user_profile.profile_image.url if user_profile.profile_image else None
+            return redirect('user_feed')
     else:
-        form = UpdateProfileImageForm(instance=profile)
-    
+        form = UpdateProfileImageForm(instance=user_profile)
+
     context = {'form': form}
     return render(request, 'user_profile_image.html', context)
-# VIEW 7 - LOGGED-IN - PROFILE - UPDATE PROFILE DETAILS
+
+
+
+
+# VIEW - LOGGED-IN - PROFILE - UPDATE PROFILE DETAILS
 @require_POST
 @login_required
 def user_profile_field_update(request, user_id):
@@ -136,187 +169,13 @@ def user_profile_field_update(request, user_id):
         return JsonResponse({"status": "error", "message": str(e)})
 
 
-# VIEW 8 - POST: CREATE
-@login_required
-def post_create(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            # return redirect('post_details', post_id=post.id)
-    else:
-        form = PostForm()
-
-    return render(request, 'user_feed.html', {'form': form})
-
-# VIEW 9 - POST: DETAILS
-def post_details(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    comments = Comment.objects.filter(post=post).order_by('-created_at')
-
-    # Create an instance of the CommentForm
-    comment_form = CommentForm()
-
-    # Pass the post_id value to the template context
-    context = {
-        'post': post,
-        'comments': comments,
-        'comment_form': comment_form,
-        'post_id': post_id,
-    }
-
-    return render(request, 'post_details.html', context) # Added return statement
-# VIEW 10 - POST: REMOVE
-@login_required
-def post_remove(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-
-    if request.user != post.author:
-        return redirect('home')
-
-    if request.method == 'POST':
-        post.delete()
-        return redirect('user_feed')
-
-    context = {'post': post}
-    return render(request, 'post_remove.html', context)
 
 
-# VIEW 11 - POST: LIST
-def post_list(request):
-    page = request.GET.get('page', 1)
-    posts = Post.objects.all().order_by('-created_at')
-    paginator = Paginator(posts, 10)  # Show 10 posts per page
-    posts = paginator.get_page(page)
-    # Get comments for each post and add them to the post object
-    for post in posts:
-        post.comments = Comment.objects.filter(post=post).order_by('-created_at')
-
-    # Render the post list using the Django template
-    rendered_posts = render_to_string('user_feed.html', {
-        'posts': posts,
-        'current_page': page,
-        'total_pages': paginator.num_pages
-    })
-
-    return render(request, rendered_posts, 'post_list.html', {'posts': posts, 'paginator': paginator})
-    post = get_object_or_404(Post, id=post_id)
-
-    if request.user != post.author:
-        return redirect('home')
-
-    if request.method == 'POST':
-        post.delete()
-        return redirect('user_feed')
-
-    context = {'post': post}
-    return render(request, 'post_remove.html', context)
-# VIEW 12 - POST: LIST - FETCH AND DISPLAY POSTS (SHOULD BE REFACTORED TO BE COMBINED INTO post_list-view)
-def fetch_paginated_posts(request, queryset):
-    paginator = Paginator(queryset, ITEMS_PER_PAGE)
-    page = request.GET.get('page')
-
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-
-    return posts
 
 
-# VIEW 13 - POST: COMMENTS
-@require_POST
-def post_comment(request, post_id):
-    if request.method == "POST":
-        content = request.POST.get('content', '')
-        if content:
-            post = Post.objects.get(pk=post_id)
-            comment = Comment(content=content, user=request.user, post=post)
-            comment.save()
-           
-            return JsonResponse({"status": "success" })
-# VIEW 14 - POST: COMMENTS LIST (SHOW)
-def post_comment_list(request, post_id):
-    post = Post.objects.get(pk=post_id)
-    comments = Comment.objects.filter(post=post).order_by('-created_at')
-    return render(request, 'post_comment_list.html', {'post': post, 'comments': comments})
-# VIEW 15 - POST: LIKES
-@require_POST
-def post_like(request, post_id):
-    if request.method == 'POST':
-        post = get_object_or_404(Post, id=post_id)
-        post.likes += 1
-        post.save()
-        return JsonResponse({"likes": post.likes}, safe=False)
-    else:
-        return HttpResponseNotAllowed(['POST'])
 
 
-# ---- VIEW 16 - FRIENDSHIP ----
-@login_required
-def friend_request(request):
-    pending_friend_requests = FriendRequest.objects.filter(recipient=request.user, status='pending')
-    
-    return render(request, 'friend_request.html', {'pending_friend_requests': pending_friend_requests})
-# VIEW 17 - FRIENDSHIPS
-def friendships(user):
-    friends_sent = FriendRequest.objects.filter(sender=user, status='accepted')
-    friends_received = FriendRequest.objects.filter(recipient=user, status='accepted')
-    friends = [fr.recipient for fr in friends_sent] + [fr.sender for fr in friends_received]
-    return friends
-# VIEW 18 - FRIEND REQUEST: ACCEPT
-@login_required
-def friend_request_accept(request, request_id):
-    friend_request = get_object_or_404(FriendRequest, id=request_id)
 
-    if friend_request.recipient != request.user:
-        messages.error(request, "You cannot accept this friend request.")
-        return redirect('friend_list')
 
-    friend_request.status = 'accepted'
-    friend_request.save()
 
-    messages.success(request, f"You are now friends with {friend_request.sender.username}.")
-    return redirect('friend_list')
-# VIEW 19 - FRIEND REQUEST: REJECT
-@login_required
-def friend_request_reject(request, request_id):
-    friend_request = get_object_or_404(FriendRequest, id=request_id)
 
-    if friend_request.recipient != request.user:
-        messages.error(request, "You cannot reject this friend request.")
-        return redirect('friend_list')
-
-    friend_request.status = 'rejected'
-    friend_request.save()
-
-    messages.success(request, f"You have rejected the friend request from {friend_request.sender.username}.")
-    return redirect('friend_list')
-# VIEW 20 - FRIEND LIST 
-@login_required
-def friend_list(request):
-    # Fetching friend relationships
-    friends_sent = FriendRequest.objects.filter(sender=request.user, status='accepted')
-    friends_received = FriendRequest.objects.filter(recipient=request.user, status='accepted')
-    friends = [fr.recipient for fr in friends_sent] + [fr.sender for fr in friends_received]
-
-    # Fetching pending friend requests sent by the user
-    pending_sent = FriendRequest.objects.filter(sender=request.user, status='pending')
-
-    # Fetching pending friend requests received by the user
-    pending_received = FriendRequest.objects.filter(recipient=request.user, status='pending')
-
-    context = {
-        'friends': friends,
-        'pending_sent': pending_sent,
-        'pending_received': pending_received,
-    }
-    return render(request, 'friend_list.html', context)
-# ---------> VIEW 21 - [ LOG-OUT ] --------->
-def logout_view(request):
-    logout(request)
-    return redirect('login_view')

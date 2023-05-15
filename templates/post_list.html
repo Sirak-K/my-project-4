@@ -1,34 +1,17 @@
-{% block content_post_list %}
+<!-- File: post_list.html -->
+{% for post in posts %}
 
-<!-- POSTS SECTION -->
-<section id="post-list-section">
-    
-    <div id="post-list" data-current-page="{{ current_page }}" data-total-pages="{{ total_pages }}">
-        {% if posts %}
-            {% for post in posts %}
+   <div>
+    <h2>Post Title: {{ post.post_title }}</h2>
+    <p>Post Content: {{ post.post_content }}</p>
+    <p>Post Author: {{ post.post_author }}</p>
+    <p>Post Created At: {{ post.post_created_at }}</p>
 
+    <a href="{% url 'post_details' post_id=post.id %}">View Details</a>
+    <form method="post" action="{% url 'delete_post' post_id=post.id %}">
+        {% csrf_token %}
+        <button class="post-delete-btn fa fa-trash" type="submit">Delete</button>
+    </form>
+</div>
 
-                <div class="post-item" data-post-id="{{ post.id }}">
-                    {% include 'post_details.html' %}
-                    {% include 'post_comment.html' %}
-                    {% include 'post_comment_list.html' %}
-                </div>
-
-
-            {% endfor %}
-        {% else %}
-            <p>No posts available.</p>
-        {% endif %}
-    </div>
-
-    <!-- Pagination controls -->
-    <div class="pagination-controls" id="pagination-controls">
-        <a href="#" class="first">&laquo; first</a>
-        <a href="#" class="previous">previous</a>
-        <span class="current-page">Page <span id="current-page">{{ current_page }}</span> of <span id="total-pages">{{ total_pages }}</span>.</span>
-        <a href="#" class="next">next</a>
-        <a href="#" class="last">last &raquo;</a>
-    </div>
-</section>
-
-{% endblock content_post_list %}
+{% endfor %}
