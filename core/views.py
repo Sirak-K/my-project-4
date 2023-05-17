@@ -1,17 +1,19 @@
 # File: views.py
-from django.views.generic import CreateView, ListView, DetailView
-from .forms import PostForm, CommentForm, UpdateProfileForm, UpdateProfileImageForm
-from .models import Comment, Post, Profile, FriendRequest, FriendList
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.views.decorators.http import require_POST, require_http_methods
-from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST, require_http_methods
+from django.views.generic import DeleteView, CreateView, ListView, DetailView
+from .forms import PostForm, UpdateProfileForm, UpdateProfileImageForm
+from .models import Post, Profile 
 
 
-# VIEW - SIGN-UP
+# VIEW 1 - SIGN-UP
 def signup_view(request):
     # Check if the request is a POST request
     if request.method == 'POST':
@@ -30,7 +32,7 @@ def signup_view(request):
         form = UserCreationForm()
     # Render the signup template with the form
     return render(request, 'signup.html', {'form': form})
-# VIEW - LOG-IN
+# VIEW 2 - LOG-IN
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('user_feed')
@@ -48,63 +50,26 @@ def login_view(request):
         else:
             logout(request) 
             return render(request, 'login.html')
-# ---------> VIEW [ LOG-OUT ] --------->
+# VIEW 3 - [ LOG-OUT ] 
 def logout_view(request):
     logout(request)
     return redirect('login_view')
 
-# VIEW 3 - HOME [ LOGGED-IN ] --------->
+# VIEW 4 - HOME [ LOGGED-IN ] --------->
 @login_required
 def index(request):
    
     return render(request, 'user_feed.html')
 
-# VIEW 4 - USER FEED (displays created posts)
+# VIEW 5 - USER FEED (displays created posts)
 def user_feed(request):
-    get_all_posts = Post.objects.all()  
+    get_all_posts = Post.objects.all().order_by('-post_created_at')  # Reverse the order by using '-post_created_at'
     return render(request, 'user_feed.html', {'all_posts': get_all_posts})
 
-
-# VIEW - Post List
-class PostListView(ListView):
-    model = Post
-    template_name = 'post_list.html'
-    context_object_name = 'post_list_context'
-
-# VIEW - Post Details
-class PostDetailsView(DetailView):
-    model = Post
-    template_name = 'post_details.html'
-    context_object_name = 'post_details_context'
-
-
-
-class PostCreateView(CreateView):
-    model = Post
-    form_class = PostForm
-    template_name = 'post_create.html'
-    success_url = '/user_feed/'
-
-    def form_valid(self, form):
-        form.instance.post_author = self.request.user
-        return super().form_valid(form)
-
-
-@require_POST
-@login_required
-def post_delete_view(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    if post.post_author == request.user:
-        post.delete()
-        return redirect('post_list')
-    else:
-        return HttpResponseForbidden()
-
-
-# VIEW - LOGGED-IN - PROFILE
+# VIEW 6 - LOGGED-IN - PROFILE
 @login_required
 def user_profile(request):
-    get_all_posts = Post.objects.all()  
+    get_all_posts = Post.objects.all().order_by('-post_created_at')  # Reverse the order by using '-post_created_at' 
     user_profile = request.user.profile
 
 
@@ -123,8 +88,7 @@ def user_profile(request):
         'all_posts': get_all_posts
     }
     return render(request, 'user_profile.html', context)
-
-# VIEW- LOGGED-IN - PROFILE - UPLOAD IMAGES
+# VIEW 7 - LOGGED-IN - PROFILE - UPLOAD IMAGES
 @login_required
 def user_profile_image(request):
     user_profile = request.user.profile
@@ -142,11 +106,7 @@ def user_profile_image(request):
 
     context = {'form': form}
     return render(request, 'user_profile_image.html', context)
-
-
-
-
-# VIEW - LOGGED-IN - PROFILE - UPDATE PROFILE DETAILS
+# VIEW 8 - LOGGED-IN - PROFILE - UPDATE PROFILE DETAILS
 @require_POST
 @login_required
 def user_profile_field_update(request, user_id):
@@ -169,12 +129,59 @@ def user_profile_field_update(request, user_id):
         return JsonResponse({"status": "error", "message": str(e)})
 
 
+# VIEW 9 - Post List
+class PostListView(ListView):
+    model = Post
+    template_name = 'post_list.html'
+    context_object_name = 'post_list_context'
+# VIEW 10 - Post Details
+class PostDetailsView(DetailView):
+    model = Post
+    template_name = 'post_details.html'
+    context_object_name = 'post_details_context'
+# VIEW 11 - Post Create
+class PostCreateView(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'post_create.html'
+    success_url = reverse_lazy('user_feed')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile_image = self.request.user.profile.profile_image.url if self.request.user.profile.profile_image else '/static/default_profile_image.jpg'
+        context['profile_image'] = profile_image
+        return context
+
+    def form_valid(self, form):
+        form.instance.post_author = self.request.user
+        return super().form_valid(form)
 
 
 
+# VIEW 12 - Post Delete
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = 'post_delete.html'
+    success_url = 'user_feed'
 
 
+def toggle_like(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    user = request.user
 
+    if post.is_liked_by_user(user):
+        post.post_likes.remove(user)
+        post_like_status = False
+    else:
+        post.post_likes.add(user)
+        post_like_status = True
+
+    response = {
+        'post_like_status': post_like_status,
+        'like_count': post.post_likes.count()
+    }
+    return JsonResponse(response)
 
 
 

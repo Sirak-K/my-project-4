@@ -1,17 +1,7 @@
 <!-- File: post_list.html -->
-{% for post in posts %}
+{% for post in all_posts %}
 
-   <div>
-    <h2>Post Title: {{ post.post_title }}</h2>
-    <p>Post Content: {{ post.post_content }}</p>
-    <p>Post Author: {{ post.post_author }}</p>
-    <p>Post Created At: {{ post.post_created_at }}</p>
+{% include 'post_details.html' %}
 
-    <a href="{% url 'post_details' post_id=post.id %}">View Details</a>
-    <form method="post" action="{% url 'delete_post' post_id=post.id %}">
-        {% csrf_token %}
-        <button class="post-delete-btn fa fa-trash" type="submit">Delete</button>
-    </form>
-</div>
 
 {% endfor %}

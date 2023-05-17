@@ -816,16 +816,16 @@ outline:solid 6px rgb(32, 78, 50);
 
 .post-create-text {
 height: 10em;
-font-size: 1rem;
+/* font-size: 1rem; */
 color:black;
 font-family: 'Oxygen';
 }
 .post-create-text::placeholder {
        
-text-align: center;
+/* text-align: center; */
 font-style: italic;
 letter-spacing: 0.02em;
-line-height: 1.7em;
+line-height: 1.5em;
 font-size: 1.2rem;
 font-family: 'Oxygen';
 color:rgba(0, 0, 0, 0.776);
@@ -867,8 +867,9 @@ font-size: 1.5rem;
         justify-content: center;
         align-items: center;
         margin: 1em 0.5em;
-        padding: 1em;
+        padding: 0.5em;
         gap:1em;
+        /* height: 20em; */
         background-color: white;
         border: 1px solid grey;
 filter: drop-shadow(0px 1px 3px black);
@@ -881,27 +882,45 @@ background-clip: text;
 .post-delete-btn{
 
 }
+.post-like-button{
+font-size: 1rem;
+}
+#post-like-count{
+margin: 0 0.5em;
+}
+
 
 .post-details {
         display:flex;
         flex-direction: column;
         justify-content: center;
-        gap: 1em;
+        gap: 0.5em;
         outline: green 2px dashed;
         width: 100%;
-        height: 10em;
         padding: 0.5em;
 }
 .post-details-secondary {
         display:flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
         text-align: center;
         outline: rgb(185, 6, 170) 1px dashed;
         width: 100%;
 
 }
 
+
+
+#post-details-lc-section {
+        display:flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+}
 
 .post-title {
         width: 100%;
@@ -911,12 +930,18 @@ background-clip: text;
 .post-author {
         width: 100%;
 }
+.post-author-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+}
 .post-time {
         width: 100%;
 }
 .post-content {
         width: 100%;
         height: 5em;
+        margin: 1em 0;
         outline: auto;
         
 }
@@ -1008,15 +1033,15 @@ float:right;
 color:rgb(0, 47, 255);
 }
 .profile-images-section {
-        outline:  solid 3px red;
+
 position: relative;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-
+/* margin-bottom:1em; */
 padding:0;
-margin: 3em 0;
+/* margin: 1em 0; */
 
 }
 .profile-image {
@@ -1031,7 +1056,6 @@ border: 2px solid #0ae967;
 z-index: 2;
 }
 .profile-banner {
-
 width: 20em;
 height: 9em;
 background-size: cover;

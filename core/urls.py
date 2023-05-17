@@ -6,13 +6,13 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-from .views import  PostCreateView, PostListView, PostDetailsView
+from .views import  PostDeleteView, PostCreateView, PostListView, PostDetailsView
 
 
 
 urlpatterns = [
     
-    path('', views.index, name='home'),
+    path('', views.user_feed, name='home'),
 
   
     path('signup/', views.signup_view, name='signup'),
@@ -25,8 +25,10 @@ urlpatterns = [
     path('user_profile_image/', views.user_profile_image, name='user_profile_image'),
     path('user_profile_field_update/<int:user_id>/', views.user_profile_field_update, name='user_profile_field_update'),
 
-    path('posts/<int:post_id>/delete/', views.post_delete_view, name='post_delete'),
-    path('posts/<int:pk>/', PostDetailsView.as_view(), name='post_details'),
+
+    path('post/delete/<int:pk>/', PostDeleteView.as_view(), name='post_delete'),
+    path('post/<int:pk>/toggle-like/', views.toggle_like, name='toggle_like'),
+    path('post/<int:pk>/', PostDetailsView.as_view(), name='post_details'),
     path('post_create/', PostCreateView.as_view(), name='post_create'),
     path('posts/', PostListView.as_view(), name='post_list'),
 

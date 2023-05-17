@@ -1,6 +1,6 @@
 # File: forms.py
 from django import forms
-from .models import Post, Comment, Profile
+from .models import Post, Profile
 
 # JANI FIELDS TO BE INPUTTED I EN FORM
 
@@ -12,12 +12,6 @@ class PostForm(forms.ModelForm):
                 'post_title', 
                 'post_content', 
                   ]
-
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['comment_content']
-
 
 
 

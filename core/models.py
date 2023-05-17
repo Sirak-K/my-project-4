@@ -1,9 +1,10 @@
 # File: models.py
 from django.db import models
-from django.utils import timezone
+
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from django.utils.timesince import timesince
+from django.utils import timezone
+from django.utils import timesince
 from django.db.models.signals import post_save
 
 
@@ -23,7 +24,7 @@ class Profile(models.Model):
         ('T', 'Other'),
         ('N', 'None selected'),
     )
-    profession = models.CharField(max_length=50, choices=PROFESSION_CHOICES, default="N", blank=True, null=True)
+    profession = models.CharField(max_length=50, choices=PROFESSION_CHOICES, default="N", blank=True)
 
     GENDER_CHOICES = (
         ('O', 'Other'),
@@ -50,11 +51,17 @@ def create_profile(sender, instance, created, **kwargs):
 
 # MODEL 2 - POST
 class Post(models.Model):
-    post_title = models.CharField(max_length=50, default='')
-    post_content = models.TextField(max_length=200, default='')
+    post_title = models.CharField(max_length=50)
+    post_content = models.TextField(max_length=200)
     post_created_at = models.DateTimeField(auto_now_add=True)
     post_author = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+    post_likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
+
+    def post_likes_count(self):
+        return self.post_likes.count()
+
+    def is_liked_by_user(self, user):
+        return self.post_likes.filter(id=user.id).exists()
 
     def time_since_posted(self):
         now = timezone.now()
@@ -73,42 +80,3 @@ class Post(models.Model):
         print('Post save called')
         super().save(*args, **kwargs)
  
-# MODEL 3 - COMMENT
-class Comment(models.Model):
-    comment_for_post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments_on_post')
-    comment_author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    comment_content = models.TextField(max_length=300, blank=False)
-    comment_created_at = models.DateTimeField(default=timezone.now)
-
-    def time_since_posted(self):
-        now = timezone.now()
-        time_difference = now - self.comment_created_at
-        if time_difference.seconds < 60:
-            return "Just now"
-        return f"{timesince(self.comment_created_at)} ago"
-
-
-    def __str__(self):
-        return f'Comment {self.pk} by {self.comment_author}'
-
-
-
-
-
-# MODEL 6 - FRIEND REQUEST
-class FriendRequest(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_requests_sent')
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_requests_received')
-    status = models.CharField(max_length=20)  # "Pending", "Accepted", "Rejected"
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.sender.username} sent a friend request to {self.recipient.username}"
-# MODEL 7 - FRIEND LIST
-class FriendList(models.Model):
-    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_lists_user1')
-    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_lists_user2')
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user1.username} and {self.user2.username} are friends"
