@@ -1,5 +1,8 @@
-<!-- File: post_details.html -->
+<!-- File: post_details_page.html -->
 
+{% extends 'base.html' %}
+{% block content_post_details_page %}
+{% include 'header_logged_in.html' %}
 <div class="post">
     <section id="post-delete-section">
       <form class="post-delete-form" method="post" action="{% url 'post_delete' pk=post.pk %}">
@@ -8,11 +11,6 @@
       </form>
     
 
-    <form method="post" action="{% url 'post_details_page' pk=post.pk %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button class="fas fa-pencil-alt" type="submit"></button>
-    </form>
   </section>
     <div class="post-details">
       <div class="post-details-secondary">
@@ -45,4 +43,4 @@
       </section>
     </div>
   </div>
-
+  {% endblock content_post_details_page %}

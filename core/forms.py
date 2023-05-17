@@ -13,7 +13,10 @@ class PostForm(forms.ModelForm):
                 'post_content', 
                   ]
 
-
+class PostEditForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['post_content']
 
 class UpdateProfileForm(forms.ModelForm):
     class Meta:

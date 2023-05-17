@@ -26,9 +26,9 @@ urlpatterns = [
     path('user_profile_field_update/<int:user_id>/', views.user_profile_field_update, name='user_profile_field_update'),
 
 
-    path('post/delete/<int:pk>/', PostDeleteView.as_view(), name='post_delete'),
-    path('post/<int:pk>/toggle-like/', views.toggle_like, name='toggle_like'),
-    path('post/<int:pk>/', PostDetailsView.as_view(), name='post_details'),
+    path('post_details/delete/<int:pk>/', PostDeleteView.as_view(), name='post_delete'),
+    path('post_details/<int:pk>/toggle-like/', views.toggle_like, name='toggle_like'),
+    path('post_details_page/<int:pk>/', PostDetailsView.as_view(), name='post_details_page'),
     path('post_create/', PostCreateView.as_view(), name='post_create'),
     path('posts/', PostListView.as_view(), name='post_list'),
 

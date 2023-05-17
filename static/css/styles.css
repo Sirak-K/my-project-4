@@ -444,7 +444,11 @@ z-index: -10;
 }
 
 /* ---------- POSTS ---------- */
-
+.post-author-image{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+}
 
 /* -- COMMENTS SECTION --  */
 .comment-input-section {
@@ -928,9 +932,9 @@ margin: 0 0.5em;
         
 }
 .post-author {
-        width: 100%;
+        /* width: 100%; */
 }
-.post-author-image {
+.post-author-image{
         width: 80px;
         height: 80px;
         border-radius: 50%;

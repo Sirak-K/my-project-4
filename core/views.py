@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST, require_http_methods
 from django.views.generic import DeleteView, CreateView, ListView, DetailView
-from .forms import PostForm, UpdateProfileForm, UpdateProfileImageForm
+from .forms import PostForm, PostEditForm, UpdateProfileForm, UpdateProfileImageForm
 from .models import Post, Profile 
 
 
@@ -137,8 +137,19 @@ class PostListView(ListView):
 # VIEW 10 - Post Details
 class PostDetailsView(DetailView):
     model = Post
-    template_name = 'post_details.html'
-    context_object_name = 'post_details_context'
+    template_name = 'post_details_page.html'
+    context_object_name = 'post'
+
+    def post(self, request, *args, **kwargs):
+        post = self.get_object()
+        form = PostEditForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_details', pk=post.pk)
+        else:
+            # Handle form errors if needed
+            return self.get(request, *args, **kwargs)  # Render the form again with errors
+
 # VIEW 11 - Post Create
 class PostCreateView(CreateView):
     model = Post
