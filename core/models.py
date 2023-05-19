@@ -41,21 +41,21 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
-
 # DECORATOR - PROFILE: CREATE
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-
-
 # MODEL 2 - POST
 class Post(models.Model):
-    post_title = models.CharField(max_length=50)
-    post_content = models.TextField(max_length=200)
     post_created_at = models.DateTimeField(auto_now_add=True)
     post_author = models.ForeignKey(User, on_delete=models.CASCADE)
+    post_title = models.CharField(max_length=50)
+    post_content = models.TextField(max_length=200)
     post_likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
+    post_comments = models.ManyToManyField('Comment', related_name='commented_posts')
+
+
 
     def post_likes_count(self):
         return self.post_likes.count()
@@ -79,4 +79,16 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         print('Post save called')
         super().save(*args, **kwargs)
- 
+
+class Comment(models.Model):
+    comment_on_post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments_for_post")
+    comment_created_at = models.DateTimeField(auto_now_add=True)
+    comment_author = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_content = models.TextField(max_length=100)
+
+
+    def get_comment_author_name(self):
+        return self.comment_author.get_full_name()
+
+    def __str__(self):
+        return f'Comment {self.pk} by {self.comment_author}'

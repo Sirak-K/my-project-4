@@ -9,8 +9,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST, require_http_methods
 from django.views.generic import DeleteView, CreateView, ListView, DetailView
-from .forms import PostForm, PostEditForm, UpdateProfileForm, UpdateProfileImageForm
-from .models import Post, Profile 
+from .forms import CommentForm, PostForm, PostEditForm, UpdateProfileForm, UpdateProfileImageForm
+from .models import Comment, Post, Profile 
 
 
 # VIEW 1 - SIGN-UP
@@ -61,10 +61,12 @@ def index(request):
    
     return render(request, 'user_feed.html')
 
-# VIEW 5 - USER FEED (displays created posts)
+# VIEW 5 - USER FEED (displays created posts and comments)
+@login_required
 def user_feed(request):
-    get_all_posts = Post.objects.all().order_by('-post_created_at')  # Reverse the order by using '-post_created_at'
-    return render(request, 'user_feed.html', {'all_posts': get_all_posts})
+    all_posts = Post.objects.all().order_by('-post_created_at')
+    all_post_comments = Comment.objects.all().order_by('-comment_created_at')
+    return render(request, 'user_feed.html', {'all_posts': all_posts, 'all_post_comments': all_post_comments})
 
 # VIEW 6 - LOGGED-IN - PROFILE
 @login_required
@@ -137,6 +139,7 @@ class PostListView(ListView):
 # VIEW 10 - Post Details
 class PostDetailsView(DetailView):
     model = Post
+    # Byt ej template_name annars kmr inte rendera CSS i single-post views
     template_name = 'post_details_page.html'
     context_object_name = 'post'
 
@@ -145,13 +148,20 @@ class PostDetailsView(DetailView):
         form = PostEditForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
-            return redirect('post_details', pk=post.pk)
+            return redirect('post_details_page', pk=post.pk)
         else:
             # Handle form errors if needed
-            return self.get(request, *args, **kwargs)  # Render the form again with errors
+            return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.object
+        comments = post.comments_for_post.order_by('comment_created_at')
+        context['all_post_comments'] = comments
+        return context
 
 # VIEW 11 - Post Create
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'post_create.html'
@@ -169,14 +179,30 @@ class PostCreateView(CreateView):
         return super().form_valid(form)
 
 
-
 # VIEW 12 - Post Delete
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = 'post_delete.html'
-    success_url = 'user_feed'
+    success_url = reverse_lazy('user_feed')
 
 
+# VIEW 13 - Comment Create
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'post_comment_create.html'  
+    success_url = reverse_lazy('user_feed')
+
+    def form_valid(self, form):
+        form.instance.comment_author = self.request.user
+        form.instance.comment_on_post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        super().form_valid(form)
+        return redirect('post_details_page', pk=self.kwargs['pk'])
+
+
+
+# VIEW 14- Post Like
+@login_required
 def toggle_like(request, pk):
     post = get_object_or_404(Post, pk=pk)
     user = request.user
@@ -193,7 +219,3 @@ def toggle_like(request, pk):
         'like_count': post.post_likes.count()
     }
     return JsonResponse(response)
-
-
-
-

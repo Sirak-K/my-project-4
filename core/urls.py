@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-from .views import  PostDeleteView, PostCreateView, PostListView, PostDetailsView
+from .views import CommentCreateView, PostDeleteView, PostCreateView, PostListView, PostDetailsView
 
 
 
@@ -26,9 +26,13 @@ urlpatterns = [
     path('user_profile_field_update/<int:user_id>/', views.user_profile_field_update, name='user_profile_field_update'),
 
 
+
+    path('post/<int:pk>/comment/create/', CommentCreateView.as_view(), name='post_comment_create'),
+    
     path('post_details/delete/<int:pk>/', PostDeleteView.as_view(), name='post_delete'),
     path('post_details/<int:pk>/toggle-like/', views.toggle_like, name='toggle_like'),
     path('post_details_page/<int:pk>/', PostDetailsView.as_view(), name='post_details_page'),
+
     path('post_create/', PostCreateView.as_view(), name='post_create'),
     path('posts/', PostListView.as_view(), name='post_list'),
 

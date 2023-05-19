@@ -12,3 +12,6 @@ core/SAFE-FOLDER
 core/doc
 static/js
 
+templates/post_comment_create.html
+myenv/Lib/site-packages/
+project_4.code-workspace

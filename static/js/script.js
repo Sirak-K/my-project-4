@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const likeButton = document.getElementById('post-like-button');
   const likeCount = document.getElementById('post-like-count');
 
+ // Check if postLikeForm, likeButton, and likeCount exist before adding the event listener
+ if (postLikeForm && likeButton && likeCount) {
   postLikeForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -36,9 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error:', error);
       });
   });
+}
 
-  function getCookie(name) {
-    const cookieValue = document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`);
-    return cookieValue ? cookieValue.pop() : '';
-  }
+function getCookie(name) {
+  const cookieValue = document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`);
+  return cookieValue ? cookieValue.pop() : '';
+}
 });

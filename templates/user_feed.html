@@ -42,13 +42,8 @@
     </form> 
 </section>
 
-<!-- DISPLAY POSTS -->
-{% for post in all_posts %}
-
-    {% include 'post_list.html' %}
-
-  {% endfor %}
-
-
-
+   <!-- DISPLAY POSTS -->
+   {% for post in all_posts %}
+   {% include 'post_list.html' with post=post all_post_comments=all_post_comments %}
+{% endfor %}
 {% endblock content_user_feed %}
