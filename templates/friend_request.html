@@ -1,0 +1,12 @@
+<!-- File: friend_request.html -->
+{% extends 'base.html' %}
+
+{% block content_friend_request %}
+  <h2>Send Friend Request</h2>
+
+  <form method="post" action="{% url 'friend_request' %}">
+    {% csrf_token %}
+   
+    <button type="submit">Send Friend Request</button>
+  </form>
+{% endblock content_friend_request %}

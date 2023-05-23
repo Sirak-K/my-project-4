@@ -3,6 +3,7 @@
 
 {% block content_user_feed %}
 {% include 'header_logged_in.html' %}
+
 <!-- USER FEED -->
 
 
@@ -42,8 +43,9 @@
     </form> 
 </section>
 
-   <!-- DISPLAY POSTS -->
-   {% for post in all_posts %}
-   {% include 'post_list.html' with post=post all_post_comments=all_post_comments %}
+<!-- DISPLAY POSTS -->
+{% for post in all_posts %}
+{% include 'post_list.html' with post=post all_post_comments=all_post_comments %}
 {% endfor %}
+
 {% endblock content_user_feed %}

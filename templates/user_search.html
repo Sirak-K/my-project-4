@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content_user_search %}
+
+<h1>User Search</h1>
+
+<!-- USER SEARCH FUNCTIONALITY: SEARCH INPUT -->
+<input type="text" id="search-input" name="search_query" placeholder="Search for users...">
+
+<!-- USER SEARCH FUNCTIONALITY: SEARCH RESULTS -->
+<div id="search-results">
+  {% for user in searched_users %}
+    <li>{{ user.first_name }} {{ user.last_name }}</li>
+  {% endfor %}
+</div>
+
+{% endblock content_user_search %}

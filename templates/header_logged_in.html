@@ -1,29 +1,42 @@
-
+<!-- File: header_logged_in.html -->
 {% block header_logged_in %}
-
 
 <header class="header-container">
     <!-- NAVBAR --> 
     <nav class="navbar">
-    <ul class="navbar-list">
+        <ul class="navbar-list">
 
-    <!--SITE LOGO-->
-    <a class="logotype" href="{% url 'user_feed' %}">
-    <img class="logo svg-logo" src="/media/img/logotype.svg" alt="Socialize Logo" >
-    </a>
+            <!-- SITE LOGO -->
+            <a class="logotype" href="{% url 'user_feed' %}">
+                <img class="logo svg-logo" src="/media/img/logotype.svg" alt="Socialize Logo">
+            </a>
+
+            <!-- USER SEARCH INPUT -->
+     
+            <li class="navbar-list-item">
 
 
-    <li class="navbar-list-item"><a href="{% url 'post_create' %}"><i class="navbar-link fas fa-plus"></i></a></li>
-    <li class="navbar-list-item">
-        <a href="{% url 'user_profile' %}">
-          <i class="navbar-link fas fa-user"></i>
-        </a>
-      </li>
+                <a href="{% url 'user_search' %}">
+                    <i class="navbar-link fas fa-search"></i>
+                </a>
+            </li>
+
+            <li class="navbar-list-item">
+                <a href="{% url 'friend_list' %}">
+                    <i class="navbar-link fas fa-user-friends"></i>
+                </a>
+            </li>
+
+            <li class="navbar-list-item">
+                <!--"username=request.user.username" retrieved the currently authorized (logged-in) username-->
+                <!--"username=user.user.username" retrieves username for the user profile of a specific user-->
+                <a href="{% url 'user_profile' username=request.user.username %}">
+                    <i class="navbar-link fas fa-user"></i>
+                </a>
+            </li>
       
-   
-    </ul>
+        </ul>
     </nav>      
 </header>
-
 
 {% endblock header_logged_in %}

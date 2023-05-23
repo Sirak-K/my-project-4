@@ -1,41 +1,54 @@
-{% extends "base.html" %}
+<!-- File: friend_list.html -->
+{% extends 'base.html' %}
 
 {% block content_friend_list %}
-  <h1>Friend List</h1>
-  <h2>Friends</h2>
-  <ul>
-    {% for friend in friends %}
-      <li>{{ friend.username }}</li>
-    {% empty %}
-      <li>No friends found.</li>
-    {% endfor %}
-  </ul>
 
-  <h2>Pending Sent Requests</h2>
-  <ul>
-    {% for request in pending_sent %}
-      <li>{{ request.recipient.username }}</li>
-    {% empty %}
-      <li>No pending sent requests found.</li>
-    {% endfor %}
-  </ul>
+    <h2>Friends</h2>
+    {% if friends %}
+        <ul>
+            {% for friend in friends %}
+                <li>{{ friend.sender.username }} - Friend</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No friends yet.</p>
+    {% endif %}
 
-  <h2>Pending Received Requests</h2>
-  <ul>
-    {% for request in pending_received %}
-      <li>
-        {{ request.sender.username }}
-        <form method="POST" action="{% url 'accept_friend_request' request.id %}">
-          {% csrf_token %}
-          <input type="submit" value="Accept">
-        </form>
-        <form method="POST" action="{% url 'reject_friend_request' request.id %}">
-          {% csrf_token %}
-          <input type="submit" value="Reject">
-        </form>
-      </li>
-    {% empty %}
-      <li>No pending received requests found.</li>
-    {% endfor %}
-  </ul>
+    <h2>Pending Friend Requests</h2>
+    {% if received_friend_requests %}
+        <ul>
+            {% for request in received_friend_requests %}
+                <li>
+                    <strong>{{ request.sender.username }}</strong>
+                    <form method="post" action="{% url 'friend_accept' request.pk %}">
+                        {% csrf_token %}
+                        <button type="submit">Accept</button>
+                    </form>
+                    <form method="post" action="{% url 'friend_reject' request.pk %}">
+                        {% csrf_token %}
+                        <button type="submit">Reject</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No pending friend requests.</p>
+    {% endif %}
+
+    <h2>Sent Friend Requests</h2>
+    {% if sent_friend_requests %}
+        <ul>
+            {% for request in sent_friend_requests %}
+                <li>
+                    <strong>{{ request.receiver.username }}</strong> - Pending
+                    <form method="post" action="{% url 'friend_cancel' request.pk %}">
+                        {% csrf_token %}
+                        <button type="submit">Cancel</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No sent friend requests.</p>
+    {% endif %}
 {% endblock content_friend_list %}

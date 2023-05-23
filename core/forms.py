@@ -27,6 +27,12 @@ class CommentForm(forms.ModelForm):
         fields = ['comment_content']
      
 
+    # CharField = Uses {{ form.as_p }}
+
+    
+class UserSearchForm(forms.Form):
+    search_query = forms.CharField(max_length=100)
+
 
 class UpdateProfileForm(forms.ModelForm):
     class Meta:

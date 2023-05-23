@@ -1,11 +1,12 @@
 # File: models.py
-from django.db import models
 
-from django.dispatch import receiver
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils import timesince
-from django.db.models.signals import post_save
 
 
 # MODEL 1 - PROFILE
@@ -79,8 +80,9 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         print('Post save called')
         super().save(*args, **kwargs)
-
+# MODEL 3 - COMMENT
 class Comment(models.Model):
+
     comment_on_post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments_for_post")
     comment_created_at = models.DateTimeField(auto_now_add=True)
     comment_author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -91,4 +93,21 @@ class Comment(models.Model):
         return self.comment_author.get_full_name()
 
     def __str__(self):
+
+
         return f'Comment {self.pk} by {self.comment_author}'
+    
+# MODEL 4 - Friendship
+class Friendship(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    )
+
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_friend_requests')
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_friend_requests')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+
+    def __str__(self):
+        return f"Friend request from {self.sender.username} to {self.receiver.username}"
