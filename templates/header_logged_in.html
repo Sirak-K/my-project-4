@@ -11,11 +11,14 @@
                 <img class="logo svg-logo" src="/media/img/logotype.svg" alt="Socialize Logo">
             </a>
 
+         
+            
+
+
+
             <!-- USER SEARCH INPUT -->
      
             <li class="navbar-list-item">
-
-
                 <a href="{% url 'user_search' %}">
                     <i class="navbar-link fas fa-search"></i>
                 </a>
@@ -30,7 +33,7 @@
             <li class="navbar-list-item">
                 <!--"username=request.user.username" retrieved the currently authorized (logged-in) username-->
                 <!--"username=user.user.username" retrieves username for the user profile of a specific user-->
-                <a href="{% url 'user_profile' username=request.user.username %}">
+                <a href="{% url 'user_profile' %}">
                     <i class="navbar-link fas fa-user"></i>
                 </a>
             </li>

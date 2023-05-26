@@ -8,6 +8,7 @@
 
 
 <section class="user-feed-section">
+  <h3>CURRENTLY LOGGED-IN AS : {{ request.user.get_full_name }}</h3>
     <div class="user-feed-header-section">
       {% if user.profile.profile_image %}
       <a href="{% url 'user_profile_image' %}">

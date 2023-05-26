@@ -1,0 +1,127 @@
+{% block content_user_profile_details %}
+
+
+
+<!-- PROFILE -->
+
+
+  <!-- Profile Images Section -->
+<div class="profile-images-section">
+
+
+
+<!-- PROFILE BANNER -->
+{% if user.profile.banner_image %}
+          <a href="{% url 'user_profile_image' user.username %}">
+              <img class="profile-banner" src="{{ user_profile_banner_url }}" alt="{{ user.get_full_name }}'s profile banner image">
+          </a>  
+  {% else %}
+          <a href="{% url 'user_profile_image' user.username %}">
+              <img class="profile-banner" src="/media/img/default_banner_image.png" alt="{{ user.get_full_name }}'s profile banner image">
+          </a>
+{% endif %}
+
+<!-- PROFILE IMAGE -->
+{% if user.profile.profile_image %}
+          <a href="{% url 'user_profile_image' user.username %}">
+              <img class="profile-image" src="{{ user_profile_image_url }}" alt="{{ user.get_full_name }}'s profile image">
+          </a>
+  {% else %}
+          <a href="{% url 'user_profile_image' user.username %}">
+              <img class="profile-image" src="/media/img/default_profile_image.png" alt="{{ user.get_full_name }}'s profile image">
+          </a>
+{% endif %}
+
+
+
+  </div>
+  
+
+<!-- PROFILE CONTAINER -->
+  <div class="profile-container">
+    
+    <!-- PROFILE DETAILS -->
+    <h3 class="profile-detail-header">CURRENTLY LOGGED-IN AS : {{ request.user.get_full_name }}</h3>
+
+  <section class="profile-details-section">
+      <div class="profile-details" data-user-id="{{ user.id }}">
+
+<!-- -------------- Friendship --------------  -->
+
+
+
+
+          <!-- BIO -->
+          <div class="profile-detail-bio">
+            <span class="bio-label">Bio:</span>
+              <span class="bio-text" data-field-name="bio" contenteditable>{{ user_profile.bio }}</span>
+              <!-- BIO - EDIT -->
+              <span class="edit-pencil-container">
+                <a href="#" class="edit-pencil-bio">&#9998;</a>
+              </span>
+              
+          </div>
+
+          <!-- GENDER -->
+          <div class="profile-detail-gender">
+            <span class="gender-label">Gender: </span>
+              <span class="gender-text" data-field-name="gender">{{ user_profile.get_gender_display }}</span>
+              <!-- GENDER - EDIT -->
+              <span class="edit-pencil-container">
+                <a href="#" class="edit-pencil" data-field-selector="[data-field-name='gender']">&#9998;</a>
+                <div class="dropdown-menu" data-field-name="gender">
+                  {% for value, display_name in user_profile.GENDER_CHOICES %}
+                    <a href="#" data-value="{{ value }}">{{ display_name }}</a>
+                  {% endfor %}
+                </div>
+              </span>
+             
+          </div>
+
+          <!-- PROFESSION -->
+          <div class="profile-detail-profession">
+            <span class="profession-label">Profession:</span>
+              <span class="profession-text" data-field-name="profession">{{ user_profile.get_profession_display }}</span>
+              <!-- PROFESSION - EDIT -->
+              <span class="edit-pencil-container">
+                <a href="#" class="edit-pencil" data-field-selector="[data-field-name='profession']">&#9998;</a>
+                <div class="dropdown-menu" data-field-name="profession">
+                  {% for value, display_name in user_profile.PROFESSION_CHOICES %}
+                    <a href="#" data-value="{{ value }}">{{ display_name }}</a>
+                  {% endfor %}
+                </div>
+              </span>
+             
+          </div>
+
+
+    </div>
+  </section>
+
+
+</div>
+
+
+
+
+<!-- CODE SECTION - CREATE NEW POST -->
+<section id="post-create-section">
+  <form class="post-create-form" method="post" action="{% url 'post_create' %}">
+    {% csrf_token %}
+
+  
+        <label for="post_title"></label>
+        <input class="post-create-title" placeholder="Post Title" type="text" id="post_title" name="post_title"  required>
+  
+
+        <label for="post_content"></label>
+        <textarea class="post-create-text" name="post_content" placeholder="How are you feeling today, 
+{{ user.first_name }}?" required></textarea>
+
+
+    <button type="submit" class="post-create-btn">Create Post</button>
+    
+  </form> 
+</section>
+
+{% endblock content_user_profile_details %}

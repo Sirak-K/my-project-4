@@ -1,3 +1,4 @@
+<!-- File: user_search.html -->
 {% extends 'base.html' %}
 
 {% block content_user_search %}
@@ -10,7 +11,10 @@
 <!-- USER SEARCH FUNCTIONALITY: SEARCH RESULTS -->
 <div id="search-results">
   {% for user in searched_users %}
-    <li>{{ user.first_name }} {{ user.last_name }}</li>
+  <a href="{% url 'user_profile' username=user.username %}">
+    <li>{{ user.username }}</li>
+  </a>
+  
   {% endfor %}
 </div>
 

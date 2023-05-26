@@ -70,7 +70,7 @@ class LogoutView(RedirectView):
         return super().get_redirect_url(*args, **kwargs)
 # VIEW 4 - INDEX
 # - GET, HTML/TEMPLATE
-class IndexView(LoginRequiredMixin, TemplateView):
+class IndexView(TemplateView):
     template_name = 'user_feed.html'
 # VIEW 5 - USER FEED (displays posts)
 # - GET, HTML/TEMPLATE
@@ -96,34 +96,55 @@ class UserFeedView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['all_post_comments'] = Comment.objects.all().order_by('-comment_created_at')
         return context
-# VIEW 6 - USER PROFILE (also displays posts)
+
+
+
+
+
+
+
+
+
+
+
+#  VIEW 6 - USER PROFILE (also displays posts)
 # - GET, POST, HTML/TEMPLATE
 class UserProfileView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = 'user_profile.html'
-    
+
     def get_object(self, queryset=None):
-        username = self.kwargs['username']
-        user = get_object_or_404(User, username=username)
-        return user.profile
+        if 'username' in self.kwargs:
+            username = self.kwargs['username']
+            user = get_object_or_404(User, username=username)
+            return user.profile
+        else:
+            return self.request.user.profile
 
     def get_success_url(self):
-        username = self.kwargs['username']
-        return reverse_lazy('user_profile', kwargs={'username': username})
-
+        return reverse_lazy('user_profile', kwargs={'username': self.request.user.username})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = self.request.user
+        if 'username' in self.kwargs:
+            username = self.kwargs['username']
+            user_profile = get_object_or_404(User, username=username).profile
+        else:
+            user_profile = self.request.user.profile
 
-        user_profile = get_object_or_404(Profile, user=user)
         friends = Friendship.objects.filter(
-            Q(sender=user, status='accepted') | Q(receiver=user, status='accepted')
+            Q(sender=self.request.user, status='accepted') | Q(receiver=self.request.user, status='accepted')
         )
-        friendship = Friendship.objects.filter(sender=user, receiver=user_profile.user).first()
-        sent_friend_requests = Friendship.objects.filter(sender=user, status='pending')
-        received_friend_requests = Friendship.objects.filter(receiver=user, status='pending')
+        friendship = Friendship.objects.filter(sender=self.request.user, receiver=user_profile.user).first()
+        sent_friend_requests = Friendship.objects.filter(sender=self.request.user, status='pending')
+        received_friend_requests = Friendship.objects.filter(receiver=self.request.user, status='pending')
+
+        friend_ids = friends.values_list('sender_id', 'receiver_id')
+        friend_ids = [friend_id for friend_id in friend_ids for friend_id in friend_id]
+        friend_ids.append(self.request.user.id)
+
+        all_posts = Post.objects.filter(post_author_id__in=friend_ids).order_by('-post_created_at')
 
         profile_data = {
             'user_profile': user_profile,
@@ -133,21 +154,87 @@ class UserProfileView(LoginRequiredMixin, UpdateView):
             'received_friend_requests': received_friend_requests,
         }
 
-        friend_ids = friends.values_list('sender_id', 'receiver_id')
-        friend_ids = [friend_id for friend_id in friend_ids for friend_id in friend_id]
-        friend_ids.append(user.id)
-        all_posts = Post.objects.filter(post_author_id__in=friend_ids).order_by('-post_created_at')
+        post_data = {
+            'all_posts': all_posts,
+        }
 
-        post_data = {'all_posts': all_posts}
+        context = {**profile_data, **post_data}
+        context['user_profile_image_url'] = self.get_user_profile_image_url(user_profile)
+        context['user_profile_banner_url'] = self.get_user_profile_banner_url(user_profile)
 
-        return {**profile_data, **post_data}
+        return context
 
     def form_valid(self, form):
         messages.success(self.request, 'Profile updated successfully.')
         return super().form_valid(form)
-# VIEW 7 - USER SEARCH
+
+    def get_user_profile_image_url(self, profile):
+        if profile.profile_image:
+            return profile.profile_image.url
+        else:
+            return None
+
+    def get_user_profile_banner_url(self, profile):
+        if profile.banner_image:
+            return profile.banner_image.url
+        else:
+            return None
+
+
+# VIEW 7 - USER PROFILE - UPDATE PROFILE
+# - POST, JSON
+class UserProfileFieldUpdateView(LoginRequiredMixin, View):
+    def post(self, request, user_id):
+        try:
+            data = json.loads(request.body)
+            print(f"Received data: {data}")
+
+            field_name = data.get('fieldName')
+            field_value = data.get('value')
+            if field_name in ['bio', 'gender', 'profession']:
+                user_profile = Profile.objects.get(user__id=user_id)
+                setattr(user_profile, field_name, field_value)
+                user_profile.save()
+                return JsonResponse({"status": "success"})
+            else:
+                return HttpResponseBadRequest(f"The field '{field_name}' is not a valid field for updating.")
+        except Exception as e:
+            print(f"Error: {e}")
+            print(traceback.format_exc())
+            return JsonResponse({"status": "error", "message": str(e)})
+
+
+
+
+
+
+
+
+
+# VIEW 8 - USER PROFILE - UPLOAD IMAGES
+# - GET, POST, REDIRECT
+class UserProfileImageView(LoginRequiredMixin, FormView):
+    template_name = 'user_profile_image.html'
+    form_class = UpdateProfileImageForm
+    success_url = reverse_lazy('user_feed') 
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.request.user.profile
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, 'Profile image and banner updated successfully.')
+        user_profile = self.request.user.profile
+        self.request.session['user_profile_image_url'] = user_profile.profile_image.url if user_profile.profile_image else None
+        self.request.session['user_profile_banner_url'] = user_profile.banner_image.url if user_profile.banner_image else None
+        return redirect(self.get_success_url()) 
+
+
+# VIEW 9 - USER SEARCH
 # - GET, POST, JSON
-class UserSearchView(View):
+class UserSearchView(LoginRequiredMixin, View):
     template_name = 'user_search.html'
 
     def get(self, request):
@@ -174,53 +261,13 @@ class UserSearchView(View):
             'users': list(searched_users.values()),
         }
         return JsonResponse(response_data)
-# VIEW 8 - USER PROFILE - UPLOAD IMAGES
-# - GET, POST, REDIRECT
-class UserProfileImageView(LoginRequiredMixin, FormView):
-    template_name = 'user_profile_image.html'
-    form_class = UpdateProfileImageForm
-    success_url = 'user_feed'
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['instance'] = self.request.user.profile
-        return kwargs
 
-    def form_valid(self, form):
-        form.save()
-        messages.success(self.request, 'Profile image and banner updated successfully.')
-        # Store the updated user profile image URL in the session
-        user_profile = self.request.user.profile
-        self.request.session['user_profile_image_url'] = user_profile.profile_image.url if user_profile.profile_image else None
-        return super().form_valid(form)
-# VIEW 9 - USER PROFILE - UPDATE PROFILE
-# - POST, JSON
-class UserProfileFieldUpdateView(LoginRequiredMixin, View):
-    @require_POST
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
 
-    def post(self, request, user_id):
-        try:
-            data = json.loads(request.body)
-            print(f"Received data: {data}")
 
-            field_name = data.get('fieldName')
-            field_value = data.get('value')
-            if field_name in ['bio', 'gender', 'profession']:
-                user_profile = Profile.objects.get(user__id=user_id)
-                setattr(user_profile, field_name, field_value)
-                user_profile.save()
-                return JsonResponse({"status": "success"})
-            else:
-                return HttpResponseBadRequest(f"The field '{field_name}' is not a valid field for updating.")
-        except Exception as e:
-            print(f"Error: {e}")
-            print(traceback.format_exc())
-            return JsonResponse({"status": "error", "message": str(e)})
 # VIEW 10 - FRIEND REQUESTS
 # - POST, REDIRECT
-class FriendRequestView(CreateView):
+class FriendRequestView(LoginRequiredMixin, CreateView):
     model = Friendship
     fields = []
 
@@ -233,7 +280,7 @@ class FriendRequestView(CreateView):
         return super().form_valid(form)
 # VIEW 11 - FRIEND LIST
 # - GET, HTML/TEMPLATE
-class FriendListView(ListView):
+class FriendListView(LoginRequiredMixin, ListView):
     model = Friendship
     template_name = 'friend_list.html'
 
@@ -250,7 +297,7 @@ class FriendListView(ListView):
         return context
 # VIEW 12 - Friendship - ACCEPT
 # - POST, REDIRECT
-class FriendAcceptView(UpdateView):
+class FriendAcceptView(LoginRequiredMixin, UpdateView):
     model = Friendship
     template_name = 'friend_accept.html'
     fields = []
@@ -265,7 +312,7 @@ class FriendAcceptView(UpdateView):
         return reverse('friend_list')
 # VIEW 13 - Friendship - REJECT
 # - POST, REDIRECT
-class FriendRejectView(UpdateView):
+class FriendRejectView(LoginRequiredMixin, UpdateView):
     model = Friendship
     template_name = 'friend_reject.html'
     fields = []
@@ -280,7 +327,7 @@ class FriendRejectView(UpdateView):
         return reverse('friend_list')
 # VIEW 14 - Friendship - CANCEL
 # - POST, REDIRECT
-class FriendCancelView(UpdateView):
+class FriendCancelView(LoginRequiredMixin, UpdateView):
     model = Friendship
     template_name = 'friend_cancel.html'
     fields = []
@@ -293,6 +340,8 @@ class FriendCancelView(UpdateView):
 
     def get_success_url(self):
         return reverse('friend_list')
+
+
 # VIEW 15 - Post List
 # - GET, HTML/TEMPLATE
 class PostListView(ListView):

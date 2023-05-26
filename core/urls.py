@@ -11,25 +11,31 @@ from .views import UserProfileImageView, UserProfileFieldUpdateView, PostLikeTog
 
 
 urlpatterns = [
-    
-     path('', UserFeedView.as_view(), name='user_feed'),
 
-  
+    # URLS - SIGN-UP
     path('signup/', SignUpView.as_view(), name='signup'),
     # URLS - LOG-IN / LOG-OUT
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+
     # URLS - USER
     path('user_feed/', UserFeedView.as_view(), name='user_feed'),
+    path('', UserFeedView.as_view(), name='user_feed'),
 
-    path('user_profile_image/', UserProfileImageView.as_view(), name='user_profile_image'),
-    path('user_profile_field_update/<int:user_id>/', UserProfileFieldUpdateView.as_view(), name='user_profile_field_update'),
+
     
-
-
+    path('user_profile/', UserProfileView.as_view(), name='user_profile'),
     path('user_profile/<str:username>/', UserProfileView.as_view(), name='user_profile'),
+   
+    path('user_profile_image/', UserProfileImageView.as_view(), name='user_profile_image'),
+    path('user_profile_image/<str:username>/', UserProfileImageView.as_view(), name='user_profile_image'),
     
+    path('user_profile_field_update/<int:user_id>/', UserProfileFieldUpdateView.as_view(), name='user_profile_field_update'),
+
+
+  
     path('user_search/', UserSearchView.as_view(), name='user_search'),
+    
     
 
 

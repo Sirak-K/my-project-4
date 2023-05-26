@@ -11,18 +11,23 @@
 
 // FUNC - 1: PROFILE DETAIL - BIO - EDIT-PENCIL
 function initBioEditing() {
+
+
   const editPencilBio = document.querySelector('.edit-pencil-bio');
   // EVENT: EDIT-PENCIL - BIO
   if (editPencilBio) {
-  editPencilBio.addEventListener('click', function (event) {
-  event.preventDefault();
-  event.stopPropagation();
-  closeOpenDropdownAndDisableBio();
+    editPencilBio.addEventListener('click', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      closeOpenDropdownAndDisableBio();
   
-  const bioElement = document.querySelector("[data-field-name='bio']");
-  bioElement.focus();
-  });
+      const bioElement = document.querySelector("[data-field-name='bio']");
+      bioElement.focus();
+    });
   
+  
+    
+    
   // EVENT: 'contenteditable' 
   const bioElement = document.querySelector("[data-field-name='bio']");
   if (bioElement) {
@@ -90,23 +95,13 @@ function initProfileDetailsEventListeners() {
   // ... (other event listeners) ...
 }
 
-// AJAX-based user search functionality
-
-// The search query is sent as a POST request,
-//  the search results are displayed dynamically without page refresh.
-// The "No users found" message is only shown when
-//  there are no matches for the search query's first letter in users' first names or last names.
-
-
 // FUNC - 6: Handle user search
 function handleUserSearch(query) {
-  console.log("[DEBUG] Search Query: ", query);
-
   fetch('/user_search/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      "X-CSRFToken": getCookie("csrftoken"),
+      'X-CSRFToken': getCookie('csrftoken'),
     },
     body: JSON.stringify({
       search_query: query,
@@ -122,8 +117,7 @@ function handleUserSearch(query) {
     });
 }
 
-
-// FUNC - 7: Handle user search results 
+// FUNC - 7: Handle user search results
 function handleUserSearchResults(users) {
   const searchResults = document.getElementById('search-results');
   searchResults.innerHTML = '';
@@ -131,9 +125,6 @@ function handleUserSearchResults(users) {
   let foundMatch = false;
 
   for (const user of users) {
-    console.log("[DEBUG] Suggested Search Results: ", users);
-    console.log("[DEBUG] Processing user: ", user);
-
     const link = document.createElement('a');
     link.href = '/user_profile/' + user.username + '/';
     link.textContent = user.first_name + ' ' + user.last_name;
@@ -149,8 +140,22 @@ function handleUserSearchResults(users) {
   }
 }
 
+// FUNC - 8: UPDATE IMAGE PREVIEW
+function updateImagePreview(event) {
+  const fileInput = event.target;
+  const file = fileInput.files[0];
+  const imagePreview = document.getElementById('image-preview');
 
-
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      imagePreview.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    imagePreview.src = '';
+  }
+}
 
 // -------------------- EVENT-LISTENERS --------------------
 // EVENT 1: PROFILE DETAILS - EDIT BIO
@@ -199,36 +204,14 @@ if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") 
 });
 
 
-// EVENT 5: Search input for suggested searches
-const searchInput = document.getElementById('search-input');
-searchInput.addEventListener('input', event => {
-  const query = event.target.value.trim(); // Trim any leading or trailing whitespace
-  if (query.length === 0) {
-    // Clear the search results if the input is empty
-    handleUserSearchResults([]);
-  } else {
-    handleUserSearch(query);
-  }
-});
 
 
+// EVENT 7: FILE INPUT CHANGE
+const fileInput = document.getElementById('file-input');
+if (fileInput) {
+  fileInput.addEventListener('change', updateImagePreview);
+}
 
-
-// EVENT 6: User selection from suggested search dropdown
-const searchResults = document.getElementById('search-results');
-searchResults.addEventListener('change', event => {
-
-  const selectedUser = event.target.value;
-
-  // Handle the selected user
-
-  if (selectedUser) {
-
-    // Redirect or perform any desired action with the selected user
-    // For example, you can redirect to the user's profile page:
-    window.location.href = `/user_profile/${selectedUser}/`;
-  }
-});
 
 
 // EVENT: DOMContentLoaded
@@ -267,6 +250,37 @@ document.addEventListener('DOMContentLoaded', () => {
 // Call the initializer for the profile details event listeners
 initProfileDetailsEventListeners();
 
-});
+   // Step 2: Retrieve element references
+   const searchInput = document.getElementById('search-input');
+   const searchResults = document.getElementById('search-results');
+ 
+   // Step 3: Check if elements exist
+   if (searchInput && searchResults) {
+     // Step 4: Attach event listeners
+ 
+     // Event listener function for the 'input' event
+     function handleSearchInput(event) {
+       const query = event.target.value.trim(); // Trim any leading or trailing whitespace
+       if (query.length === 0) {
+         handleUserSearchResults([]);
+       } else {
+         handleUserSearch(query);
+       }
+     }
+ 
+     // Event listener function for the 'change' event
+     function handleSearchResults(event) {
+       const selectedUser = event.target.value;
+       if (selectedUser) {
+         window.location.href = `/user_profile/${selectedUser}/`;
+       }
+     }
+ 
+     // Attach event listeners
+     searchInput.addEventListener('input', handleSearchInput);
+     searchResults.addEventListener('change', handleSearchResults);
+   }
+ });
+  
 
 

@@ -300,12 +300,13 @@ z-index: 2;
 /* ---------- USER FEED ---------- */
 
 .user-feed-section{
+       
 display:flex;
 flex-wrap: wrap;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-margin: 2em 40em;
+/* margin: 2em 40em; */
 padding: 1em;
 border: solid 1px;
 width: 100%;
@@ -418,7 +419,7 @@ align-items: center;
 width: 100%;
 }
 .profile-image {
-display: none;
+/* display: none; */
 position: absolute;
 top: 50%;
 left: 50%;
@@ -430,7 +431,7 @@ border: 2px solid #0ae967;
 z-index: 2;
 }
 .profile-banner {
-display: none;
+/* display: none; */
 width: 120em;
 height: 15em;
 background-size: cover;
@@ -512,6 +513,14 @@ border-radius: 50%;
 border: 3px solid black;
 }
 
+#uploaded-banner {
+      
+width: 600px;
+height: 150px;
+
+border: 3px solid black;
+
+}
 
 
 
@@ -1109,7 +1118,7 @@ padding:0;
 
 }
 .profile-image {
-        display: none;
+        /* display: none; */
 position: absolute;
 top: 50%;
 left: 50%;
@@ -1121,7 +1130,7 @@ border: 2px solid #0ae967;
 z-index: 2;
 }
 .profile-banner {
-        display: none;
+        /* display: none; */
 width: 20em;
 height: 9em;
 background-size: cover;
