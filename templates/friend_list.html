@@ -1,54 +1,19 @@
 <!-- File: friend_list.html -->
 {% extends 'base.html' %}
 
+
 {% block content_friend_list %}
+{% include 'header_logged_in.html' %}
 
-    <h2>Friends</h2>
-    {% if friends %}
-        <ul>
-            {% for friend in friends %}
-                <li>{{ friend.sender.username }} - Friend</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No friends yet.</p>
-    {% endif %}
 
-    <h2>Pending Friend Requests</h2>
-    {% if received_friend_requests %}
-        <ul>
-            {% for request in received_friend_requests %}
-                <li>
-                    <strong>{{ request.sender.username }}</strong>
-                    <form method="post" action="{% url 'friend_accept' request.pk %}">
-                        {% csrf_token %}
-                        <button type="submit">Accept</button>
-                    </form>
-                    <form method="post" action="{% url 'friend_reject' request.pk %}">
-                        {% csrf_token %}
-                        <button type="submit">Reject</button>
-                    </form>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No pending friend requests.</p>
-    {% endif %}
+<section id="friend-list-section">
 
-    <h2>Sent Friend Requests</h2>
-    {% if sent_friend_requests %}
-        <ul>
-            {% for request in sent_friend_requests %}
-                <li>
-                    <strong>{{ request.receiver.username }}</strong> - Pending
-                    <form method="post" action="{% url 'friend_cancel' request.pk %}">
-                        {% csrf_token %}
-                        <button type="submit">Cancel</button>
-                    </form>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No sent friend requests.</p>
-    {% endif %}
+{% include 'friend_requests.html' %}
+
+{% include 'existing_friends.html' %}
+
+
+
+</section>
+
 {% endblock content_friend_list %}

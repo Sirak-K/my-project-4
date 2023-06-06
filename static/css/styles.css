@@ -339,7 +339,7 @@ font-family: 'Source Serif Pro';
 
 
 /* ---------- USER PROFILE ---------- */
-.profile-container {
+.profile-details-container {
 display:flex;
 flex-wrap: wrap;
 flex-direction: column;
@@ -854,8 +854,25 @@ background-color:rgb(98, 200, 213);
 font-size: 1.5rem;
 }
 
-
-
+#friend-list-section {
+        border: 3px rgb(6, 255, 60) dashed;
+        text-align: start;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        /* align-items: center; */
+        gap: 0.5em;
+width: 100%;
+padding: 0.5em 0;
+background-color: rgb(50, 202, 195);
+}
+#friend-list-section h2 {
+        font-size: 1.1rem;
+        background-color: black;
+        color: white;
+        
+}
 
 
 /* ----- POST DETAILS -----  */
@@ -1028,7 +1045,7 @@ font-size: 1.3rem;
 
 
 /* ---------- USER PROFILE ---------- */
-.profile-container {
+.profile-details-container {
 
 display:flex;
 flex-wrap: wrap;

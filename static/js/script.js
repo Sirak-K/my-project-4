@@ -157,6 +157,11 @@ function updateImagePreview(event) {
   }
 }
 
+
+
+
+
+
 // -------------------- EVENT-LISTENERS --------------------
 // EVENT 1: PROFILE DETAILS - EDIT BIO
 document.addEventListener("click", (event) => {
@@ -204,20 +209,52 @@ if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") 
 });
 
 
-
-
-// EVENT 7: FILE INPUT CHANGE
+// EVENT 5: FILE INPUT CHANGE
 const fileInput = document.getElementById('file-input');
 if (fileInput) {
   fileInput.addEventListener('change', updateImagePreview);
 }
 
 
-
-// EVENT: DOMContentLoaded
+  
+// EVENT: DOMContentLoaded - Executed when the DOM content of the page has finished loading.
 document.addEventListener('DOMContentLoaded', () => {
   initBioEditing();
+  initProfileDetailsEventListeners();
 
+
+  // ------- USER SEARCH
+  // Retrieve element references
+   const searchInput = document.getElementById('search-input');
+   const searchResults = document.getElementById('search-results');
+ 
+   // Check if elements exist
+   if (searchInput && searchResults) {
+     // Attach event listeners
+     // Event listener function for the 'input' event
+     function handleSearchInput(event) {
+       const query = event.target.value.trim(); // Trim any leading or trailing whitespace
+       if (query.length === 0) {
+         handleUserSearchResults([]);
+       } else {
+         handleUserSearch(query);
+       }
+     }
+ 
+     // Event listener function for the 'change' event
+     function handleSearchResults(event) {
+       const selectedUser = event.target.value;
+       if (selectedUser) {
+         window.location.href = `/user_profile/${selectedUser}/`;
+       }
+     }
+ 
+     // Attach event listeners
+     searchInput.addEventListener('input', handleSearchInput);
+     searchResults.addEventListener('change', handleSearchResults);
+  }
+  
+  
   const postLikeForm = document.getElementById('post-like-form');
   const likeButton = document.getElementById('post-like-button');
   const likeCount = document.getElementById('post-like-count');
@@ -247,39 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 }
-// Call the initializer for the profile details event listeners
-initProfileDetailsEventListeners();
 
-   // Step 2: Retrieve element references
-   const searchInput = document.getElementById('search-input');
-   const searchResults = document.getElementById('search-results');
- 
-   // Step 3: Check if elements exist
-   if (searchInput && searchResults) {
-     // Step 4: Attach event listeners
- 
-     // Event listener function for the 'input' event
-     function handleSearchInput(event) {
-       const query = event.target.value.trim(); // Trim any leading or trailing whitespace
-       if (query.length === 0) {
-         handleUserSearchResults([]);
-       } else {
-         handleUserSearch(query);
-       }
-     }
- 
-     // Event listener function for the 'change' event
-     function handleSearchResults(event) {
-       const selectedUser = event.target.value;
-       if (selectedUser) {
-         window.location.href = `/user_profile/${selectedUser}/`;
-       }
-     }
- 
-     // Attach event listeners
-     searchInput.addEventListener('input', handleSearchInput);
-     searchResults.addEventListener('change', handleSearchResults);
-   }
  });
   
 

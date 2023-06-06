@@ -9,10 +9,23 @@
 {% include 'user_profile_details.html' %}
 
 
+ <!-- SEND FRIEND REQUEST (ADD FRIEND) -->
+    {% include 'send_friend_request.html' with receiver_id=receiver_id %}
+  
 
+<!-- CODE SECTION - CREATE NEW POST -->
+<section id="post-create-section">
+  <form class="post-create-form" method="post" action="{% url 'post_create' %}">
+    {% csrf_token %}
+    <label for="post_title"></label>
+    <input class="post-create-title" placeholder="Post Title" type="text" id="post_title" name="post_title" required>
+    <label for="post_content"></label>
+    <textarea class="post-create-text" name="post_content" placeholder="How are you feeling today, {{ user.first_name }}?" required></textarea>
+    <button type="submit" class="post-create-btn">Create Post</button>
+  </form>
+</section>
 
 {% endblock content_user_profile %}
-
 
 
 <!-- DISPLAY POSTS -->

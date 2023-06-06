@@ -4,49 +4,39 @@
 {% block content_user_profile_image %}
 {% include 'header_logged_in.html' %}
 
+
 <div class="profile-image-updater-container">
+        <h1 class="pim-header">Update Image Page</h1>
+        
+        <section class="image-updater-section">
+            <form action="{% url 'user_profile_image' username=user.username %}" class="pim-form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="pim-button" id="btn-edit-image">Edit Image</button>
+                <button class="pim-button" id="btn-save-changes" type="submit">Save Changes</button>
+            </form>
+        </section>
 
+        <!-- Display selected profile image -->
+        <div id="profile-image-preview">
+            {% if form.instance.profile_image %}
+                <img id="uploaded-image" src="{{ form.instance.profile_image.url }}" alt="Uploaded Profile image">
+            {% else %}
+                <img id="uploaded-image" src="/media/img/default_profile_image.png" alt="Default Profile image">
+            {% endif %}
+        </div>
 
-
-    <h1 class="pim-header">Update Image Page</h1>
-    
-<section class="image-updater-section">
-    <form action="{% url 'user_profile_image' %}" class="pim-form" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="pim-button" id="btn-edit-image">Edit Image</button>
-        <button class="pim-button" id="btn-save-changes" type="submit">Save Changes</button>
-    </form>
-</section>
-
-
-
-
-    <!-- Display selected profile image -->
-    <div id="profile-image-preview">
-        {% if form.instance.profile_image %}
-            <img id="uploaded-image" src="{{ form.instance.profile_image.url }}" alt="Uploaded Profile image">
-        {% else %}
-            <img id="uploaded-image" src="/media/img/default_profile_image.png" alt="Default Profile image">
-        {% endif %}
+        <!-- Display selected banner image -->
+        <div id="banner-image-preview">
+            {% if form.instance.banner_image %}
+                <img id="uploaded-banner" src="{{ form.instance.banner_image.url }}" alt="{{ user.get_full_name }}'s profile banner image">
+            {% else %}
+                <img id="uploaded-banner" src="/media/img/default_banner_image.png" alt="{{ user.get_full_name }}'s profile banner image">
+            {% endif %}
+        </div>
     </div>
 
-    <!-- Display selected banner image -->
-    <div id="banner-image-preview">
-        {% if form.instance.banner_image %}
-            <img id="uploaded-banner" src="{{ form.instance.banner_image.url }}" alt="{{ user.get_full_name }}'s profile banner image">
-        {% else %}
-            <img id="uploaded-banner" src="/media/img/default_banner_image.png" alt="{{ user.get_full_name }}'s profile banner image">
-        {% endif %}
-    </div>
 </div>
-
-
-
-
-</div>
-
-
 
 <script>
     // Update image preview on file input change
@@ -77,8 +67,6 @@
         reader.readAsDataURL(file);
     });
 </script>
-
-
 
 
 

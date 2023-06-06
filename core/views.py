@@ -1,22 +1,26 @@
 # File: views.py
 
-import json, traceback
+import json, traceback, logging
+logger = logging.getLogger(__name__)
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.sessions.models import Session
 from django.db.models import Q
+from django.db import transaction
 from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_http_methods
-
 from django.views.generic import RedirectView, TemplateView, FormView, View, UpdateView, DeleteView, CreateView, ListView, DetailView
-from .forms import UserSearchForm, CommentForm, PostForm, PostEditForm, UpdateProfileForm, UpdateProfileImageForm
-from .models import models, User, Friendship, Comment, Post, Profile
+from .forms import FriendRequestForm, UserSearchForm, CommentForm, PostForm, PostEditForm, UpdateProfileForm, UpdateProfileImageForm
+from .models import User, FriendRequest, Friendship, Comment, Post, Profile, models
 
 # VIEW 0 - AUTHENTICATION
 # - API-Endpoint
@@ -81,16 +85,9 @@ class UserFeedView(LoginRequiredMixin, ListView):
 
 
     def get_queryset(self):
-        user = self.request.user
-        friend_ids = Friendship.objects.filter(
-            Q(sender=user, status='accepted') | Q(receiver=user, status='accepted')
-        ).values_list('sender_id', 'receiver_id')
-
-        # Include the logged-in user's own posts
-        friend_ids = [friend_id for friend_id in friend_ids for friend_id in friend_id]
-        friend_ids.append(user.id)
-
-        return Post.objects.filter(post_author_id__in=friend_ids).order_by('-post_created_at')
+        
+        return Post.objects.all().order_by('-post_created_at')
+        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -99,20 +96,12 @@ class UserFeedView(LoginRequiredMixin, ListView):
 
 
 
-
-
-
-
-
-
-
-
-#  VIEW 6 - USER PROFILE (also displays posts)
-# - GET, POST, HTML/TEMPLATE
-class UserProfileView(LoginRequiredMixin, UpdateView):
+# VIEW - USER PROFILE DETAILS
+class UserProfileDetailsView(LoginRequiredMixin, DetailView):
     model = Profile
     form_class = UpdateProfileForm
-    template_name = 'user_profile.html'
+    template_name = 'user_profile_details.html'
+    context_object_name = 'user_profile'
 
     def get_object(self, queryset=None):
         if 'username' in self.kwargs:
@@ -121,67 +110,363 @@ class UserProfileView(LoginRequiredMixin, UpdateView):
             return user.profile
         else:
             return self.request.user.profile
-
-    def get_success_url(self):
-        return reverse_lazy('user_profile', kwargs={'username': self.request.user.username})
-
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if 'username' in self.kwargs:
-            username = self.kwargs['username']
-            user_profile = get_object_or_404(User, username=username).profile
-        else:
-            user_profile = self.request.user.profile
-
-        friends = Friendship.objects.filter(
-            Q(sender=self.request.user, status='accepted') | Q(receiver=self.request.user, status='accepted')
-        )
-        friendship = Friendship.objects.filter(sender=self.request.user, receiver=user_profile.user).first()
-        sent_friend_requests = Friendship.objects.filter(sender=self.request.user, status='pending')
-        received_friend_requests = Friendship.objects.filter(receiver=self.request.user, status='pending')
-
-        friend_ids = friends.values_list('sender_id', 'receiver_id')
-        friend_ids = [friend_id for friend_id in friend_ids for friend_id in friend_id]
-        friend_ids.append(self.request.user.id)
-
-        all_posts = Post.objects.filter(post_author_id__in=friend_ids).order_by('-post_created_at')
-
-        profile_data = {
-            'user_profile': user_profile,
-            'friends': friends,
-            'friendship': friendship,
-            'sent_friend_requests': sent_friend_requests,
-            'received_friend_requests': received_friend_requests,
-        }
-
-        post_data = {
-            'all_posts': all_posts,
-        }
-
-        context = {**profile_data, **post_data}
-        context['user_profile_image_url'] = self.get_user_profile_image_url(user_profile)
-        context['user_profile_banner_url'] = self.get_user_profile_banner_url(user_profile)
 
         return context
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# VIEW - USER PROFILE (also displays posts)
+class UserProfileView(LoginRequiredMixin, View):
+    model = Profile
+    fields = []
+    template_name = 'user_profile.html'
+
+    def get_object(self, queryset=None):
+        username = self.kwargs.get('username')
+        if username is None:
+            return self.request.user.profile
+        else:
+            user = get_object_or_404(User, username=username)
+            return user.profile
+
+    def get_success_url(self):
+        username = self.kwargs['username']
+        return reverse_lazy('user_profile', kwargs={'username': username})
+
+    def get(self, request, *args, **kwargs):
+        username = kwargs.get('username')
+        if username and username != self.request.user.username:
+            user = get_object_or_404(User, username=username)
+            user_profile = user.profile
+        else:
+            user_profile = self.request.user.profile
+        
+        # all_posts = Post.objects.all().order_by('-post_created_at')
+        
+        # Get the receiver ID from the user's profile
+        receiver_id = user_profile.user_id
+
+
+        # Get the sender ID from the currently logged-in user's profile
+        sender_id = request.user.profile.user.id
+
+        
+        # Create an instance of the FriendRequestForm
+        friend_request_form = FriendRequestForm()
+
+
+        context = {
+            'form': friend_request_form,
+            'receiver_id': receiver_id,
+            'sender_id': sender_id,
+            # 'all_posts': all_posts,
+            # 'is_owner': user_profile.user == request.user,
+            'user_profile': user_profile,
+            'user_profile_image_url': user_profile.profile_image.url if user_profile.profile_image else '/media/img/default_profile_image.png',
+            'user_profile_banner_url': user_profile.banner_image.url if user_profile.banner_image else '/media/img/default_banner_image.png',
+        }
+        return render(request, self.template_name, context)
+        
+    def post(self, request, *args, **kwargs):
+        if 'send_friend_request' in request.POST:
+            user_profile = self.get_object()
+            receiver_id = user_profile.user_id  # Update this line
+
+            friendship_manager = FriendshipManager()
+            return friendship_manager.send_friend_request(request, receiver_id=receiver_id)
+        return super().post(request, *args, **kwargs)
+
+
+
+
+
+
+
+
+# VIEW - FRIENDSHIP MANAGER
+class FriendshipManager(View):
+    
+    def send_friend_request(self, request, receiver_id):
+        try:
+            receiver = User.objects.get(id=receiver_id)
+            sender = request.user  # Use the logged-in user as the sender
+
+            if receiver:
+                print("[DEBUG]: Sender:", sender.username)
+                print("[DEBUG]: Receiver:", receiver.username)
+
+                friend_request = FriendRequest(sender=sender, receiver=receiver)
+                friend_request.save()
+
+                print("[DEBUG]: Friend request sent successfully.")
+                print(f"{sender.username} sent a friend request to {receiver.username}")
+
+                return redirect('friend_list')
+            else:
+                print("[DEBUG]: Receiver does not exist.")
+                return HttpResponseBadRequest("Receiver does not exist")
+        except User.DoesNotExist:
+            print("[DEBUG]: Receiver does not exist.")
+            return HttpResponseBadRequest("Receiver does not exist")
+    def cancel_friend_request(self, request, request_id=None, **kwargs):
+        print("[DEBUG]: cancel_friend_request method called")
+        if request.method == 'POST':
+            try:
+                friend_request = FriendRequest.objects.get(id=request_id)
+
+                print("[DEBUG]: Sender:", friend_request.sender.username)
+                print("[DEBUG]: Logged-in User:", request.user.username)
+
+                if friend_request.sender == request.user:
+                    friend_request.cancel()
+
+                    print("[DEBUG-2]: CANCELED Friend Requests - Friend request canceled successfully.")
+                    return redirect('friend_list')
+                else:
+                    # Handle the case where the logged-in user is not the sender of the friend request
+                    return HttpResponseBadRequest("You are not the sender of this friend request.")
+            except FriendRequest.DoesNotExist:
+                # Handle the case where the friend request doesn't exist
+                return HttpResponseBadRequest("Friend request does not exist.")
+        else:
+            return HttpResponseBadRequest("Invalid request method")
+    def reject_friend_request(self, request, request_id=None, **kwargs):
+        if request.method == 'POST':
+            try:
+                friend_request = FriendRequest.objects.get(id=request_id)
+
+                if friend_request.receiver == request.user:
+                    friend_request.delete()
+
+                    print("Friend request rejected successfully.")
+                    return redirect('friend_list')
+                else:
+                    # Handle the case where the logged-in user is not the receiver of the friend request
+                    return HttpResponseBadRequest("You are not the receiver of this friend request.")
+            except FriendRequest.DoesNotExist:
+                # Handle the case where the friend request doesn't exist
+                return HttpResponseBadRequest("Friend request does not exist.")
+        else:
+            return HttpResponseBadRequest("Invalid request method")
+    def accept_friend_request(self, request, request_id=None, **kwargs):
+        print("[DEBUG]: accept_friend_request method called")
+        if request.method == 'POST':
+            try:
+                friend_request = FriendRequest.objects.get(id=request_id)
+
+                if friend_request.receiver == request.user:
+                    friend_request.accept()
+                    
+
+                    # Create the friendship object before deleting the friend request
+                    Friendship.objects.create(sender=friend_request.sender, receiver=friend_request.receiver)
+                    print("Friendship CREATED.")
+
+                    
+
+                    return redirect('friend_list')
+                else:
+                    # Handle the case where the logged-in user is not the receiver of the friend request
+                    return HttpResponseBadRequest("You are not the receiver of this friend request.")
+            except FriendRequest.DoesNotExist:
+                # Handle the case where the friend request doesn't exist
+                return HttpResponseBadRequest("Friend request does not exist.")
+        else:
+            return HttpResponseBadRequest("Invalid request method")
+    def get_received_friend_requests(self, request, receiver_id):
+        received_friend_requests = FriendRequest.objects.filter(receiver_id=receiver_id)
+
+        print("friend_list retrieved: RECEIVED ")
+        return received_friend_requests
+    def get_sent_friend_requests(self, request):
+        sent_friend_requests = FriendRequest.objects.filter(sender=request.user)
+        print("friend_list retrieved: SENT")
+        return sent_friend_requests
+    
+
+
+
+
+    def get_existing_friendships(self, request):
+        
+        existing_friendships = Friendship.objects.filter(Q(sender=request.user) | Q(receiver=request.user))
+
+        return existing_friendships
+
+
+    def remove_friendship(self, request, friendship_id=None):
+        try:
+            # Get the friendship object
+            print("Friendship ID:", friendship_id)
+            friendship = Friendship.objects.get(id=friendship_id)
+
+            # Check if the logged-in user is part of the friendship
+            if friendship.sender == request.user or friendship.receiver == request.user:
+                # Delete the friendship object
+                friendship.delete()
+                print("[DEBUG-7]: Friendship Deletion - Friendship deleted successfully.")
+                return redirect('friend_list')
+            else:
+                # Handle the case where the logged-in user is not part of the friendship
+                return HttpResponseBadRequest("You are not part of this friendship.")
+        except Friendship.DoesNotExist:
+            # Handle the case where the friendship doesn't exist
+            # Redirect to an appropriate error page or display an error message
+            return HttpResponseBadRequest("Friendship does not exist.")
+
+    
+    def get(self, request):
+        # Ensure that the user_profile object is correctly initialized and obtained
+        try:
+            user_profile = Profile.objects.get(user=request.user)
+        except Profile.DoesNotExist:
+            # Handle the case where the user_profile doesn't exist
+            return HttpResponseBadRequest("User profile does not exist")
+
+        # Get the receiver ID from the user's profile
+        receiver_id = user_profile.user.id
+
+        
+        sent_friend_requests = self.get_sent_friend_requests(request)
+        received_friend_requests = self.get_received_friend_requests(request, receiver_id)
+        existing_friendships = self.get_existing_friendships(request)
+        
+        context = {
+
+            'receiver_id': receiver_id,
+            'sent_friend_requests': sent_friend_requests,
+            'received_friend_requests': received_friend_requests,
+            'existing_friendships': existing_friendships,
+        }
+
+        return render(request, 'friend_list.html', context)
+
+
+    def post(self, request, *args, **kwargs):
+        action = request.POST.get('action')
+
+        if action == 'send_friend_request':
+            # receiver_id = int(receiver_id)
+            receiver_id = request.POST.get('receiver')
+            return self.send_friend_request(request, receiver_id)
+        elif action == 'accept_friend_request':
+            request_id = kwargs.get('request_id')
+            return self.accept_friend_request(request, request_id=request_id)  # Pass request_id as a keyword argument
+        elif action == 'reject_friend_request':
+            request_id = kwargs.get('request_id')
+            return self.reject_friend_request(request, request_id)
+        elif action == 'cancel_friend_request':
+            request_id = kwargs.get('request_id')
+            return self.cancel_friend_request(request, request_id)
+        elif action == 'remove_friendship':
+            friendship_id = kwargs.get('friendship_id')
+            return self.remove_friendship(request, friendship_id)
+        else:
+            # Handle invalid action
+            return HttpResponseBadRequest("Invalid action")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# VIEW - UPLOAD AND EDIT PROFILE IMAGE AND PROFILE BANNER
+class UserProfileImageView(LoginRequiredMixin, FormView):
+    template_name = 'user_profile_image.html'
+    form_class = UpdateProfileImageForm
+
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.request.user.profile
+        return kwargs
+
     def form_valid(self, form):
-        messages.success(self.request, 'Profile updated successfully.')
-        return super().form_valid(form)
+        form.save()
+        user_profile = self.request.user.profile
+        self.request.session['user_profile_image_url'] = user_profile.profile_image.url if user_profile.profile_image else None
+        self.request.session['user_profile_banner_url'] = user_profile.banner_image.url if user_profile.banner_image else None
+        messages.success(self.request, 'Profile image and banner updated successfully.')
+        return redirect(self.get_success_url())
 
-    def get_user_profile_image_url(self, profile):
-        if profile.profile_image:
-            return profile.profile_image.url
-        else:
-            return None
-
-    def get_user_profile_banner_url(self, profile):
-        if profile.banner_image:
-            return profile.banner_image.url
-        else:
-            return None
+    def get_success_url(self):
+        return reverse_lazy('user_profile', kwargs={'username': self.request.user.username})
+    
 
 
-# VIEW 7 - USER PROFILE - UPDATE PROFILE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# VIEW  - USER PROFILE - UPDATE PROFILE
 # - POST, JSON
 class UserProfileFieldUpdateView(LoginRequiredMixin, View):
     def post(self, request, user_id):
@@ -195,6 +480,7 @@ class UserProfileFieldUpdateView(LoginRequiredMixin, View):
                 user_profile = Profile.objects.get(user__id=user_id)
                 setattr(user_profile, field_name, field_value)
                 user_profile.save()
+                messages.success(request, 'Profile updated successfully.')
                 return JsonResponse({"status": "success"})
             else:
                 return HttpResponseBadRequest(f"The field '{field_name}' is not a valid field for updating.")
@@ -205,34 +491,7 @@ class UserProfileFieldUpdateView(LoginRequiredMixin, View):
 
 
 
-
-
-
-
-
-
-# VIEW 8 - USER PROFILE - UPLOAD IMAGES
-# - GET, POST, REDIRECT
-class UserProfileImageView(LoginRequiredMixin, FormView):
-    template_name = 'user_profile_image.html'
-    form_class = UpdateProfileImageForm
-    success_url = reverse_lazy('user_feed') 
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['instance'] = self.request.user.profile
-        return kwargs
-
-    def form_valid(self, form):
-        form.save()
-        messages.success(self.request, 'Profile image and banner updated successfully.')
-        user_profile = self.request.user.profile
-        self.request.session['user_profile_image_url'] = user_profile.profile_image.url if user_profile.profile_image else None
-        self.request.session['user_profile_banner_url'] = user_profile.banner_image.url if user_profile.banner_image else None
-        return redirect(self.get_success_url()) 
-
-
-# VIEW 9 - USER SEARCH
+# VIEW  - USER SEARCH
 # - GET, POST, JSON
 class UserSearchView(LoginRequiredMixin, View):
     template_name = 'user_search.html'
@@ -263,83 +522,6 @@ class UserSearchView(LoginRequiredMixin, View):
         return JsonResponse(response_data)
 
 
-
-
-# VIEW 10 - FRIEND REQUESTS
-# - POST, REDIRECT
-class FriendRequestView(LoginRequiredMixin, CreateView):
-    model = Friendship
-    fields = []
-
-    def get_success_url(self):
-        return reverse('user_profile', kwargs={'username': self.receiver.username})  # Replace with your URL pattern name
-
-    def form_valid(self, form):
-        form.instance.sender = self.request.user
-        form.instance.receiver = self.get_receiver() 
-        return super().form_valid(form)
-# VIEW 11 - FRIEND LIST
-# - GET, HTML/TEMPLATE
-class FriendListView(LoginRequiredMixin, ListView):
-    model = Friendship
-    template_name = 'friend_list.html'
-
-    def get_queryset(self):
-        user = self.request.user
-        return Friendship.objects.filter(Q(sender=user) | Q(receiver=user))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
-        context['friends'] = Friendship.objects.filter(Q(sender=user, status='accepted') | Q(receiver=user, status='accepted'))
-        context['sent_friend_requests'] = Friendship.objects.filter(sender=user, status='pending')
-        context['received_friend_requests'] = Friendship.objects.filter(receiver=user, status='pending')
-        return context
-# VIEW 12 - Friendship - ACCEPT
-# - POST, REDIRECT
-class FriendAcceptView(LoginRequiredMixin, UpdateView):
-    model = Friendship
-    template_name = 'friend_accept.html'
-    fields = []
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.status = 'accepted'
-        self.object.save()
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('friend_list')
-# VIEW 13 - Friendship - REJECT
-# - POST, REDIRECT
-class FriendRejectView(LoginRequiredMixin, UpdateView):
-    model = Friendship
-    template_name = 'friend_reject.html'
-    fields = []
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.status = 'rejected'
-        self.object.save()
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('friend_list')
-# VIEW 14 - Friendship - CANCEL
-# - POST, REDIRECT
-class FriendCancelView(LoginRequiredMixin, UpdateView):
-    model = Friendship
-    template_name = 'friend_cancel.html'
-    fields = []
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.status = 'canceled'
-        self.object.save()
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('friend_list')
 
 
 # VIEW 15 - Post List

@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-from .views import UserProfileImageView, UserProfileFieldUpdateView, PostLikeToggleView, UserFeedView, LogoutView, LoginView, SignUpView, UserSearchView, UserProfileView, FriendAcceptView, FriendRejectView, FriendCancelView, FriendListView, FriendRequestView, CommentCreateView, PostDeleteView, PostCreateView, PostListView, PostDetailsView
+from .views import FriendshipManager, UserProfileImageView, UserProfileFieldUpdateView, PostLikeToggleView, UserFeedView, LogoutView, LoginView, SignUpView, UserSearchView, UserProfileDetailsView, UserProfileView, CommentCreateView, PostDeleteView, PostCreateView, PostListView, PostDetailsView
 
 
 
@@ -23,33 +23,47 @@ urlpatterns = [
     path('', UserFeedView.as_view(), name='user_feed'),
 
 
+
+
+    path('user_profile_field_update/<int:user_id>/', UserProfileFieldUpdateView.as_view(), name='user_profile_field_update'),
+  
+    path('user_search/', UserSearchView.as_view(), name='user_search'),
     
+    
+    # URLS - User Profile View
     path('user_profile/', UserProfileView.as_view(), name='user_profile'),
     path('user_profile/<str:username>/', UserProfileView.as_view(), name='user_profile'),
    
     path('user_profile_image/', UserProfileImageView.as_view(), name='user_profile_image'),
     path('user_profile_image/<str:username>/', UserProfileImageView.as_view(), name='user_profile_image'),
-    
-    path('user_profile_field_update/<int:user_id>/', UserProfileFieldUpdateView.as_view(), name='user_profile_field_update'),
 
 
-  
-    path('user_search/', UserSearchView.as_view(), name='user_search'),
+
     
     
 
+# URLS - Existing Friendships
+path('existing_friends/', FriendshipManager.as_view(), name='existing_friends'),
+
+# URLS - Friend List view
+path('friend_list/', FriendshipManager.as_view(), name='friend_list'),
+# URLS - Friend Request view
+path('friend_request/', FriendshipManager.as_view(), name='friend_request'),
+
+
+path('friendship/remove/<int:friendship_id>/', FriendshipManager.as_view(), name='remove_friendship'),
 
 
 
-    # URLS - Friendship
-    path('friend_list/', FriendListView.as_view(), name='friend_list'),
-    path('friend_request/', FriendRequestView.as_view(), name='friend_request'),
-    path('friend_request/add/<int:pk>/', FriendRequestView.as_view(), name='friend_add'),
-    path('friend_request/accept/<int:pk>/', FriendAcceptView.as_view(), name='friend_accept'),
-    path('friend_request/reject/<int:pk>/', FriendRejectView.as_view(), name='friend_reject'),
-    path('friend_request/cancel/<int:pk>/', FriendCancelView.as_view(), name='friend_cancel'),
+path('friend_request/send/<int:receiver_id>/', FriendshipManager.as_view(), name='send_friend_request'),
 
-   
+path('friend_request/cancel/<int:request_id>/', FriendshipManager.as_view(), name='cancel_friend_request'),
+path('friend_request/accept/<int:request_id>/', FriendshipManager.as_view(), name='accept_friend_request'),
+path('friend_request/reject/<int:request_id>/', FriendshipManager.as_view(), name='reject_friend_request'),
+
+
+
+
 
 
     # URLS - POST

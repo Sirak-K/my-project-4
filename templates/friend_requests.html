@@ -1,0 +1,51 @@
+<!-- File: friend_requests.html -->
+
+{% block content_friend_requests %}
+
+    <!-- Display RECEIVED friend requests -->
+    <h2>Received Friend Requests:</h2>
+
+    {% for request in received_friend_requests %}
+        <p>{{ request.sender.username }} wants to be your friend and has sent you a friend request.</p>
+        
+        <!-- ACCEPT RECEIVED friend requests -->
+        <form method="POST" action="{% url 'accept_friend_request' request_id=request.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="accept_friend_request">
+            <button type="submit">Accept</button>
+        </form>
+
+        <!-- REJECT RECEIVED friend requests -->
+        <form method="POST" action="{% url 'reject_friend_request' request_id=request.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="reject_friend_request">
+            <button type="submit">Reject</button>
+        </form>
+    {% empty %}
+        <p>No friend requests.</p>
+    {% endfor %}
+
+
+
+
+
+
+
+    <!-- Display SENT friend requests -->
+    <h2>Sent Friend Requests:</h2>
+
+    {% for request in sent_friend_requests %}
+        <p>You have sent a friend request to {{ request.receiver.username }}.</p>
+
+        <!-- CANCEL SENT friend requests -->
+        <form method="POST" action="{% url 'cancel_friend_request' request_id=request.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="cancel_friend_request">
+            
+            <button type="submit">Cancel Friend Request</button>
+        </form>
+    {% empty %}
+        <p>No sent friend requests.</p>
+    {% endfor %}
+
+{% endblock content_friend_requests %}

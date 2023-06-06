@@ -1,5 +1,6 @@
 # File: models.py
 
+from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -96,7 +97,13 @@ class Comment(models.Model):
 
 
         return f'Comment {self.pk} by {self.comment_author}'
-    
+
+
+
+# File: models.py
+
+
+
 # MODEL 4 - Friendship
 class Friendship(models.Model):
     STATUS_CHOICES = (
@@ -105,9 +112,55 @@ class Friendship(models.Model):
         ('rejected', 'Rejected'),
     )
 
-    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_friend_requests')
-    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_friend_requests')
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='initiated_friendships', null=True)
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_friendships', null=True)
+    # status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='accepted')
+
+    def __str__(self):
+        sender_full_name = self.sender.profile.get_user_name() if self.sender else "None"
+        receiver_full_name = self.receiver.profile.get_user_name() if self.receiver else "None"
+        return f"Friendship between {sender_full_name} and {receiver_full_name}"
+
+# MODEL 5 - FriendRequest
+class FriendRequest(models.Model):
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_friend_requests', null=True)
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_friend_requests', null=True)
+    status = models.CharField(max_length=10, choices=Friendship.STATUS_CHOICES, default='pending')
+
+    class Meta:
+        unique_together = ['sender', 'receiver']
+
+    def accept(self):
+        if self.status != 'pending':
+            return
+
+        self.status = 'accepted'
+        print("Friend Request ACCEPTED.")
+        self.save()
+
+        self.delete()
+        print("Friend Request DELETED.")
+        
+    def reject(self):
+        if self.status != 'pending':
+            return
+
+        self.status = 'rejected'
+        self.save()
+
+    def cancel(self):
+        if self.status == 'pending':
+            self.delete()
 
     def __str__(self):
         return f"Friend request from {self.sender.username} to {self.receiver.username}"
+    
+
+
+
+
+
+
+
+
+    
