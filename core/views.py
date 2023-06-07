@@ -19,7 +19,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_http_methods
 from django.views.generic import RedirectView, TemplateView, FormView, View, UpdateView, DeleteView, CreateView, ListView, DetailView
-from .forms import FriendRequestForm, UserSearchForm, CommentForm, PostForm, PostEditForm, UpdateProfileForm, UpdateProfileImageForm
+from .forms import  CustomUserCreationForm, FriendRequestForm, UserSearchForm, CommentForm, PostForm, PostEditForm, UpdateProfileForm, UpdateProfileImageForm
 from .models import User, FriendRequest, Friendship, Comment, Post, Profile, models
 
 # VIEW 0 - AUTHENTICATION
@@ -28,11 +28,12 @@ class LoginRequiredMixin:
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
+
 # VIEW 1 - SIGNUP
 # - POST, REDIRECT
 class SignUpView(FormView):
     template_name = 'signup.html'
-    form_class = UserCreationForm
+    form_class = CustomUserCreationForm
     success_url = 'user_feed'
 
     def form_valid(self, form):
@@ -42,57 +43,170 @@ class SignUpView(FormView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+
 # VIEW 2 - LOGIN
 # - GET, POST, REDIRECT
 class LoginView(View):
     template_name = 'login.html'
+    success_url = 'user_feed'
 
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect('user_feed')
+            return redirect(self.success_url)
         else:
-            logout(request)
             return render(request, self.template_name)
 
     def post(self, request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             login(request, user)
-            return redirect('user_feed')
+            return redirect(self.success_url)
         else:
             messages.error(request, 'The provided username or password is incorrect.')
             return render(request, self.template_name)   
+
 # VIEW 3 - LOGOUT
 # - REDIRECT
 class LogoutView(RedirectView):
-    url = 'login'
+    url = reverse_lazy('login')
 
     def get_redirect_url(self, *args, **kwargs):
         logout(self.request)
         return super().get_redirect_url(*args, **kwargs)
+
 # VIEW 4 - INDEX
 # - GET, HTML/TEMPLATE
 class IndexView(TemplateView):
     template_name = 'user_feed.html'
-# VIEW 5 - USER FEED (displays posts)
+
+
+# VIEW - USER FEED (displays posts of logged-in user and his friends)
 # - GET, HTML/TEMPLATE
 class UserFeedView(LoginRequiredMixin, ListView):
     template_name = 'user_feed.html'
     context_object_name = 'all_posts'
     paginate_by = 10
 
-
     def get_queryset(self):
-        
-        return Post.objects.all().order_by('-post_created_at')
-        
+        user = self.request.user
+        friends = Friendship.objects.filter(
+            models.Q(sender=user) | models.Q(receiver=user),
+            status='accepted'
+        ).values_list('sender', 'receiver')
+
+        friend_ids = list(set([friend_id for friendship in friends for friend_id in friendship]))
+
+        return Post.objects.filter(
+            models.Q(post_author=user) | models.Q(post_author_id__in=friend_ids)
+        ).order_by('-post_created_at')
+
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        user_profile = Profile.objects.get(user=user)
+        user_friends = user_profile.get_friends()
+        context['user_friends'] = user_friends
+
         context['all_post_comments'] = Comment.objects.all().order_by('-comment_created_at')
         return context
+
+
+# VIEW - USER PROFILE (displays only posts of logged-in user)
+class UserProfileView(LoginRequiredMixin, View):
+    model = Profile
+    fields = []
+    template_name = 'user_profile.html'
+
+    def get_object(self, queryset=None):
+        username = self.kwargs.get('username')
+        if username is None:
+            return self.request.user.profile
+        else:
+            user = get_object_or_404(User, username=username)
+            return user.profile
+
+    def get_success_url(self):
+        username = self.kwargs['username']
+        return reverse_lazy('user_profile', kwargs={'username': username})
+
+    def get(self, request, *args, **kwargs):
+        username = kwargs.get('username')
+        if username and username != self.request.user.username:
+            user = get_object_or_404(User, username=username)
+            user_profile = user.profile
+        else:
+            user_profile = self.request.user.profile
+
+        all_posts = Post.objects.all().order_by('-post_created_at')
+
+        # Get the receiver ID from the user's profile
+        receiver_id = user_profile.user_id
+
+        # Create instances of the forms
+        friend_request_form = FriendRequestForm()
+        post_form = PostForm()
+        post_edit_form = PostEditForm()
+        comment_form = CommentForm()
+
+        context = {
+            'post_form': post_form,
+            'post_edit_form': post_edit_form,
+            'comment_form': comment_form,
+            'all_posts': all_posts,
+
+            'friend_request_form': friend_request_form,
+            'receiver_id': receiver_id,
+
+            'is_owner': user_profile.user == request.user,
+            'user_profile': user_profile,
+            'user_profile_image_url': user_profile.profile_image.url if user_profile.profile_image else '/media/img/default_profile_image.png',
+            'user_profile_banner_url': user_profile.banner_image.url if user_profile.banner_image else '/media/img/default_banner_image.png',
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        if 'send_friend_request' in request.POST:
+            user_profile = self.get_object()
+            receiver_id = user_profile.user_id
+            friendship_manager = FriendshipManager()
+            return friendship_manager.send_friend_request(request, receiver_id=receiver_id)
+        elif 'create_post' in request.POST:
+            post_form = PostForm(request.POST)
+            if post_form.is_valid():
+                post = post_form.save(commit=False)
+                post.post_author = request.user
+                post.save()
+                return redirect('user_profile', username=request.user.username)
+        return super().post(request, *args, **kwargs)
+
+
+
+# VIEW - USER DELETION & USER DELETION CONFIRMATION
+class UserDeletionView(LoginRequiredMixin, TemplateView):
+    template_name = 'user_deletion_confirmation.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        confirm = request.POST.get('confirm')
+        if confirm == 'yes':
+            user = request.user
+            user.delete()
+            logout(request)
+            return redirect('login')  # Redirect to home or any other desired page
+        elif confirm == 'no':
+            return redirect('user_profile', username=request.user.username)
+
+
 
 
 
@@ -121,88 +235,81 @@ class UserProfileDetailsView(LoginRequiredMixin, DetailView):
 
 
 
+# VIEW - USER PROFILE - IMAGE AND PROFILE BANNER
+class UserProfileImageView(LoginRequiredMixin, FormView):
+    template_name = 'user_profile_image.html'
+    form_class = UpdateProfileImageForm
 
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.request.user.profile
+        return kwargs
 
-
-
-
-
-
-
-
-
-
-# VIEW - USER PROFILE (also displays posts)
-class UserProfileView(LoginRequiredMixin, View):
-    model = Profile
-    fields = []
-    template_name = 'user_profile.html'
-
-    def get_object(self, queryset=None):
-        username = self.kwargs.get('username')
-        if username is None:
-            return self.request.user.profile
-        else:
-            user = get_object_or_404(User, username=username)
-            return user.profile
+    def form_valid(self, form):
+        form.save()
+        user_profile = self.request.user.profile
+        self.request.session['user_profile_image_url'] = user_profile.profile_image.url if user_profile.profile_image else None
+        self.request.session['user_profile_banner_url'] = user_profile.banner_image.url if user_profile.banner_image else None
+        messages.success(self.request, 'Profile image and banner updated successfully.')
+        return redirect(self.get_success_url())
 
     def get_success_url(self):
-        username = self.kwargs['username']
-        return reverse_lazy('user_profile', kwargs={'username': username})
+        return reverse_lazy('user_profile', kwargs={'username': self.request.user.username})
+# VIEW  - USER PROFILE - UPDATE PROFILE
+# - POST, JSON
+class UserProfileFieldUpdateView(LoginRequiredMixin, View):
+    def post(self, request, user_id):
+        try:
+            data = json.loads(request.body)
+            print(f"Received data: {data}")
 
-    def get(self, request, *args, **kwargs):
-        username = kwargs.get('username')
-        if username and username != self.request.user.username:
-            user = get_object_or_404(User, username=username)
-            user_profile = user.profile
-        else:
-            user_profile = self.request.user.profile
-        
-        # all_posts = Post.objects.all().order_by('-post_created_at')
-        
-        # Get the receiver ID from the user's profile
-        receiver_id = user_profile.user_id
+            field_name = data.get('fieldName')
+            field_value = data.get('value')
+            if field_name in ['bio', 'gender', 'profession']:
+                user_profile = Profile.objects.get(user__id=user_id)
+                setattr(user_profile, field_name, field_value)
+                user_profile.save()
+                messages.success(request, 'Profile updated successfully.')
+                return JsonResponse({"status": "success"})
+            else:
+                return HttpResponseBadRequest(f"The field '{field_name}' is not a valid field for updating.")
+        except Exception as e:
+            print(f"Error: {e}")
+            print(traceback.format_exc())
+            return JsonResponse({"status": "error", "message": str(e)})
+# VIEW  - USER SEARCH
+# - GET, POST, JSON
+class UserSearchView(LoginRequiredMixin, View):
+    template_name = 'user_search.html'
 
+    def get(self, request):
+        # Display the user search form
 
-        # Get the sender ID from the currently logged-in user's profile
-        sender_id = request.user.profile.user.id
-
-        
-        # Create an instance of the FriendRequestForm
-        friend_request_form = FriendRequestForm()
-
-
-        context = {
-            'form': friend_request_form,
-            'receiver_id': receiver_id,
-            'sender_id': sender_id,
-            # 'all_posts': all_posts,
-            # 'is_owner': user_profile.user == request.user,
-            'user_profile': user_profile,
-            'user_profile_image_url': user_profile.profile_image.url if user_profile.profile_image else '/media/img/default_profile_image.png',
-            'user_profile_banner_url': user_profile.banner_image.url if user_profile.banner_image else '/media/img/default_banner_image.png',
-        }
+        form = UserSearchForm(request.GET)
+       
+        context = {'form': form}
         return render(request, self.template_name, context)
-        
-    def post(self, request, *args, **kwargs):
-        if 'send_friend_request' in request.POST:
-            user_profile = self.get_object()
-            receiver_id = user_profile.user_id  # Update this line
 
-            friendship_manager = FriendshipManager()
-            return friendship_manager.send_friend_request(request, receiver_id=receiver_id)
-        return super().post(request, *args, **kwargs)
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            search_query = data['search_query']
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid data'}, status=400)
+        except KeyError:
+            return JsonResponse({'error': 'Missing search_query parameter'}, status=400)
 
-
-
-
-
-
-
+        searched_users = User.objects.filter(
+            Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query)
+        )
+        response_data = {
+            'users': list(searched_users.values()),
+        }
+        return JsonResponse(response_data)
 
 # VIEW - FRIENDSHIP MANAGER
 class FriendshipManager(View):
-    
     def send_friend_request(self, request, receiver_id):
         try:
             receiver = User.objects.get(id=receiver_id)
@@ -382,155 +489,7 @@ class FriendshipManager(View):
             # Handle invalid action
             return HttpResponseBadRequest("Invalid action")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# VIEW - UPLOAD AND EDIT PROFILE IMAGE AND PROFILE BANNER
-class UserProfileImageView(LoginRequiredMixin, FormView):
-    template_name = 'user_profile_image.html'
-    form_class = UpdateProfileImageForm
-
-    
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['instance'] = self.request.user.profile
-        return kwargs
-
-    def form_valid(self, form):
-        form.save()
-        user_profile = self.request.user.profile
-        self.request.session['user_profile_image_url'] = user_profile.profile_image.url if user_profile.profile_image else None
-        self.request.session['user_profile_banner_url'] = user_profile.banner_image.url if user_profile.banner_image else None
-        messages.success(self.request, 'Profile image and banner updated successfully.')
-        return redirect(self.get_success_url())
-
-    def get_success_url(self):
-        return reverse_lazy('user_profile', kwargs={'username': self.request.user.username})
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# VIEW  - USER PROFILE - UPDATE PROFILE
-# - POST, JSON
-class UserProfileFieldUpdateView(LoginRequiredMixin, View):
-    def post(self, request, user_id):
-        try:
-            data = json.loads(request.body)
-            print(f"Received data: {data}")
-
-            field_name = data.get('fieldName')
-            field_value = data.get('value')
-            if field_name in ['bio', 'gender', 'profession']:
-                user_profile = Profile.objects.get(user__id=user_id)
-                setattr(user_profile, field_name, field_value)
-                user_profile.save()
-                messages.success(request, 'Profile updated successfully.')
-                return JsonResponse({"status": "success"})
-            else:
-                return HttpResponseBadRequest(f"The field '{field_name}' is not a valid field for updating.")
-        except Exception as e:
-            print(f"Error: {e}")
-            print(traceback.format_exc())
-            return JsonResponse({"status": "error", "message": str(e)})
-
-
-
-# VIEW  - USER SEARCH
-# - GET, POST, JSON
-class UserSearchView(LoginRequiredMixin, View):
-    template_name = 'user_search.html'
-
-    def get(self, request):
-        # Display the user search form
-
-        form = UserSearchForm(request.GET)
-       
-        context = {'form': form}
-        return render(request, self.template_name, context)
-
-    def post(self, request):
-        try:
-            data = json.loads(request.body)
-            search_query = data['search_query']
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Invalid data'}, status=400)
-        except KeyError:
-            return JsonResponse({'error': 'Missing search_query parameter'}, status=400)
-
-        searched_users = User.objects.filter(
-            Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query)
-        )
-        response_data = {
-            'users': list(searched_users.values()),
-        }
-        return JsonResponse(response_data)
-
-
-
-
-# VIEW 15 - Post List
-# - GET, HTML/TEMPLATE
-class PostListView(ListView):
-    model = Post
-    template_name = 'post_list.html'
-    context_object_name = 'post_list_context'
-# VIEW 16 - Post Details
+# VIEW - Post Details
 # - GET, POST, REDIRECT, HTML/TEMPLATE
 class PostDetailsView(DetailView):
     model = Post
@@ -569,10 +528,15 @@ class PostDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         post = self.object
+        
         comments = post.comments_for_post.order_by('comment_created_at')
+
+        author_profile_image = post.post_author.profile.profile_image.url if post.post_author.profile.profile_image else '/media/img/default_profile_image.png'
+        context['author_profile_image'] = author_profile_image
+        
         context['all_post_comments'] = comments
         return context
-# VIEW 17 - Post Create
+# VIEW - Post Create
 # - POST, HTML/TEMPLATE
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
@@ -581,15 +545,17 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('user_feed')
 
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        profile_image = self.request.user.profile.profile_image.url if self.request.user.profile.profile_image else '/static/default_profile_image.jpg'
-        context['profile_image'] = profile_image
-        return context
-
     def form_valid(self, form):
+        profile = self.request.user.profile
+        form.instance.post_author_image = profile.profile_image
         form.instance.post_author = self.request.user
         return super().form_valid(form)
+# VIEW - Post List
+# - GET, HTML/TEMPLATE
+class PostListView(ListView):
+    model = Post
+    template_name = 'post_list.html'
+    context_object_name = 'post_list_context'
 # VIEW 18 - Post Delete
 # - POST, HTML/TEMPLATE
 class PostDeleteView(LoginRequiredMixin, DeleteView):

@@ -3,23 +3,16 @@
 
 {% block content_signup %}
 
-
-
-
-{% block header_logged_out %}
-{% endblock header_logged_out %}
-
+{% include 'header_logged_out.html' %}
 
 
 <section class="landing-container">
   <div class="landing-image" >
     
     
-
-
 <div class="signup-section-container">
   <section class="signup-section">
-    <h1 class="signup-header">Sign Up</h1>
+    <h1 class="signup-header">Register New Account</h1>
   
     <form class="form-signup" method="post">
       {% csrf_token %}
@@ -27,9 +20,21 @@
       <label class="label-username" for="username">Username:</label>
       <input type="text" name="username" class="input-signup-username" required>
     
+
+
+
       <label class="label-email" for="email">Email:</label>
-      <input type="email" name="email" class="input-signup-email" required>
-    
+      <input type="email" name="email" id="email" class="input-signup-email">
+
+
+      <label class="label-first-name" for="first_name">First Name</label>
+      <input type="text" name="first_name" class="input-signup-first-name">
+
+      <label class="label-last-name" for="last_name">Last Name</label>
+      <input type="text" name="last_name" class="input-signup-last-name">
+
+
+
       <label class="label-password" for="password1">Password:</label>
       <input type="password" name="password1" class="input-signup-password" required>
     

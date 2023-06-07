@@ -41,8 +41,18 @@ class Profile(models.Model):
     def get_user_name(self):
         return self.user.get_full_name()
 
+    def get_friends(self):
+        user = self.user
+        friends = Friendship.objects.filter(
+            models.Q(sender=user) | models.Q(receiver=user),
+            status='accepted'
+        )
+        return [friend.sender if friend.sender != user else friend.receiver for friend in friends]
+
+
     def __str__(self):
         return f"{self.user.username}'s Profile"
+    
 # DECORATOR - PROFILE: CREATE
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
@@ -73,7 +83,8 @@ class Post(models.Model):
         return f"{timesince(self.post_created_at)} ago"
 
     def get_post_author_name(self):
-            return self.post_author.get_full_name()
+        return self.post_author.get_full_name()
+    
 
     def __str__(self):
         return f'Post {self.pk} by {self.post_author}'
@@ -100,9 +111,6 @@ class Comment(models.Model):
 
 
 
-# File: models.py
-
-
 
 # MODEL 4 - Friendship
 class Friendship(models.Model):
@@ -114,7 +122,7 @@ class Friendship(models.Model):
 
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='initiated_friendships', null=True)
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_friendships', null=True)
-    # status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='accepted')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='accepted')
 
     def __str__(self):
         sender_full_name = self.sender.profile.get_user_name() if self.sender else "None"

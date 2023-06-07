@@ -44,9 +44,15 @@
     </form> 
 </section>
 
-<!-- DISPLAY POSTS -->
-{% for post in all_posts %}
-{% include 'post_list.html' with post=post all_post_comments=all_post_comments %}
-{% endfor %}
+
 
 {% endblock content_user_feed %}
+
+<!-- DISPLAY POSTS -->
+{% block content_post_section %}
+    {% for post in all_posts %}
+        {% if post.post_author == user or post.post_author in user.profile.get_friends %}
+          {% include 'post_list.html' with post=post all_post_comments=all_post_comments author_profile_image=post.post_author.profile.profile_image.url %}
+        {% endif %}
+    {% endfor %}
+{% endblock content_post_section %}

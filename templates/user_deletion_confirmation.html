@@ -1,0 +1,16 @@
+<!-- File: user_deletion_confirmation.html -->
+
+{% extends 'base.html' %}
+
+
+{% block content_user_deletion_confirmation %}
+         
+<h2>Are you sure you want to delete your account?</h2>
+
+<form method="post" action="{% url 'user_deletion_confirmation' %}">
+  {% csrf_token %}
+  <button type="submit" name="confirm" value="yes">Yes, I am sure</button>
+  <button type="submit" name="confirm" value="no">No, take me back</button>
+</form>
+
+{% endblock content_user_deletion_confirmation %}

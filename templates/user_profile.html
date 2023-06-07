@@ -9,6 +9,17 @@
 {% include 'user_profile_details.html' %}
 
 
+
+<a href="{% url 'user_deletion_confirmation' %}">
+  {% csrf_token %}
+  <button type="submit">Delete Account</button>
+</a>
+
+
+
+
+
+
  <!-- SEND FRIEND REQUEST (ADD FRIEND) -->
     {% include 'send_friend_request.html' with receiver_id=receiver_id %}
   
@@ -30,8 +41,9 @@
 
 <!-- DISPLAY POSTS -->
 {% block content_post_section %}
-  {% for post in all_posts %}
-      {% include 'post_list.html' with post=post all_post_comments=all_post_comments %}
-  {% endfor %}
+    {% for post in all_posts %}
+        {% if post.post_author == user %}
+      {% include 'post_list.html' with post=post all_post_comments=all_post_comments author_profile_image=post.post_author.profile.profile_image.url %}
+        {% endif %}
+    {% endfor %}
 {% endblock content_post_section %}
-

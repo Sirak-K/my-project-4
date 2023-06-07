@@ -1,5 +1,6 @@
 <!-- File: post_details.html -->
 
+{% block content_post_details %}
 <div class="post-wrapper">
 <div class="post">
 
@@ -24,14 +25,22 @@
       <div class="post-details-secondary">
         <p class="post-author">{{ post.get_post_author_name }}</p>
         
-        {% if user.profile.profile_image  %}
-        <img class="post-author-image" src="{{ user.profile.profile_image.url }}" alt="{{ post.get_post_author_name }}'s profile image">
-        {% else %}
-        <img class="post-author-image" src="/media/img/default_profile_image.png" alt="{{ post.get_post_author_name }}'s profile image">
-        {% endif %}
+          {% if author_profile_image %}
+              <img class="post-author-image" src="{{ author_profile_image }}" alt="Author Profile Image">
+          {% else %}
+              <img class="post-author-image" src="/media/img/default_profile_image.png" alt="Default Profile Image">
+          {% endif %}
+
+     
         
         <p class="post-time">{{ post.post_created_at }}</p>
       </div>
+
+
+
+
+
+
 
       <section id="post-content-section">
         <h2 class="post-title" name="post_title">{{ post.post_title }}</h2>
@@ -69,3 +78,5 @@
   </div>
 </div>
 
+
+{% endblock content_post_details %}

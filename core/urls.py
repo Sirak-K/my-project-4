@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-from .views import FriendshipManager, UserProfileImageView, UserProfileFieldUpdateView, PostLikeToggleView, UserFeedView, LogoutView, LoginView, SignUpView, UserSearchView, UserProfileDetailsView, UserProfileView, CommentCreateView, PostDeleteView, PostCreateView, PostListView, PostDetailsView
+from .views import   UserDeletionView, FriendshipManager, UserProfileImageView, UserProfileFieldUpdateView, PostLikeToggleView, UserFeedView, LogoutView, LoginView, SignUpView, UserSearchView, UserProfileDetailsView, UserProfileView, CommentCreateView, PostDeleteView, PostCreateView, PostListView, PostDetailsView
 
 
 
@@ -14,9 +14,15 @@ urlpatterns = [
 
     # URLS - SIGN-UP
     path('signup/', SignUpView.as_view(), name='signup'),
+   
+   
     # URLS - LOG-IN / LOG-OUT
     path('login/', LoginView.as_view(), name='login'),
+
     path('logout/', LogoutView.as_view(), name='logout'),
+
+
+    path('user_deletion_confirmation/', UserDeletionView.as_view(), name='user_deletion_confirmation'),
 
     # URLS - USER
     path('user_feed/', UserFeedView.as_view(), name='user_feed'),

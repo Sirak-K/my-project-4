@@ -6,12 +6,7 @@
 {% block content_login %}
 
 
-<header>
-
-{% block header_logged_out %}
-{% endblock header_logged_out %}
-
-</header>
+{% include 'header_logged_out.html' %}
 
 <section class="landing-container">
 <div class="landing-image" >
@@ -26,7 +21,7 @@
   <section class="logged-out-section">
     <h1 class="logged-out-header">Welcome!</h1>
   
-    <form class="form-logged-out" method="post" action="">
+    <form class="form-logged-out" method="post" action="{% url 'login' %}">
       {% csrf_token %}
       
       <label class="label-username" for="username">Username:</label>

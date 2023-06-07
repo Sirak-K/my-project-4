@@ -1,5 +1,7 @@
 <!-- File: post_list.html -->
-{% include 'post_details.html' with post=post all_post_comments=post.post_comments.all %}
+{% include 'post_details.html' with post=post all_post_comments=post.post_comments.all author_profile_image=author_profile_image %}
+
+
 {% for comment in all_post_comments %}
 <div class="post-comment-section">
     <div class="post-comment">
