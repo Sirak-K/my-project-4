@@ -1,13 +1,11 @@
-<!-- File: post_comment_create.html -->
+{% block content_post_comment_create %}
 
+<section id="post-comment-create-section">
+  <form method="post" action="{% url 'post_comment_create' pk=post.pk %}">
+    {% csrf_token %}
+    <textarea id="post-comment-create-content" rows="3" name="comment_content"></textarea>
+    <button type="submit" class="post-comment-create-btn">Submit Comment</button>
+  </form>
+</section>
 
-<section id="comment-create-section">
-    <form method="post" action="{% url 'post_comment_create' pk=post.pk %}">
-      {% csrf_token %}
-
-    <textarea id="comment-content" rows="3" name="comment_content"></textarea>
-
-      <button type="submit" class="comment-create-btn">Submit Comment</button>
-    </form>
-  </section>
-  
+{% endblock content_post_comment_create %}

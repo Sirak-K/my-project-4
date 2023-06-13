@@ -1,27 +1,16 @@
-<!-- File: existing_friends.html -->
-
 {% block content_existing_friends %}
 
-<!-- Existing Friendships -->
-<h2>Existing Friendships:</h2>
-
+<h2 class="friend-request-header">Existing Friendships</h2>
 {% for friendship in existing_friendships %}
+<section id="friendship-section">
+  <p class="friendships"> 
+    <span class="friend-name">{{ friendship.receiver.profile.get_user_name }}</span>
+  </p>
 
-  <!-- Display friendship information -->
-  <p>{{ friendship }}</p>
      {% include 'friend_remove.html' %}
-
-
+     </section>
 {% empty %}
   <p>No friendships yet.</p>
 {% endfor %}
 
-
-
-
 {% endblock content_existing_friends %}
-
-
-
-
- 

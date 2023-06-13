@@ -1,23 +1,18 @@
-# File: models.py
-
-from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils import timezone
-from django.utils import timesince
+from django.utils import timesince, timezone
 
 
 # MODEL 1 - PROFILE
 class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     date_of_birth = models.DateField(auto_now=False, blank=True, null=True)
     profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     banner_image = models.ImageField(upload_to='banner_images/', blank=True, null=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True) 
     bio = models.TextField(blank=True, null=True)
-   
 
     PROFESSION_CHOICES = (
         ('O', 'Student'),
@@ -36,7 +31,6 @@ class Profile(models.Model):
         ('N', 'None selected'),
     )
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='N')
-    
 
     def get_user_name(self):
         return self.user.get_full_name()
@@ -49,25 +43,23 @@ class Profile(models.Model):
         )
         return [friend.sender if friend.sender != user else friend.receiver for friend in friends]
 
-
     def __str__(self):
         return f"{self.user.username}'s Profile"
-    
 # DECORATOR - PROFILE: CREATE
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+
 # MODEL 2 - POST
 class Post(models.Model):
-    post_created_at = models.DateTimeField(auto_now_add=True)
     post_author = models.ForeignKey(User, on_delete=models.CASCADE)
     post_title = models.CharField(max_length=50)
     post_content = models.TextField(max_length=200)
+    post_created_at = models.DateTimeField(auto_now_add=True)
     post_likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
     post_comments = models.ManyToManyField('Comment', related_name='commented_posts')
-
-
 
     def post_likes_count(self):
         return self.post_likes.count()
@@ -85,33 +77,32 @@ class Post(models.Model):
     def get_post_author_name(self):
         return self.post_author.get_full_name()
     
+    @property
+    def author_profile_image(self):
+        if self.post_author.profile.profile_image:
+            return self.post_author.profile.profile_image.url
+        else:
+            return '/media/img/default_profile_image.png'
 
     def __str__(self):
         return f'Post {self.pk} by {self.post_author}'
-    
+
     def save(self, *args, **kwargs):
         print('Post save called')
         super().save(*args, **kwargs)
+
 # MODEL 3 - COMMENT
 class Comment(models.Model):
-
     comment_on_post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments_for_post")
     comment_created_at = models.DateTimeField(auto_now_add=True)
     comment_author = models.ForeignKey(User, on_delete=models.CASCADE)
     comment_content = models.TextField(max_length=100)
 
-
     def get_comment_author_name(self):
         return self.comment_author.get_full_name()
 
     def __str__(self):
-
-
         return f'Comment {self.pk} by {self.comment_author}'
-
-
-
-
 # MODEL 4 - Friendship
 class Friendship(models.Model):
     STATUS_CHOICES = (
@@ -127,7 +118,8 @@ class Friendship(models.Model):
     def __str__(self):
         sender_full_name = self.sender.profile.get_user_name() if self.sender else "None"
         receiver_full_name = self.receiver.profile.get_user_name() if self.receiver else "None"
-        return f"Friendship between {sender_full_name} and {receiver_full_name}"
+        return f"Friendship between: {sender_full_name} and {receiver_full_name}"
+
 
 # MODEL 5 - FriendRequest
 class FriendRequest(models.Model):
@@ -162,13 +154,4 @@ class FriendRequest(models.Model):
 
     def __str__(self):
         return f"Friend request from {self.sender.username} to {self.receiver.username}"
-    
-
-
-
-
-
-
-
-
     

@@ -1,7 +1,10 @@
-# File: forms.py
 from django import forms
+from django.forms.widgets import CheckboxInput
 from django.contrib.auth.forms import UserCreationForm
-from .models import  Comment, Post, Profile, FriendRequest, Friendship
+from .models import (
+    User, Comment, Post, Profile,
+    FriendRequest, Friendship
+)
 
 class CustomUserCreationForm(UserCreationForm):
     first_name = forms.CharField(max_length=30)
@@ -10,9 +13,46 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email')
+class CustomPasswordResetForm(forms.Form):
+    username = forms.CharField(label='Enter Username')
+    new_password1 = forms.CharField(label='Enter New Password')
+    new_password2 = forms.CharField(label='Enter Confirm New Password')
 
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password1 = cleaned_data.get('new_password1')
+        new_password2 = cleaned_data.get('new_password2')
+        username = cleaned_data.get('username')
 
+        print("Executing clean method")  # Debugging statement
 
+        if new_password1 and new_password2 and new_password1 != new_password2:
+            raise forms.ValidationError('New passwords do not match.')
+
+        if username and not User.objects.filter(username=username).exists():
+            raise forms.ValidationError('Invalid username.')
+
+        print("Clean method executed successfully")  # Debugging statement
+
+        return cleaned_data
+class UserSearchForm(forms.Form):
+    search_query = forms.CharField(max_length=100)
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['bio', 'gender', 'profession', ]
+
+class UpdateProfileImageForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['profile_image', 'banner_image']
+        labels = {
+            'profile_image': 'Update Profile Image',
+            'banner_image': 'Update Profile Banner',
+        }
+        
+
+    
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
@@ -20,16 +60,22 @@ class PostForm(forms.ModelForm):
                 'post_title', 
                 'post_content', 
                   ]
+
+
 class PostEditForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['post_content',
-                  'post_title',
-                  ]
+        fields = ['post_content']
+        widgets = {
+            'post_content': forms.Textarea(attrs={'class': 'post-content'}),
+        }
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['comment_content']
+
+
 
 class FriendRequestForm(forms.ModelForm):
     class Meta:
@@ -57,15 +103,3 @@ class FriendRequestForm(forms.ModelForm):
                 raise forms.ValidationError("You are already friends with this user.")
 
         return cleaned_data
-
-class UserSearchForm(forms.Form):
-    search_query = forms.CharField(max_length=100)
-
-class UpdateProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['bio', 'gender', 'profession', ]
-class UpdateProfileImageForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['profile_image', 'banner_image' ]

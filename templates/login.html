@@ -1,49 +1,38 @@
-<!-- File: login.html -->
 {% extends 'base.html' %}
 
 {% load static %}
 
 {% block content_login %}
 
+    {% include 'header_logged_out.html' %}
 
-{% include 'header_logged_out.html' %}
-
-<section class="landing-container">
-<div class="landing-image" >
-  <div class="landing-content">
-  <h1 class="landing-text">Join millions of social beings!</h1>
-  
-</div>
-
-
-
-<div class="logged-out-section-container">
-  <section class="logged-out-section">
-    <h1 class="logged-out-header">Welcome!</h1>
-  
-    <form class="form-logged-out" method="post" action="{% url 'login' %}">
-      {% csrf_token %}
-      
-      <label class="label-username" for="username">Username:</label>
-      <input type="text" name="username" class="input-username" required>
+    <section class="login-container">
+        <div class="login-image">
     
-      <label class="label-password" for="password">Password:</label>
-      <input type="password" name="password" class="input-password" required>
     
-
-      <button class="button-logged-out" type="submit">Log In</button>
-    
-    </form>
-    <p class="text-not-registered">No account? Sign up here!</p> 
-    <a class="link-signup" href="{% url 'signup' %}">Sign Up</a>
-
-  </section>
-  </div>
-
-
-</div>
-</section>
-
-
-
-  {% endblock content_login %}
+            <div class="login-section-container">
+                <h1 class="login-welcome-text">Welcome to Socialize!</h1>
+                <section id="login-section">
+             
+                    <form class="login-form" method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                       <div class="login-form-username">
+                        <label class="login-username-label" for="username">Username:</label>
+                        <input class="login-username-input" type="text" name="username" required>
+                        </div>
+                        <div class="login-form-password">
+                        <label class="login-password-label" for="password">Password:</label>
+                        <input class="login-password-input" type="password" name="password" required>
+                        </div>
+                        <button class="login-btn" type="submit">Login</button>
+                    </form>
+                   
+                    <a class="login-forgot-password-link" href="{% url 'password_reset' %}">Forgot password?</a>       
+                    <a class="login-signup-link" href="{% url 'signup' %}">Sign Up</a>
+        
+                </section>
+            </div>
+        </div>
+    </section>
+{% include 'footer.html' %}
+{% endblock content_login %}

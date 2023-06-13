@@ -1,6 +1,11 @@
 <!-- File: post_create.html -->
 {% extends 'base.html' %}
 
-{% block content %}
-
-{% endblock %}
+{% block content_post_create %}
+  <h1>Create a Post</h1>
+  <form method="post" >
+    {% csrf_token %}
+    {{ post_form.as_p }}
+    <button type="submit">Create</button>
+  </form>
+{% endblock content_post_create%}

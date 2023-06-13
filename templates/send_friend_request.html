@@ -1,14 +1,9 @@
-<!-- File: send_friend_request.html -->
 {% block content_send_friend_request %}
-
-
-<form method="post" action="{% url 'send_friend_request' receiver_id=receiver_id %}">
-  {% csrf_token %}
-  <input type="hidden" name="action" value="send_friend_request">  
-  <input type="hidden" name="sender" value="{{ request.user.id }}">
-  <input type="hidden" name="receiver" value="{{ receiver_id }}">
-  <button type="submit">Send Friend Request</button>
-</form>
-
-
+  <form method="post" action="{% url 'send_friend_request' receiver_id=receiver_id %}">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="send_friend_request">
+    <input type="hidden" name="sender" value="{{ request.user.id }}">
+    <input type="hidden" name="receiver" value="{{ receiver_id }}">
+    <button class="add-friend-btn" type="submit">Send Friend Request</button>
+  </form>
 {% endblock content_send_friend_request %}

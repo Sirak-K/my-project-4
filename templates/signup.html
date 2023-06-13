@@ -1,61 +1,43 @@
-<!-- File: signup.html -->
 {% extends 'base.html' %}
 
 {% block content_signup %}
+  {% include 'header_logged_out.html' %}
 
-{% include 'header_logged_out.html' %}
+ 
 
+    <section id="signup-section">
 
-<section class="landing-container">
-  <div class="landing-image" >
-    
-    
-<div class="signup-section-container">
-  <section class="signup-section">
-    <h1 class="signup-header">Register New Account</h1>
-  
-    <form class="form-signup" method="post">
-      {% csrf_token %}
-      
-      <label class="label-username" for="username">Username:</label>
-      <input type="text" name="username" class="input-signup-username" required>
-    
+          <h1 class="signup-header">Register New Account</h1>
 
+          <form class="signup-form" method="post">
+            {% csrf_token %}
 
+            <label class="signup-username-label" for="username">Username:</label>
+            <input type="text" name="username" class="signup-username-input" required>
 
-      <label class="label-email" for="email">Email:</label>
-      <input type="email" name="email" id="email" class="input-signup-email">
+            <label class="signup-email-label" for="email">Email:</label>
+            <input type="email" name="email" id="email" class="signup-email-input">
 
+            <label class="signup-first-name-label" for="first_name">First Name</label>
+            <input type="text" name="first_name" class="signup-first-name-input">
 
-      <label class="label-first-name" for="first_name">First Name</label>
-      <input type="text" name="first_name" class="input-signup-first-name">
+            <label class="signup-last-name-label" for="last_name">Last Name</label>
+            <input type="text" name="last_name" class="signup-last-name-input">
 
-      <label class="label-last-name" for="last_name">Last Name</label>
-      <input type="text" name="last_name" class="input-signup-last-name">
+            <label class="signup-password-label" for="password1">Password:</label>
+            <input type="password" name="password1" class="signup-password-input" required>
 
+            <label class="signup-password-label" for="password2">Confirm Password:</label>
+            <input type="password" name="password2" class="signup-password-confirmation-input" required>
 
+            <button class="signup-btn" type="submit">Sign Up</button>
+          </form>
 
-      <label class="label-password" for="password1">Password:</label>
-      <input type="password" name="password1" class="input-signup-password" required>
-    
-      <label class="label-password" for="password2">Confirm Password:</label>
-      <input type="password" name="password2" class="input-signup-password-confirmation" required>
+          <p class="already-registered-text">Already have an account?<br>
+            <a class="already-registered-link" href="{% url 'login' %}">Log In</a>
+          </p>
 
-      <button class="button-signup" type="submit">Sign Up</button>
-    
-    </form>
+    </section>
 
-    <p class="text-already-registered">Already have an account? 
-      <br>
-      <a class="link-already-registered" href="{% url 'login' %}">Log In</a>
-    </p>
-
-
-
-  </section>
-</div>
-
-</section>
-</div>
 
 {% endblock content_signup %}

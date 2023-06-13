@@ -1,23 +1,6 @@
 
-{% block header_not_logged_in %}
-
-
-<header class="header-container-not-logged-in">
-
-        <!-- NAVBAR --> 
-        <nav class="navbar">
-            <ul class="navbar-list">
-    
-
-         <!--SITE LOGO-->
-         <a class="logotype">
-            <img class="logo svg-logo" src="/media/img/logotype.svg" alt="Socialize Logo" >
-        </a>
-
-            </ul>
-        </nav>  
-
+{% block header_logged_out %}
+<header class="header-container-login"> 
+<a class="logotype" href="{% url 'login' %}"><img class="logo svg-logo" src="/media/img/logotype.svg" alt="Socialize Logo"></a>
 </header>
-
-
-{% endblock header_not_logged_in %}
+{% endblock header_logged_out %}

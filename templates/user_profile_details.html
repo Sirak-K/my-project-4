@@ -1,11 +1,6 @@
-<!-- File: user_profile_details.html -->
-
-
 {% block content_user_profile_details %}
 
-
 <section class="profile-images-section">
-    <!-- Profile Image -->
     {% if is_owner %}
         <a href="{% url 'user_profile_image' %}">
             <img class="profile-image" src="{{ user_profile_image_url }}" alt="Profile Image">
@@ -14,65 +9,68 @@
         <img class="profile-image" src="{{ user_profile_image_url }}" alt="Profile Image">
     {% endif %}
 
-    <!-- Profile Banner -->
     {% if is_owner %}
         <a href="{% url 'user_profile_image' %}">
+            
             <img class="profile-banner" src="{{ user_profile_banner_url }}" alt="Profile Banner">
         </a>
     {% else %}
+        
         <img class="profile-banner" src="{{ user_profile_banner_url }}" alt="Profile Banner">
     {% endif %}
 </section>
 
 
-<!-- PROFILE DETAILS CONTAINER -->
-<div class="profile-details-container">
   <!-- PROFILE DETAILS -->
-  <h3 class="profile-detail-header">CURRENTLY LOGGED-IN AS : {{ request.user.get_full_name }}</h3>
 
-  <section class="profile-details-section">
-    <div class="profile-details" data-user-id="{{ user.id }}">
-      <!-- BIO -->
-      <div class="profile-detail-bio">
-        <span class="bio-label">Bio:</span>
-        <span class="bio-text" data-field-name="bio" contenteditable>{{ user_profile.bio }}</span>
-        <!-- BIO - EDIT -->
-        <span class="edit-pencil-container">
-          <a href="#" class="edit-pencil-bio">&#9998;</a>
-        </span>
-      </div>
+  
+<section id="profile-details-section" data-user-id="{{ user.id }}">
+  <div class="profile-details">
 
-      <!-- GENDER -->
-      <div class="profile-detail-gender">
-        <span class="gender-label">Gender: </span>
-        <span class="gender-text" data-field-name="gender">{{ user_profile.get_gender_display }}</span>
-        <!-- GENDER - EDIT -->
-        <span class="edit-pencil-container">
-          <a href="#" class="edit-pencil" data-field-selector="[data-field-name='gender']">&#9998;</a>
-          <div class="dropdown-menu" data-field-name="gender">
-            {% for value, display_name in user_profile.GENDER_CHOICES %}
-              <a href="#" data-value="{{ value }}">{{ display_name }}</a>
-            {% endfor %}
-          </div>
-        </span>
-      </div>
+  
+        <!-- BIO -->
+        <div class="profile-detail-bio">
+          <span class="profile-detail-bio-label">Bio:</span>
+          <span class="profile-detail-bio-text" data-field-name="bio" contenteditable>{{ user_profile.bio }}</span>
+          <!-- BIO - EDIT -->
+          <span class="edit-pencil-container">
+            <a href="#" class="edit-pencil-bio">&#9998;</a>
+          </span>
+        </div>
 
-      <!-- PROFESSION -->
-      <div class="profile-detail-profession">
-        <span class="profession-label">Profession:</span>
-        <span class="profession-text" data-field-name="profession">{{ user_profile.get_profession_display }}</span>
-        <!-- PROFESSION - EDIT -->
-        <span class="edit-pencil-container">
-          <a href="#" class="edit-pencil" data-field-selector="[data-field-name='profession']">&#9998;</a>
-          <div class="dropdown-menu" data-field-name="profession">
-            {% for value, display_name in user_profile.PROFESSION_CHOICES %}
-              <a href="#" data-value="{{ value }}">{{ display_name }}</a>
-            {% endfor %}
-          </div>
-        </span>
-      </div>
-    </div>
-  </section>
-</div>
+        <!-- GENDER -->
+        <div class="profile-detail-gender">
+          <span class="profile-detail-gender-label">Gender:</span>
+          <span class="profile-detail-gender-text" data-field-name="gender">{{ user_profile.get_gender_display }}</span>
+          <!-- GENDER - EDIT -->
+          <span class="edit-pencil-container">
+            <a href="#" class="edit-pencil" data-field-selector="[data-field-name='gender']">&#9998;</a>
+            <div class="dropdown-menu" data-field-name="gender">
+              {% for value, display_name in user_profile.GENDER_CHOICES %}
+                <a href="#" data-value="{{ value }}">{{ display_name }}</a>
+              {% endfor %}
+            </div>
+          </span>
+        </div>
+
+        <!-- PROFESSION -->
+        <div class="profile-detail-profession">
+          <span class="profile-detail-profession-label">Profession:</span>
+          <span class="profile-detail-profession-text" data-field-name="profession">{{ user_profile.get_profession_display }}</span>
+          <!-- PROFESSION - EDIT -->
+          <span class="edit-pencil-container">
+            <a href="#" class="edit-pencil" data-field-selector="[data-field-name='profession']">&#9998;</a>
+            <div class="dropdown-menu" data-field-name="profession">
+              {% for value, display_name in user_profile.PROFESSION_CHOICES %}
+                <a href="#" data-value="{{ value }}">{{ display_name }}</a>
+              {% endfor %}
+            </div>
+          </span>
+        </div>
+
+  </div>
+</section>
+
+
 
 {% endblock content_user_profile_details %}

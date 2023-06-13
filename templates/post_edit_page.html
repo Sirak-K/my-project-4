@@ -1,0 +1,40 @@
+<!-- File: post_edit_page.html -->
+{% extends 'base.html' %}
+
+{% block content_post_edit_page %}
+  {% include 'header_logged_in.html' %}
+
+  <h2>Editing post with id {{ post.pk }}</h2>
+
+
+  <div class="post">
+                              <div id="post-edit-section">
+                                <!-- POST - DELETE BUTTON -->
+                                <form class="post-delete-form" method="post" action="{% url 'post_delete' pk=post.pk %}">
+                                  {% csrf_token %}
+                                  <button class="post-delete-btn fa fa-trash" type="submit"></button>
+                                </form>
+                          </div>
+
+    <div class="post-details">
+      <div class="post-details-secondary">
+        <p class="post-author">{{ post.get_post_author_name }}</p>
+        <img class="post-author-image" src="{{ post.author_profile_image }}" alt="Author Profile Image">
+
+      </div>
+
+      <section id="post-content-section">
+        <h2 class="post-title" name="post_title">{{ post.post_title }}</h2>
+
+        <form method="post" action="{% url 'post_edit_save' pk=post.pk %}">
+          {% csrf_token %}
+          <textarea class="post-content" name="post_content">{{ post.post_content }}</textarea>
+          <button class="post-edit-save-btn" type="submit">Save Edits</button>
+        </form>
+      </section>
+
+    </div>
+  </div>
+
+
+{% endblock content_post_edit_page %}

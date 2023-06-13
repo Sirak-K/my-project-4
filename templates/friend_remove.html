@@ -1,15 +1,7 @@
-<!-- File: friend_remove.html -->
 {% block content_friend_remove %}
-
-
-
-  <form method="post" action="{% url 'remove_friendship' friendship.id %}">
-    {% csrf_token %}
-     <input type="hidden" name="action" value="remove_friendship">
-
-    <button type="submit">Remove Friend</button>
+<form method="post" action="{% url 'remove_friendship' friendship.id %}">
+  {% csrf_token %}
+  <input type="hidden" name="action" value="remove_friendship">
+  <button type="submit">Remove Friend</button>
 </form>
-
-
-
 {% endblock content_friend_remove %}

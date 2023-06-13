@@ -1,49 +1,87 @@
-<!-- File: user_profile.html -->
-
 {% extends 'base.html' %}
 
 {% block content_user_profile %}
 
-
-{% include 'header_logged_in.html' %}
-{% include 'user_profile_details.html' %}
+    {% include 'header_logged_in.html' %}
 
 
 
-<a href="{% url 'user_deletion_confirmation' %}">
-  {% csrf_token %}
-  <button type="submit">Delete Account</button>
-</a>
+<section id="user-profile-section">
 
+    {% include 'user_profile_details.html' %}
 
+          <div id="delete-user-and-send-friend-section">
+          {% if not is_owner and not are_friends %}
+          {% include 'send_friend_request.html' with receiver_id=receiver_id %}
+          {% endif %}
 
+          {% if is_owner %}
+          <a href="{% url 'user_deletion_confirmation' %}">
+          {% csrf_token %}
+          <button class="delete-user-btn" type="submit">Delete User Account</button>
+          </a>
+          {% endif %}
+          </div>
 
+          <section id="post-create-section">
+                <form class="post-create-form" method="post" action="{% url 'post_create' %}">
+                    {% csrf_token %}
+                    <label for="post_title"></label>
+                    <input class="post-create-title" placeholder="Post Title" type="text" name="post_title" required>
+                    <label for="post_content"></label>
+                    <textarea class="post-create-text-content" name="post_content" placeholder="How are you feeling today, {{ user.first_name }}?" required></textarea>
+                    <button type="submit" class="post-create-btn">Create Post</button>
+                </form>
+          </section>
 
-
- <!-- SEND FRIEND REQUEST (ADD FRIEND) -->
-    {% include 'send_friend_request.html' with receiver_id=receiver_id %}
-  
-
-<!-- CODE SECTION - CREATE NEW POST -->
-<section id="post-create-section">
-  <form class="post-create-form" method="post" action="{% url 'post_create' %}">
-    {% csrf_token %}
-    <label for="post_title"></label>
-    <input class="post-create-title" placeholder="Post Title" type="text" id="post_title" name="post_title" required>
-    <label for="post_content"></label>
-    <textarea class="post-create-text" name="post_content" placeholder="How are you feeling today, {{ user.first_name }}?" required></textarea>
-    <button type="submit" class="post-create-btn">Create Post</button>
-  </form>
-</section>
-
-{% endblock content_user_profile %}
 
 
 <!-- DISPLAY POSTS -->
-{% block content_post_section %}
-    {% for post in all_posts %}
-        {% if post.post_author == user %}
-      {% include 'post_list.html' with post=post all_post_comments=all_post_comments author_profile_image=post.post_author.profile.profile_image.url %}
-        {% endif %}
-    {% endfor %}
-{% endblock content_post_section %}
+<div id="post-list-section">
+  {% for post in all_posts %}
+    {% if post.post_author == user or post.post_author in user.profile.get_friends %}
+      {% include 'post_list.html' with post=post all_post_comments=all_post_comments %}
+    {% endif %}
+  {% endfor %}
+
+
+  <!-- Pagination links -->
+   {% if is_paginated %}
+  <div class="pagination">
+  <span class="current-page">Current Page: {{ page_obj.number }}</span>
+    
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+
+<div class="first-page">
+<a href="?page=1">&laquo; &laquo; First page</a>
+</div>
+
+<div class="previous-page">
+<a href="?page={{ page_obj.previous_page_number }}">&laquo; Previous page</a>
+</div>
+      {% endif %}
+      {% if page_obj.has_next %}
+
+<div class="next-page">
+<a href="?page={{ page_obj.next_page_number }}">Next page &raquo;</a>
+</div>
+
+<div class="last-page">
+<a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;&raquo;</a>
+</div>
+
+
+      {% endif %}
+    </span>
+  </div>
+
+
+{% else %}
+<div class="pagination">
+  <span class="current-page">Current Page: {{ page_obj.number }}</span>
+</div>
+{% endif %}
+</div>
+</section>
+{% endblock content_user_profile %}

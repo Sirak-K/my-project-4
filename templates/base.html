@@ -1,116 +1,79 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Social Network</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Social Network</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
-
 <body>
-  <!-- File: base.html -->
-  
+
   {% if user.is_authenticated %}
-    <!-- ......LOGGED-IN...... -->
 
-            
-            <!-- .MAIN. -->
-            {% block content_user_deletion_confirmation %}
-            {% endblock content_user_deletion_confirmation %}
-            
-            
-            {% block content_friend_remove %}
-            {% endblock content_friend_remove %}
+    {% block content_user_feed %}
+    {% endblock content_user_feed %}
 
-            {% block content_friend_accept %}
-            {% endblock content_friend_accept %}
-            {% block content_friend_cancel %}
-            {% endblock content_friend_cancel %}
-            {% block content_friend_reject %}
-            {% endblock content_friend_reject %}
-            
-            {% block content_friend_list %}
-            {% endblock content_friend_list %}
-            
-            {% block content_friend_requests %}
-            {% endblock content_friend_requests %}
+    {% block content_friend_list %}
+    {% endblock content_friend_list %}
 
-            {% block content_post_details_page %}
-            {% endblock content_post_details_page %}
-      
-
-      
-            {% block content_user_feed %}
-            {% endblock content_user_feed %}
-
-            {% block render_user_search %}
-            {% endblock render_user_search %}
-
-            {% block content_user_search_results %}
-            {% endblock content_user_search_results %}
-            {% block content_user_search %}
-            {% endblock content_user_search %}
-
-            {% block content_user_profile_details  %}
-            {% endblock content_user_profile_details  %}
-            {% block content_user_profile  %}
-            {% endblock content_user_profile  %}
-            
-
-            {% block header_logged_in %}
-            {% endblock header_logged_in %}
-            
-            {% block content_post_section %}
-            
-            {% endblock content_post_section %}
-
-            {% block content_user_profile_image %}
-            {% endblock content_user_profile_image %}
-            
-
-    <!-- Log Out button -->
-    <form method="post" action="{% url 'logout' %}">
-      {% csrf_token %}
-      <button type="submit">Log Out</button>
-    </form>
-
-{% else %}
+    {% block content_user_search %}
+    {% endblock content_user_search %}
 
 
-    <!-- ......LOGGED-OUT......  -->
+    {% block content_user_profile %}
+    {% endblock content_user_profile %}
 
-        
-   
-            <!-- .MAIN. -->
+    {% block content_post_list %}
+    {% endblock content_post_list %}
+
     
-      {% block content_login  %}
-      {% endblock content_login  %}
-      {% block content_signup  %}
-      {% endblock content_signup  %}
+    {% block content_friend_requests %}
+    {% endblock content_friend_requests %}
+
+    {% block content_post_details %}
+    {% endblock content_post_details %}
+
+    {% block content_post_edit_page %}
+    {% endblock content_post_edit_page %}
+
+    {% block content_user_profile_image %}
+    {% endblock content_user_profile_image %}
+   
+    {% block content_post_create %}
+    {% endblock content_post_create %}
+    
+    {% block content_post_comment_create %}
+    {% endblock content_post_comment_create %}
+
+    {% block content_user_profile_details %}
+    {% endblock content_user_profile_details %}
+
+    {% block content_user_deletion_confirmation %}
+    {% endblock content_user_deletion_confirmation %}
 
 
-
-{% endif %}
+  {% else %}
   
- 
-  
- 
-  
-  <footer>
-    {% include 'footer.html' %}
-  </footer>
- 
-  
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" 
-integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script type="module" src="{% static 'js/script.js' %}"></script>
+    {% block content_login %}
+    {% endblock content_login %}
 
+    {% block content_footer %}
+    {% endblock content_footer %}
+    
+    {% block content_signup %}
+    {% endblock content_signup %}
+    
+    {% block content_password_reset_page %}
+    {% endblock content_password_reset_page %}
 
- </body>
+  {% endif %}
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="module" src="{% static 'js/script.js' %}"></script>
+</body>
 </html>

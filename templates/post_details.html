@@ -1,82 +1,55 @@
 <!-- File: post_details.html -->
-
 {% block content_post_details %}
-<div class="post-wrapper">
+
 <div class="post">
-
-  <section id="post-edit-section">
-      
-      <form class="post-delete-form" method="post" action="{% url 'post_delete' pk=post.pk %}">
-        {% csrf_token %}
-        <button class="post-delete-btn fa fa-trash" type="submit"></button>
-      </form>
-    
-
-    <form method="post" action="{% url 'post_details_page' pk=post.pk %}">
+  <div id="post-edit-section">
+    <!-- POST - DELETE BUTTON -->
+    <form class="post-delete-form" method="post" action="{% url 'post_delete' pk=post.pk %}">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button class="post-edit-btn fas fa-pencil-alt" type="submit"></button>
+      <button class="post-delete-btn fa fa-trash" type="submit"></button>
     </form>
 
-  </section>
-
-
-    <div class="post-details">
-      <div class="post-details-secondary">
-        <p class="post-author">{{ post.get_post_author_name }}</p>
-        
-          {% if author_profile_image %}
-              <img class="post-author-image" src="{{ author_profile_image }}" alt="Author Profile Image">
+    <!-- POST - EDIT BUTTON -->
+    <form method="post" action="{% url 'post_edit_page' pk=post.pk %}">
+    {% csrf_token %}
+          {% if not is_post_edit_page %}
+          <button class="post-edit-btn fas fa-pencil-alt" type="submit"></button>
           {% else %}
-              <img class="post-author-image" src="/media/img/default_profile_image.png" alt="Default Profile Image">
+          <button style="display:none" class="post-edit-btn fas fa-pencil-alt" type="submit"></button>
           {% endif %}
+    </form>
+  </div>
 
-     
-        
-        <p class="post-time">{{ post.post_created_at }}</p>
-      </div>
-
-
-
-
-
-
-
-      <section id="post-content-section">
-        <h2 class="post-title" name="post_title">{{ post.post_title }}</h2>
-        <textarea class="post-content" name="post_content">{{ post.post_content }}</textarea>
-      </section>
-
-
-
-      <section id="post-details-lc-section">
-        <span id="post-like-count" class="fas fa-thumbs-up">{{ post.post_likes.count }}</span>
-        <form id="post-like-form" method="post" action="{% url 'toggle_like' pk=post.pk %}">
-          {% csrf_token %}
-          <button id="post-like-button" class="post-like-button" data-post-id="{{ post.pk }}" type="submit">
-            {% if post.is_liked_by_user %}
-            Unlike
-            {% else %}
-            Like
-            {% endif %}
-          </button>
-        </form>
-      </section>
+  <div class="post-details">
+    <div class="post-details-secondary">
+          <p class="post-author">{{ post.get_post_author_name }}</p>
+          <img class="post-author-image" src="{{ post.author_profile_image }}" alt="Author Profile Image">
+          <p class="post-time">{{ post.post_created_at }}</p>
     </div>
 
-    <section id="comment-create-section">
-    <form method="post" action="{% url 'post_comment_create' pk=post.pk %}">
-      {% csrf_token %}
+    <section id="post-content-section">
+                
+                    <h2 class="post-title" name="post_title">{{ post.post_title }}</h2>
+                    <div class="post-content">{{ post.post_content }}</div>
+    </section>
 
-    <textarea id="comment-content" rows="3" name="comment_content"></textarea>
-
-      <button type="submit" class="comment-create-btn">Submit Comment</button>
-    </form>
-  </section>
-
-
+    <section id="post-details-lc-section">
+                        <span id="post-like-count" class="fas fa-thumbs-up">{{ post.post_likes.count }}</span>
+                        <form id="post-like-form" method="post" action="{% url 'toggle_like' pk=post.pk %}">
+                          {% csrf_token %}
+                          {% if post.post_author != request.user %}
+                          <button id="post-like-btn" data-post-id="{{ post.pk }}" type="submit">
+                            {% if post.is_liked_by_user %}
+                            Unlike
+                            {% else %}
+                            Like
+                            {% endif %}
+                          </button>
+                          {% endif %}
+                        </form>
+    </section>
+    {% include 'post_comment_create.html' %}
   </div>
 </div>
-
 
 {% endblock content_post_details %}

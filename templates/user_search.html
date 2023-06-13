@@ -1,21 +1,21 @@
-<!-- File: user_search.html -->
+
 {% extends 'base.html' %}
 
 {% block content_user_search %}
 
-<h1>User Search</h1>
+  {% include 'header_logged_in.html' %}
+<section id="user-search-section">
+<h1 class="user-search-header">User Search</h1>
 
-<!-- USER SEARCH FUNCTIONALITY: SEARCH INPUT -->
-<input type="text" id="search-input" name="search_query" placeholder="Search for users...">
+<input type="text" id="user-search-input" name="search_query" placeholder="Search for users...">
 
-<!-- USER SEARCH FUNCTIONALITY: SEARCH RESULTS -->
-<div id="search-results">
+<div id="user-search-results">
   {% for user in searched_users %}
-  <a href="{% url 'user_profile' username=user.username %}">
-    <li>{{ user.username }}</li>
-  </a>
-  
+    <a href="{% url 'user_profile' username=user.username %}">
+      <li>{{ user.username }}</li>
+    </a>
   {% endfor %}
 </div>
-
+</div>
+</section>
 {% endblock content_user_search %}
