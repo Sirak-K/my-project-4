@@ -56,11 +56,38 @@ class UpdateProfileImageForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = [
-                'post_title', 
-                'post_content', 
-                  ]
+        fields = ['post_title', 'post_content']
+        widgets = {
+            'post_content': forms.Textarea(attrs={'class': 'post-content'}),
+        }
+        labels = {
+            'post_title': 'Post Title',
+            'post_content': 'Post Content'
+        }
+        help_texts = {
+            'post_title': 'Maximum 50 characters',
+            'post_content': 'Maximum 200 characters'
+        }
+        error_messages = {
+            'post_title': {
+                'max_length': 'The post title cannot exceed 50 characters.'
+            },
+            'post_content': {
+                'max_length': 'The post content cannot exceed 200 characters.'
+            }
+        }
 
+    def clean_post_title(self):
+        post_title = self.cleaned_data['post_title']
+        if len(post_title) > 50:
+            raise forms.ValidationError("The post title cannot exceed 50 characters.")
+        return post_title
+
+    def clean_post_content(self):
+        post_content = self.cleaned_data['post_content']
+        if len(post_content) > 200:
+            raise forms.ValidationError("The post content cannot exceed 200 characters.")
+        return post_content
 
 class PostEditForm(forms.ModelForm):
     class Meta:

@@ -4,7 +4,7 @@
 {% for friendship in existing_friendships %}
 <section id="friendship-section">
   <p class="friendships"> 
-    <span class="friend-name">{{ friendship.receiver.profile.get_user_name }}</span>
+    <span class="friend-name">{{ friendship }}</span>
   </p>
 
      {% include 'friend_remove.html' %}

@@ -12,22 +12,22 @@
           <form class="signup-form" method="post">
             {% csrf_token %}
 
-            <label class="signup-username-label" for="username">Username:</label>
+            <label class="signup-username-label" for="username">* Username:</label>
             <input type="text" name="username" class="signup-username-input" required>
 
-            <label class="signup-email-label" for="email">Email:</label>
-            <input type="email" name="email" id="email" class="signup-email-input">
+            <label class="signup-email-label" for="email">* Email:</label>
+            <input type="email" name="email" id="email" class="signup-email-input" required>
 
-            <label class="signup-first-name-label" for="first_name">First Name</label>
-            <input type="text" name="first_name" class="signup-first-name-input">
+            <label class="signup-first-name-label" for="first_name">* First Name:</label>
+            <input type="text" name="first_name" class="signup-first-name-input" required>
 
-            <label class="signup-last-name-label" for="last_name">Last Name</label>
-            <input type="text" name="last_name" class="signup-last-name-input">
+            <label class="signup-last-name-label" for="last_name">* Last Name:</label>
+            <input type="text" name="last_name" class="signup-last-name-input" required>
 
-            <label class="signup-password-label" for="password1">Password:</label>
+            <label class="signup-password-label" for="password1">* Password:</label>
             <input type="password" name="password1" class="signup-password-input" required>
 
-            <label class="signup-password-label" for="password2">Confirm Password:</label>
+            <label class="signup-password-label" for="password2">* Confirm Password:</label>
             <input type="password" name="password2" class="signup-password-confirmation-input" required>
 
             <button class="signup-btn" type="submit">Sign Up</button>

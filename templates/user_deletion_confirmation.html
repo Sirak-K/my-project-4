@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content_user_deletion_confirmation %}
-         
-<h2>Are you sure you want to delete your account?</h2>
+{% include 'header_logged_in.html' %}
 
-<form method="post" action="{% url 'user_deletion_confirmation' %}">
-  {% csrf_token %}
-  <button type="submit" name="confirm" value="yes">Yes, I am sure</button>
-  <button type="submit" name="confirm" value="no">No, take me back</button>
-</form>
+<section id="user-deletion-section">
+      <h2 class="user-deletion-header">Deleting an account is an irreversible action.</h2>
+      <br>
+      <h2 class="user-deletion-header">Are you sure you want to delete your account?</h2>
 
+      <form id="user-deletion-form" method="post" action="{% url 'user_deletion_confirmation' %}">
+        {% csrf_token %}
+  <button class="user-deletion-no-btn" type="submit" name="confirm" value="no">No, take me back</button>
+      <br>
+  <button class="user-deletion-yes-btn" type="submit" name="confirm" value="yes">Yes, I am sure</button>
+      </form>
+</section>
 {% endblock content_user_deletion_confirmation %}

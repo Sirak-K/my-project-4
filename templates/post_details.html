@@ -28,25 +28,24 @@
     </div>
 
     <section id="post-content-section">
-                
-                    <h2 class="post-title" name="post_title">{{ post.post_title }}</h2>
-                    <div class="post-content">{{ post.post_content }}</div>
+      <h2 class="post-title" name="post_title">{{ post.post_title }}</h2>
+      <div class="post-content">{{ post.post_content }}</div>
     </section>
 
     <section id="post-details-lc-section">
-                        <span id="post-like-count" class="fas fa-thumbs-up">{{ post.post_likes.count }}</span>
-                        <form id="post-like-form" method="post" action="{% url 'toggle_like' pk=post.pk %}">
-                          {% csrf_token %}
-                          {% if post.post_author != request.user %}
-                          <button id="post-like-btn" data-post-id="{{ post.pk }}" type="submit">
-                            {% if post.is_liked_by_user %}
-                            Unlike
-                            {% else %}
-                            Like
-                            {% endif %}
-                          </button>
-                          {% endif %}
-                        </form>
+        <span id="post-like-count" class="fas fa-thumbs-up">{{ post.post_likes.count }}</span>
+        <form id="post-like-form" method="post" action="{% url 'toggle_like' pk=post.pk %}">
+          {% csrf_token %}
+          {% if post.post_author != request.user %}
+          <button id="post-like-btn" data-post-id="{{ post.pk }}" type="submit">
+            {% if post.is_liked_by_user %}
+            Unlike
+            {% else %}
+            Like
+            {% endif %}
+          </button>
+          {% endif %}
+        </form>
     </section>
     {% include 'post_comment_create.html' %}
   </div>

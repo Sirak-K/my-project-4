@@ -27,16 +27,18 @@
 <section id="profile-details-section" data-user-id="{{ user.id }}">
   <div class="profile-details">
 
-  
         <!-- BIO -->
         <div class="profile-detail-bio">
           <span class="profile-detail-bio-label">Bio:</span>
-          <span class="profile-detail-bio-text" data-field-name="bio" contenteditable>{{ user_profile.bio }}</span>
+          <br>
+          <p class="profile-detail-bio-text" data-field-name="bio" contenteditable>{{ user_profile.bio }}</p>
           <!-- BIO - EDIT -->
-          <span class="edit-pencil-container">
+          <div class="edit-pencil-bio-container">
             <a href="#" class="edit-pencil-bio">&#9998;</a>
-          </span>
+          </div>
         </div>
+
+
 
         <!-- GENDER -->
         <div class="profile-detail-gender">
@@ -52,6 +54,8 @@
             </div>
           </span>
         </div>
+
+
 
         <!-- PROFESSION -->
         <div class="profile-detail-profession">

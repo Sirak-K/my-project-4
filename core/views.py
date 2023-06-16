@@ -79,6 +79,8 @@ class SignUpView(FormView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+
 # VIEW 5 - USER PROFILE - IMAGE AND PROFILE BANNER
 class UserProfileImageView(LoginRequiredMixin, FormView):
     template_name = 'user_profile_image.html'
@@ -99,6 +101,9 @@ class UserProfileImageView(LoginRequiredMixin, FormView):
 
     def get_success_url(self):
         return reverse_lazy('user_profile', kwargs={'username': self.request.user.username})
+
+
+
 # VIEW 6 - USER PROFILE - UPDATE PROFILE
 class UserProfileFieldUpdateView(LoginRequiredMixin, View):
     def post(self, request, user_id):
@@ -120,42 +125,6 @@ class UserProfileFieldUpdateView(LoginRequiredMixin, View):
             print(f"Error: {e}")
             print(traceback.format_exc())
             return JsonResponse({"status": "error", "message": str(e)})
-
-
-# VIEW 7 - USER FEED (displays posts of logged-in user and his friends)
-class UserFeedView(LoginRequiredMixin, ListView):
-    template_name = 'user_feed.html'
-    context_object_name = 'all_posts'
-    paginate_by = 2
-
-    def get_queryset(self):
-        user = self.request.user
-        friends = Friendship.objects.filter(
-            models.Q(sender=user) | models.Q(receiver=user),
-            status='accepted'
-        ).values_list('sender', 'receiver')
-
-        friend_ids = list(set([friend_id for friendship in friends for friend_id in friendship]))
-
-        return Post.objects.filter(
-            models.Q(post_author=user) | models.Q(post_author_id__in=friend_ids)
-        ).order_by('-post_created_at')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
-        user_profile = Profile.objects.get(user=user)
-        user_friends = user_profile.get_friends()
-
-        all_posts = context['object_list']
-
-        
-        context['all_posts'] = all_posts
-        context['all_post_comments'] = Comment.objects.all().order_by('-comment_created_at')
-        context['user_friends'] = user_friends
-      
-        return context
-
 
 
 
@@ -218,54 +187,6 @@ class UserProfileView(LoginRequiredMixin, ListView):
         return super().post(request, *args, **kwargs)
 
 
-
-# VIEW 12 - POST LIST
-class PostListView(ListView):
-    model = Post
-    template_name = 'post_list.html'
-    context_object_name = 'post_list_context'
-
-
-
-
-
-
-
-
-
-# VIEW 14 - POST DETAILS
-class PostDetailsView(DetailView):
-    model = Post
-    template_name = 'post_edit_page.html'
-    context_object_name = 'post'
-    
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if not self.is_friend(request.user, self.object.post_author):
-            return HttpResponseForbidden("You are not authorized to view this post.")
-        context = self.get_context_data(object=self.object)
-        return self.render_to_response(context)
-
-    def is_friend(self, user, author):
-        if user == author:
-            return True  
-        return Friendship.objects.filter(
-            (Q(sender=user, receiver=author) | Q(sender=author, receiver=user)),
-            status='accepted'
-        ).exists()
-
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['is_post_edit_page'] = True
-        context['all_posts'] = Post.objects.all().order_by('-post_created_at')
-        context['all_post_comments'] = Comment.objects.all().order_by('-comment_created_at')
-      
-        return context
-
-
-
-
 # VIEW 9 - USER PROFILE DETAILS
 class UserProfileDetailsView(LoginRequiredMixin, DetailView):
     model = Profile
@@ -285,6 +206,45 @@ class UserProfileDetailsView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
   
         return context
+
+
+# VIEW 7 - USER FEED (displays posts of logged-in user and his friends)
+class UserFeedView(LoginRequiredMixin, ListView):
+    template_name = 'user_feed.html'
+    context_object_name = 'all_posts'
+    paginate_by = 2
+
+    def get_queryset(self):
+        user = self.request.user
+        friends = Friendship.objects.filter(
+            models.Q(sender=user) | models.Q(receiver=user),
+            status='accepted'
+        ).values_list('sender', 'receiver')
+
+        friend_ids = list(set([friend_id for friendship in friends for friend_id in friendship]))
+
+        return Post.objects.filter(
+            models.Q(post_author=user) | models.Q(post_author_id__in=friend_ids)
+        ).order_by('-post_created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        user_profile = Profile.objects.get(user=user)
+        user_friends = user_profile.get_friends()
+
+        all_posts = context['object_list']
+
+        
+        context['all_posts'] = all_posts
+        context['all_post_comments'] = Comment.objects.all().order_by('-comment_created_at')
+        context['user_friends'] = user_friends
+      
+        return context
+
+
+
+
 # VIEW 10 - USER SEARCH
 class UserSearchView(LoginRequiredMixin, View):
     template_name = 'user_search.html'
@@ -329,7 +289,40 @@ class UserDeletionView(LoginRequiredMixin, TemplateView):
         elif confirm == 'no':
             return redirect('user_profile', username=request.user.username)
 
+# VIEW 12 - POST LIST
+class PostListView(ListView):
+    model = Post
+    template_name = 'post_list.html'
+    context_object_name = 'post_list_context'
+# VIEW 14 - POST DETAILS
+class PostDetailsView(DetailView):
+    model = Post
+    template_name = 'post_edit_page.html'
+    context_object_name = 'post'
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if not self.is_friend(request.user, self.object.post_author):
+            return HttpResponseForbidden("You are not authorized to view this post.")
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
 
+    def is_friend(self, user, author):
+        if user == author:
+            return True  
+        return Friendship.objects.filter(
+            (Q(sender=user, receiver=author) | Q(sender=author, receiver=user)),
+            status='accepted'
+        ).exists()
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_post_edit_page'] = True
+        context['all_posts'] = Post.objects.all().order_by('-post_created_at')
+        context['all_post_comments'] = Comment.objects.all().order_by('-comment_created_at')
+      
+        return context
 
 # VIEW 15 - POST EDIT PAGE
 class PostEditView(UpdateView):
@@ -367,14 +360,13 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'post_create.html'
-    success_url = reverse_lazy('user_feed')
+    success_url = reverse_lazy('user_profile')
 
     def form_valid(self, form):
         profile = self.request.user.profile
         form.instance.post_author_image = profile.profile_image
         form.instance.post_author = self.request.user
         return super().form_valid(form)
-
 
 
 
@@ -415,7 +407,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         form.instance.comment_author = self.request.user
         form.instance.comment_on_post = get_object_or_404(Post, pk=self.kwargs['pk'])
         super().form_valid(form)
-        return redirect('post_details_page', pk=self.kwargs['pk'])
+        return redirect('user_feed')
 
 
 

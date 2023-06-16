@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Quattrocento:wght@700&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@0,200;0,400;0,600;1,700&display=swap');
-
 @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
-
-
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@0,200;0,400;0,600;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500&display=swap');
 
 
@@ -41,18 +37,7 @@ text-align: center;
 /* font-size: 1.5rem; */
 
 }
-
-
-
-/* --- EFFECT: HIGHLIGHT --- */
-/* .current a,
-.login-text h2 {
-filter: drop-shadow(2px 2px 2px rgba(155, 141, 13, 0.9));
-background-clip: text;
--webkit-background-clip: text;
-color: transparent;
-background-image: linear-gradient(to right,  rgb(11, 238, 11), rgb(145, 235, 0), rgb(17, 230, 17));
-} */
+/* --- CSS GROUPS (COMMON RULES) --- */
 
 /* --- EFFECT: HOVER --- */
 .navbar a:hover,
@@ -67,12 +52,7 @@ color: black;}
 background: greenyellow;
 color: black;}
 
-
-
-/* -------------- CSS MAIN RULES START -------------- */
-
-
-/* HEADER */
+/* ---------- HEADER ---------- */
 .header-container{
 display: flex;
 flex-wrap: wrap;
@@ -105,16 +85,11 @@ font-size: 1.5rem;
 width: 1.7em;
 
 }
-
-
-
-
 .navbar {
 width:100%;
 gap:0;
 
 }
-
 .navbar-list {
 display: flex;
 flex-wrap: wrap;
@@ -122,7 +97,8 @@ flex-direction: row;
 justify-content: space-between;
 list-style: none;
 }
-.navbar-list-item {
+.navbar-list-item,
+.navbar-list-item-stack {
 display: flex;
 justify-content: center;
 align-items: center;
@@ -135,17 +111,6 @@ background-color: rgb(198, 254, 254);
 color:black;
 font-size: 1.2rem;
 }
-
-.navbar-list-item,
-.navbar-list-item-stack {
-display: flex;
-justify-content: center;
-align-items: center;
-width: 42px;
-height: 42px;
-border-radius: 50%;
-background-color: rgb(198, 254, 254);
-}
 #navbar-link-stack-icon-search {
 position: absolute;
 top: 0.2em;
@@ -157,52 +122,14 @@ position: relative;
 top: 0.05em;
 left: 0.2em;
 }
-
-.signout-btn {
+.navbar-signout-btn {
 font-size: 1.5rem;
 border-radius: 50%;
 padding: 0.2em;
 background-color: rgb(198, 254, 254);
 border: none;
 }
-
-
-
-
-/* ---------- USER FEED ---------- */
-#user-feed-section{
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 1em;
-border-top: solid 1px;
-width: 100%;
-}
-.user-feed-header-section {
-
-display:flex;
-flex-wrap: wrap;
-justify-content: center;
-align-items: center;
-gap: 8em;
-width: 100%;
-/* padding: 0 5em; */
-}
-.user-feed-profile-image {
-width: 200px;
-height: 200px;
-border-radius: 50%;
-border: 1px solid #000000;
-}
-.user-feed-current-date {
-font-size: 1.5rem;
-font-family: 'Source Serif Pro';
-}
-
-
-/* ---------- USER PROFILE ---------- */
+/* -------------------- USER PROFILE -------------------- */
 #user-profile-section {
 display:flex;
 flex-wrap: wrap;
@@ -212,8 +139,6 @@ justify-content: center;
 /* outline: dotted blue 8px; */
 
 }
-
-
 #profile-details-section {
 display:flex;
 flex-wrap: wrap;
@@ -223,18 +148,14 @@ background-color: white;
 margin: 0 35em;
 filter: drop-shadow(0px 1px 3px black);
 background-clip: text;
-/* outline: dotted red 5px; */
 }
-
 .profile-details {
 display:flex;
 flex-wrap: wrap;
 flex-direction: column;
 justify-content: center;
-/* width: 40em; */
-height: 10em;
 gap: 1.5em;
-padding: 0.2em 0.5em;
+padding: 0.8em;
 background-color: white;
 filter: drop-shadow(0px 1px 3px black);
 background-clip: text;
@@ -242,7 +163,6 @@ background-clip: text;
 .profile-details span {
 font-size: 1.5rem;
 }
-
 .profile-detail-header {
 font-size: 5rem;
 font-family: 'Roboto';
@@ -285,35 +205,34 @@ background-color: #ddd;
 .edit-pencil,
 .edit-pencil-bio {
 text-decoration: none;
-float:right;
 color:rgb(0, 47, 255);
+font-size: 1.7rem;
+}
+.edit-pencil {
+float:right;
 }
 
-/* --- PROFILE IMAGES --- */
 .profile-images-section {
 position: relative;
-
 display: flex;
-flex-direction: column;
 justify-content: center;
 align-items: center;
 margin-bottom: 2em;
+
 }
 .profile-image {
 position: absolute;
-top: 50%;
+top: 49%;
 left: 50%;
 transform: translate(-50%, -50%);
-width: 230px;
-height: 230px;
+width: 238px;
+height: 238px;
 border-radius: 50%;
 border: 2px solid #0ae967;
 z-index: 2;
 }
-
 .profile-banner {
-/* width: 100%; */
-width: 118.88em;
+width: 80em;
 height: 15em;
 background-size: cover;
 background-position: center;
@@ -324,8 +243,6 @@ border-bottom: 1px solid;
 color:black;
 z-index: -10;
 }
-
-/* --- USER PROFILE - DELETE USER & ADD FRIEND BUTTONS --- */
 #delete-user-and-send-friend-section {
 display:flex;
 justify-content:center;
@@ -341,117 +258,38 @@ border-radius: 5%;
 border: 2px dashed;
 border-color: red;
 }
-
-/* USER PROFILE IMAGE UPLOAD */
-#profile-images-update-section {
-/* outline:rgba(8, 210, 29) solid 3px; */
+/* -------------------- USER FEED -------------------- */
+#user-feed-section{
 display:flex;
 flex-wrap: wrap;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-text-align: center;
-margin:1em 30em;
-padding: 0.5em;
+padding: 1em;
+border-top: solid 1px;
+/* width: 100%; */
 }
+.user-feed-header-section {
 
-.pim-header{
-font-size: 1.5rem;
+display:flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+gap: 8em;
 width: 100%;
-margin: 1em 0;
+/* padding: 0 5em; */
 }
-.pim-form{
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-margin: 0.5em 0;
-}
-.pim-form a {
-word-break: break-all;
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-text-decoration: none;
-margin: 0.5em 0;
-padding: 0.2em 0.5em;
-width: 100%;
-
-color:black;
-}
-.pim-form label{
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-width: 100%;
-font-size: 1.5rem;
-gap: 2em;
-}
-.pim-form p{
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-font-size: 1.2rem;
-margin: 0.5em 0;
-padding: 0.5em;
-gap: 0.5em;
-width: 100%;
-outline: rgb(0, 0, 0) 2px dotted;
-}
-.pim-form input{
-font-size: 1.2rem;
-}
-#id_profile_image,
-#id_banner_image  {
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-/* justify-content: center; */
-/* align-items: center; */
-text-align: center;
-width:100%;
-margin: 0.4em 0;
-
-}
-
-#banner-image-preview,
-#profile-image-preview {
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-
-}
-
-#uploaded-image {
-
-width: 130px;
-height: 130px;
+.user-feed-profile-image {
+width: 200px;
+height: 200px;
 border-radius: 50%;
-border: 3px solid black;
+border: 1px solid #000000;
 }
-#uploaded-banner {
-margin: 1em 0;
-width: 400px;
-height: 100px;
-}
-#save-changes-btn {
+.user-feed-current-date {
 font-size: 1.5rem;
-margin: 1em 0;
+font-family: 'Source Serif Pro';
 }
-/* ---------- USER SEARCH ---------- */
+/* -------------------- USER SEARCH -------------------- */
 #user-search-section{
 display: flex;
 flex-wrap: wrap;
@@ -498,9 +336,166 @@ font-family: 'Oxygen';
 padding: 0.5em;
 border: 1px rgb(10, 6, 255) dashed;
 }
+/* -------------------- USER DELETION -------------------- */
 
+/* -------------------- FRIEND LIST --------------------  */
+#friend-list-section {
+display: flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+gap: 1em;
+padding: 1em;
+margin: 10em 40em;
+filter: drop-shadow(0px 1px 3px black);
+/* border: 1px rgb(10, 6, 255) dashed; */
+background-color: rgb(234, 252, 251);
+}
+.friend-request-header {
+filter: drop-shadow(0px 2px 2px rgb(0, 196, 245));
+text-align: center;
+width: 15em;
+font-size: 1.5rem;
+background-color: rgb(21, 63, 201);
+color: white;
+border-radius: 10px / 20%;
+padding: 0.5em;
+margin:0.5em 0;
+}
+.friend-requests-text {
+font-size: 1.5rem;
+}
+.friend-list-header {
+margin: 0.5em 0;
+text-align: center;
+font-size: 2rem;
+}
+#friendship-section {
+text-align: start;
+display: flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 0.8em;
+padding: 0.5em;
+outline: 1px dotted purple;
+}
+.friendships {
+font-size: 1.5rem;
+}
+.friend-name{
+color:black;
+}
+/* -------------------- USER IMAGE UPLOAD -------------------- */
+#upload-profile-images-section {
+/* outline:rgba(8, 210, 29) solid 3px; */
+display:flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+margin:1em 30em;
+padding: 0.5em;
+}
+.upload-profile-images-header{
+font-size: 1.5rem;
+width: 100%;
+margin: 1em 0;
+}
+.upload-profile-images-form{
+display:flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+margin: 0.5em 0;
+}
+.upload-profile-images-form a {
+word-break: break-all;
+display:flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+text-decoration: none;
+margin: 0.5em 0;
+padding: 0.2em 0.5em;
+width: 100%;
 
-/* CREATE NEW POST */
+color:black;
+}
+.upload-profile-images-form label{
+display:flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+width: 100%;
+font-size: 1.5rem;
+gap: 2em;
+}
+.upload-profile-images-form p{
+display:flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+font-size: 1.2rem;
+margin: 0.5em 0;
+padding: 0.5em;
+gap: 0.5em;
+width: 100%;
+outline: rgb(0, 0, 0) 2px dotted;
+}
+.upload-profile-images-form input{
+font-size: 1.2rem;
+}
+#id_profile_image,
+#id_banner_image  {
+display:flex;
+flex-wrap: wrap;
+flex-direction: column;
+/* justify-content: center; */
+/* align-items: center; */
+text-align: center;
+width:100%;
+margin: 0.4em 0;
+
+}
+#banner-image-preview,
+#profile-image-preview {
+display:flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+
+}
+#uploaded-image {
+
+width: 130px;
+height: 130px;
+border-radius: 50%;
+border: 3px solid black;
+}
+#uploaded-banner {
+margin: 1em 0;
+width: 400px;
+height: 100px;
+}
+#upload-profile-images-save-btn {
+font-size: 1.5rem;
+margin: 1em 0;
+}
+/* ----- POSTS - CREATE -----  */
 #post-create-section {
 display: flex;
 flex-direction: column;
@@ -511,7 +506,7 @@ margin: 1em 0;
 padding: 0em;
 }
 .post-create-form {
-width: 40em;
+/* width: 40em; */
 /* outline:solid 6px darkgreen; */
 }
 .post-create-title{
@@ -547,8 +542,7 @@ font-weight: 400;
 font-style: italic;
 width:100%;
 }
-
-/* ----- POSTS -----  */
+/* ----- POSTS - DETAILS & LIST -----  */
 #post-list-section {
 display: flex;
 flex-wrap: wrap;
@@ -559,7 +553,6 @@ gap: 2em;
 margin: 2em 0em;
 /* outline: dashed rgb(212, 42, 71) 10px; */
 }
-
 .post {
 display: flex;
 flex-wrap: wrap;
@@ -572,7 +565,6 @@ border: 1px solid grey;
 filter: drop-shadow(0px 1px 3px black);
 background-clip: text;
 }
-
 .post-details {
 display: flex;
 flex-wrap: wrap;
@@ -588,7 +580,6 @@ justify-content: center;
 align-items: center;
 text-align: center;
 padding: 1em;
-/* width: 100%; */
 border-top: 2px solid;
 border-bottom: 2px solid;
 border-image: linear-gradient(
@@ -618,7 +609,6 @@ margin: 1em 0;
 justify-content: center;
 align-items: center;
 }
-
 .post-content {
 text-align: start;
 width: 100%;
@@ -627,26 +617,6 @@ padding: 0.5em 0.35em;
 margin: 0.5em 0;
 border: 1px solid black;
 }
-
-
-/* -- POST EDIT -- */
-#post-edit-section {
-display: flex;
-flex-direction: row;
-justify-content:space-between;
-align-items: center;
-/* width: 100%; */
-padding: 0.5em 0.8em;
-margin: 0;
-}
-.post-delete-btn,
-.post-edit-btn  {
-padding: 0.2em;
-font-size: 1.3rem;
-}
-
-
-
 .post-title {
 margin: 0.2em 0;
 width: 100%;
@@ -668,17 +638,29 @@ margin: 0.5em 0;
 width: 100%;
 
 }
-
 #post-like-btn{
 font-size: 1rem;
 }
 #post-like-count{
 margin: 0 0.5em;
 }
-
+#post-edit-section {
+display: flex;
+flex-direction: row;
+justify-content:space-between;
+align-items: center;
+/* width: 100%; */
+padding: 0.5em 0.8em;
+margin: 0;
+}
+.post-delete-btn,
+.post-edit-btn  {
+padding: 0.2em;
+font-size: 1.3rem;
+}
+/* -------------------- POST EDIT PAGE -------------------- */
 .pagination {
 display:flex;
-
 flex-wrap: wrap;
 flex-direction: column;
 justify-content: center;
@@ -692,58 +674,27 @@ border-radius: 20px / 20%;
 border: 2px solid black;
 text-decoration:none;
 }
-
-
-.pagination a,
-.pagination span {
-text-decoration:none;
-font-size: 1.5rem;
+.previous-page,
+.current-page,
+.first-page,
+.last-page,
+.next-page{
 width: 100%;
 }
 
-.current-page {
-width: 100%;
-/* outline: 3px dashed green; */
-/* margin: 0.2em 0; */
-}
-.first-page {
-width: 100%;
-/* outline: 3px dashed green; */
-/* margin: 0.2em 0; */
-}
-.previous-page {
-width: 100%;
-/* outline: 3px dashed green; */
-/* margin: 0.2em 0; */
-}
-.next-page {
-width: 100%;
-/* outline: 3px dashed green; */
-/* margin: 0.2em 0; */
-}
-.last-page {
-width: 100%;
-/* outline: 3px dashed green; */
-/* margin: 0.2em 0; */
-}
-
-
-/* -- CREATE NEW POST COMMENT --  */
+/* ----- POST COMMENTS - CREATE -----  */
 #post-comment-create-section {
 display: flex;
 flex-wrap: wrap;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-
 }
 .post-comment-create-form{
 width:100%;
-
 }
 .post-comment-create-input{
 text-align: center;
-/* height: 5%; */
 width: 100%;
 }
 #post-comment-create-content{
@@ -757,11 +708,9 @@ text-align: center;
 margin: 1em 0;
 padding: 0.4em;
 }
-
-/* -- CREATED POST COMMENTS --  */
+/* ----- POST COMMENTS - DISPLAY -----  */
 #post-comment-section {
 /* margin:1em; */
-
 }
 .post-comment {
 display: flex;
@@ -793,85 +742,12 @@ height: 3em;
 margin: 0.5em 0;
 padding: 0.3em;
 border: 1px solid black;
-
 }
 
-/* ----- FRIEND LIST -----  */
-
-#friend-list-section {
-display: flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-gap: 1em;
-padding: 1em;
-margin: 10em 40em;
-filter: drop-shadow(0px 1px 3px black);
-border: 1px rgb(10, 6, 255) dashed;
-background-color: rgb(234, 252, 251);
-}
-.friend-request-header {
-filter: drop-shadow(0px 2px 2px rgb(0, 196, 245));
-text-align: center;
-width: 15em;
-font-size: 1.5rem;
-background-color: rgb(21, 63, 201);
-color: white;
-border-radius: 10px / 20%;
-padding: 0.5em;
-margin:0.5em 0;
-}
-.friend-requestz {
-
-font-size: 1.5rem;
-
-}
-
-.friend-list-header {
-margin: 0.5em 0;
-text-align: center;
-font-size: 2rem;
-}
-#friendship-section {
-text-align: start;
-display: flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: 0.8em;
-padding: 0.5em;
-outline: 1px dotted purple;
-}
-.friendships {
-font-size: 1.5rem;
-
-}
-.friend-name{
-color:rgb(73, 50, 205)
-}
+/* --------|-- LOGGED-OUT SECTION --|-------- */
 
 
-
-
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-
-/*  - HEADER */
+/* ---------- HEADER II ---------- */
 .header-container-login{
 display: flex;
 flex-wrap: wrap;
@@ -903,13 +779,48 @@ align-items: center;
 gap:0;
 
 }
-
 .logo {
 width: 1.8em;
 }
+/* -------------------- SIGN-UP -------------------- */
+#signup-section {
+display: flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+text-align: center;
+margin: 2em 0em;
+}
+#signup-section form {
+display: flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+text-align: center;
+gap: 1em;
+margin: 2em 50em;
 
-/* ------------------------ LOGIN ------------------------ */
-
+}
+.signup-header {
+font-size: 2rem;
+margin-top: 0.3em;
+}
+#signup-section input {
+width: 100%;
+font-size: 1.2rem;
+}
+.already-registered-text,
+.already-registered-link,
+#signup-section label {
+color:black;
+width: 100%;
+font-size: 1.2rem;
+font-family: 'Oxygen';
+}
+.signup-btn {
+font-size: 2rem;
+}
+/* -------------------- LOG-IN PAGE -------------------- */
 .login-container {
 z-index: 50;
 display: flex;
@@ -959,7 +870,6 @@ align-items: center;
 z-index: 50;
 width: 20em;
 }
-
 .login-welcome-text {
 display: flex;
 flex-wrap: wrap;
@@ -971,14 +881,12 @@ font-size: 3rem;
 color:white;
 
 }
-
 .login-btn {
 width: 70%;
 font-size: 1.5rem;
 padding: 0.5em;
 margin: 0.5em 0;
 }
-
 .login-username-input,
 .login-username-label,
 .login-password-input,
@@ -996,16 +904,12 @@ margin: 0.5em 0;
 margin: 1em 0;
 
 }
-
-
 .login-forgot-password-link,
 .login-signup-link {
 color: white;
 font-size: 2rem;
 margin: 0.5em 0;
 }
-
-
 .login-image {
 height: 51em;
 width: 100%;
@@ -1016,7 +920,6 @@ background-position: center;
 background-repeat: no-repeat;
 z-index: 5;
 }
-
 .login-image::before {
 content: "";
 position: absolute;
@@ -1027,8 +930,47 @@ background-color: rgba(0, 0, 0, 0.7);
 z-index: -5;
 }
 
+/* -------------------- PASSWORD RESET -------------------- */
+#password-reset-section {
+display: flex;
+flex-wrap: no-wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+#password-reset-section form{
+display: flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+text-align: center;
+gap: 0.3em;
+margin: 3em;
 
-/* FOOTER */
+}
+.password-reset-header {
+color:black;
+}
+.password-reset-btn {
+margin: 1em 0;
+font-size: 1.5rem;
+padding: 0.3em;
+}
+.password-reset-return-link {
+margin: 2em 0;
+}
+#password-reset-section input {
+width: 100%;
+}
+.password-reset-return-link,
+.password-reset-element,
+.password-reset-label {
+color:black;
+width: 100%;
+font-size: 1.2rem;
+font-family: 'Oxygen';
+}
+/* ---------- FOOTER ---------- */
 .footer-container {
 display: flex;
 flex-direction:row-reverse;
@@ -1044,19 +986,18 @@ border-top: 2px solid;
       ) 1 2 10%;
 
 }
+.social-list-item {
+display: flex;
+justify-content: center;
+align-items: center;
+padding:0.7em;
+}
 .social-links {
 display: flex;
 justify-content: center;
 align-items: center;
 list-style: none;
 gap: 0.4em;
-}
-
-.social-list-item {
-display: flex;
-justify-content: center;
-align-items: center;
-padding:0.7em;
 }
 .social-links a{
 font-size: 2.8rem;
@@ -1078,7 +1019,6 @@ padding: 0.27em;
 border: 1px solid;
 border-radius: 50%;
 color: black;
-
 background-image: linear-gradient(
 to top right,
 #bdc3c7 0%,
@@ -1087,187 +1027,24 @@ to top right,
 #c0c5c9 75%,
 #bdc3c7 100%
 );
-
-
 transition: all 0.35s ease-in-out;
 -moz-transition: all 0.35s ease-in-out;
 -webkit-transition: all 0.35s ease-in-out;
 -o-transition: all 0.35s ease-in-out;
 }
-
-
-
-
-
-
-
+/* ---------- TOGGLE VISIBILITY ---------- */
 .hide {
 display: none;
 }
-
 .show {
 display: flex;
 }
 
+/* MEDIA QUERIES */ 
 
-
-
-/* ----------------- SIGN-UP ----------------- */
-#signup-section {
-display: flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-text-align: center;
-margin: 2em 0em;
-}
-
-#signup-section form {
-display: flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-text-align: center;
-gap: 1em;
-margin: 2em 50em;
-
-}
-
-.signup-header {
-font-size: 2rem;
-margin-top: 0.3em;
-}
-
-#signup-section input {
-width: 100%;
-}
-
-.already-registered-text,
-.already-registered-link,
-#signup-section label {
-color:black;
-width: 100%;
-font-size: 1.2rem;
-font-family: 'Oxygen';
-}
-
-#signup-section input {
-font-size: 1.2rem;
-} 
-
-
-.signup-btn {
-font-size: 2rem;
-}
-
-
-
-
-
-/* ----------------- LOGIN - PASSWORD RESET ----------------- */
-#password-reset-section {
-display: flex;
-flex-wrap: no-wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-}
-#password-reset-section form{
-display: flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-text-align: center;
-gap: 0.3em;
-margin: 3em;
-
-}
-
-.password-reset-header {
-color:black;
-}
-.password-reset-btn {
-margin: 1em 0;
-font-size: 1.5rem;
-padding: 0.3em;
-}
-
-.return-to-login-link {
-margin: 2em 0;
-}
-
-
-
-
-
-
-
-#password-reset-section input {
-width: 100%;
-}
-
-
-
-.return-to-login-link,
-.password-reset-element,
-.password-reset-label {
-color:black;
-width: 100%;
-font-size: 1.2rem;
-font-family: 'Oxygen';
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-
-
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES */ /* MEDIA QUERIES */
-
-
-
-
-
-
-
-
-
-
-
-/* 0 EM */
-/* 0 EM */
-/* 0 EM */
+/* ---------------------------- 0 EM = 0 PX  ---------------------------------------------- */
 @media screen and (min-width: 0em) and (max-width: 119em){
-
-
-/* HEADER */
+/* ---------- HEADER ---------- */
 .header-container{
 display: flex;
 flex-wrap: wrap;
@@ -1285,19 +1062,16 @@ to top,
 #bdc3c7 100%
 );
 border: 1px solid;
-
 }
 .navbar {
 width:100%;
 gap:0;
-
 }
 .navbar-list {
 width: 100%;
 display: flex;
 align-items: center;
 gap:0;
-
 }
 .navbar-list-item,
 .navbar-list-item-stack {
@@ -1317,135 +1091,61 @@ color:black;
 position: absolute;
 top: 0.2em;
 right: 0.15em;
-
 }
 #navbar-link-stack-icon-user {
 position: relative;
 top: 0.05em;
 left: 0.2em;
 }
-
-.signout-btn {
+.navbar-signout-btn {
 font-size: 1.5rem;
 border-radius: 50%;
 padding: 0.2em;
 background-color: rgb(198, 254, 254);
 border: none;
 }
-
-
-
-/* ---------- USER FEED ---------- */
-#user-feed-section{
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-margin: 0;
-padding: 0.2em;
-/* outline: dotted red 5px; */
-/* border-right: solid 1px;
-border-left: solid 1px;
-border-bottom: solid 1px; */
-width: 100%;
-}
-.user-feed-header-section {
-
-display:flex;
-flex-wrap: wrap;
-justify-content: space-evenly;
-align-items: center;
-gap: 1em;
-width: 100%;
-margin: 0.5em 0;
-padding: 0;
-}
-.user-feed-profile-image {
-width: 80px;
-height: 80px;
-border-radius: 50%;
-border: 1px solid #000000;
-}
-.user-feed-current-date {
-font-size: 1.5rem;
-font-family: 'Source Serif Pro';
-}
-
-/* ---------- USER SEARCH ---------- */
-#user-search-section{
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-padding: 0.2em;
-font-size: 2rem;
-}
-.user-search-header {
-margin: 0.5em 0;
-}
-#user-search-input{
-font-family: 'Oxygen';
-font-size: 1.5rem;
-text-decoration: none;
-list-style: none;
-}
-
-#user-search-results {
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-text-align: start;
-margin: 0.5em 0;
-padding: 1em;
-gap: 1em;
-font-family: 'Oxygen';
-/* font-size: 2rem; */
-text-decoration: none;
-list-style: none;
-}
-.user-search-list-item {
-text-decoration: none;
-font-family: 'Oxygen';
-background-color: yellowgreen;
-}
-
-/* ---------- USER PROFILE ---------- */
-#user-profile-section {
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-padding: 0;
-/* margin:0 20em; */
-outline: dotted blue 8px;
-
-}
+/* -------------------- USER PROFILE -------------------- */
 #profile-details-section {
-
+margin: 1em;
 background-color: white;
 filter: drop-shadow(0px 1px 3px black);
 background-clip: text;
-/* padding: 0.2em 0.5em; */
-
-
 }
-
-
 .profile-details {
-
+display:flex;
+flex-wrap: no-wrap;
+flex-direction: column;
+justify-content:space-evenly;
+width: auto;
+height: auto;
+gap:0.5em;
+padding: 0.5em 1em;
+outline: 5px dotted rgb(230, 128, 11);
 
 }
 .profile-detail-header {
-
 font-size: 2rem;
 font-family: 'Roboto';
 font-weight: 700;
 letter-spacing: 0.02em;
 margin-bottom:0.5em;
 padding:0;
-/* margin: 0.5em 0; */
+}
+.profile-detail-bio-text {
+width: auto;
+height: auto;
+font-size: 1rem;
+}
+.profile-detail-bio-text,
+.profile-detail-gender-text,
+.profile-detail-profession-text  {
+font-size: 1.1rem;
+font-family: 'Source Serif Pro';
+}
+.profile-detail-bio span, 
+.profile-detail-profession span,
+.profile-detail-gender span{
+font-size: 1.3rem;
 }
 .profile-detail-bio-label,
 .profile-detail-gender-label,
@@ -1454,11 +1154,17 @@ font-size: 1.1rem;
 font-family: 'Source Serif Pro';
 font-weight: 700;
 }
-.profile-detail-bio-text,
-.profile-detail-gender-text,
-.profile-detail-profession-text  {
-font-size: 1.1rem;
-font-family: 'Source Serif Pro';
+.edit-pencil-bio-container{
+display:flex;
+flex-wrap: wrap;
+flex-direction: row;
+justify-content:flex-end;
+border-bottom: 1px solid rgb(0, 0, 0);
+}
+.edit-pencil-bio{
+position: absolute;
+top: 0.3em;
+font-size: 1.3rem;
 }
 .dropdown-menu {
 display: none;
@@ -1477,16 +1183,21 @@ display: block;
 .dropdown-menu a:hover {
 background-color: #ddd;
 }
-.edit-pencil,
-.edit-pencil-bio {
-text-decoration: none;
-float:right;
-color:rgb(0, 47, 255);
+#delete-user-and-send-friend-section {
+display:flex;
+justify-content:center;
+margin: 2em 0em;
 }
-
-
-
-/* --- USER PROFILE IMAGES --- */
+.delete-user-btn,
+.add-friend-btn {
+font-size: 1rem;
+padding: 0.5em;
+border-radius: 5%;
+}
+.delete-user-btn{
+border: 2px dashed;
+border-color: red;
+}
 .profile-images-section {
 
 position: relative;
@@ -1494,11 +1205,8 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-/* margin-bottom:1em; */
 padding:0;
 margin:0;
-/* margin: 1em 0; */
-
 }
 .profile-image {
 position: absolute;
@@ -1523,51 +1231,153 @@ border-bottom: 1px solid;
 color:black;
 z-index: -10;
 }
-
-/* --- USER PROFILE - DELETE USER & ADD FRIEND BUTTONS --- */
-#delete-user-and-send-friend-section {
+/* -------------------- USER FEED -------------------- */
+#user-feed-section{
 display:flex;
-justify-content:center;
-margin: 2em 0em;
-}
-.delete-user-btn,
-.add-friend-btn {
-font-size: 1rem;
-padding: 0.5em;
-border-radius: 5%;
-}
-.delete-user-btn{
-border: 2px dashed;
-border-color: red;
-}
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+margin: 0em;
+padding: 0em;
+border-right: solid 1px;
+border-left: solid 1px;
+border-bottom: solid 1px;
 
-/* USER PROFILE IMAGE UPLOAD */
-.profile-images-update-container {
-outline:rgba(8, 210, 29) solid 3px;
+}
+.user-feed-header-section {
+
+display:flex;
+flex-wrap: wrap;
+justify-content: space-evenly;
+align-items: center;
+gap: 1em;
+width: 100%;
+margin: 0.5em 0;
+padding: 0;
+}
+.user-feed-profile-image {
+width: 80px;
+height: 80px;
+border-radius: 50%;
+border: 1px solid #000000;
+}
+.user-feed-current-date {
+font-size: 1.5rem;
+font-family: 'Source Serif Pro';
+}
+/* -------------------- USER SEARCH -------------------- */
+#user-search-section{
+padding: 0;
+margin: 0;
+}
+.user-search-header {
+margin: 0.5em 0;
+}
+#user-search-input{
+font-size: 1.5rem;
+}
+#user-search-results {
+margin: 0.5em 0;
+padding: 1em;
+gap: 3.1em;
+}
+/* -------------------- USER DELETION -------------------- */
+#user-deletion-section {
+display:flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+text-align: center;
+align-items: center;
+margin: 0.5em;
+padding: 1.5em 0.5em;
+
+/* outline: dashed blue 5px; */
+}
+#user-deletion-form {
 display:flex;
 flex-wrap: wrap;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-text-align: center;
-margin:0.5em;
-padding: 0 0.5em;
-
+margin: 1em 0.2em;
 }
-#profile-images-update-section{
+.user-deletion-yes-btn,
+.user-deletion-no-btn{
+text-align: center;
+font-size: 1.5rem;
+margin: 1em 0;
+padding: 1em;
+}
+.user-deletion-yes-btn{
+color:white;
+background-color: red;
+outline: dashed red 4px;
+}
+.user-deletion-no-btn{
+outline: dashed green 2px;
+margin-bottom: 2em;
+}
+/* -------------------- FRIEND LIST --------------------  */
+#friend-list-section {
+display: flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+width: 100%;
+padding: 1em;
+margin: 0em;
+filter: drop-shadow(0px 1px 3px black);
+/* border: 1px rgb(10, 6, 255) dashed; */
+background-color: rgb(234, 252, 251);
+}
+.friend-list-header {
+margin: 0.5em 0;
+text-align: center;
+font-size: 2rem;
+}
+#friendship-section {
+gap: 0.8em;
+padding: 0.5em;
+outline: 1px dotted purple;
+}
+.friendships {
+font-size: 1.5rem;
+}
+.friend-name{
+color:rgb(7, 7, 11)
+}
+.friend-request-header {
+filter: drop-shadow(0px 2px 2px rgb(0, 196, 245));
+text-align: center;
+width: 100%;
+font-size: 1.2rem;
+background-color: rgb(21, 63, 201);
+color: white;
+border-radius: 10px / 20%;
+padding: 0.5em;
+margin:0.5em 0;
+}
+.friend-requests-text {
+font-size: 1.5rem;
+}
+/* -------------------- USER IMAGE UPLOAD -------------------- */
+#upload-profile-images-section{
 display:flex;
 flex-wrap: wrap;
 flex-direction: column;
 justify-content: center;
 align-items: center;
 /* outline:rgba(31, 91, 204) dashed 4px; */
-/* margin: 0 0.5em; */
+margin: 0.5em;
 }
-.pim-header{
+.upload-profile-images-header{
 font-size: 1.5rem;
 width: 100%;
 }
-.pim-form{
+.upload-profile-images-form{
 display:flex;
 flex-wrap: wrap;
 flex-direction: column;
@@ -1576,7 +1386,7 @@ align-items: center;
 text-align: center;
 margin: 0.5em 0;
 }
-.pim-form a {
+.upload-profile-images-form a {
 word-break: break-all;
 display:flex;
 flex-wrap: wrap;
@@ -1590,7 +1400,7 @@ padding: 0.2em 0.5em;
 outline: rgb(55, 80, 79) 2px dashed;
 color:black;
 }
-.pim-form label{
+.upload-profile-images-form label{
 display:flex;
 flex-wrap: wrap;
 flex-direction: column;
@@ -1601,7 +1411,7 @@ width: 100%;
 font-size: 1.2rem;
 gap: 2em;
 }
-.pim-form p{
+.upload-profile-images-form p{
 display:flex;
 flex-wrap: wrap;
 flex-direction: column;
@@ -1613,17 +1423,12 @@ gap: 0.5em;
 outline: rgb(0, 0, 0) 2px dotted;
 /* width: 260px; */
 }
-#id_profile_image,
-#id_banner_image  {
-display:flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-width: 70%;
-margin: 0.4em 0;
-
+#upload-profile-images-save-btn {
+font-size: 1.2rem;
+padding: 0.4em;
+background-color: green;
+color: white;
+border-radius: 10px / 10%;
 }
 #uploaded-image {
 
@@ -1633,26 +1438,47 @@ border-radius: 50%;
 border: 3px solid black;
 }
 #uploaded-banner {
-margin: 1em;
-width: 200px;
+margin: 0.8em 0;
+width: 260px;
 height: 100px;
 }
+#uploaded-image,
+#uploaded-banner {
+border: 3px dashed green;
+}
+#banner_image-clear_id,
+#profile_image-clear_id{
+margin: 0;
+height: 2em;
+width: 2em;
+}
+#id_profile_image,
+#id_banner_image  {
+display:flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+width: 100%;
+margin: 0.4em 0;
 
-
-/* CREATE NEW POST */
+}
+/* ----- POSTS - CREATE -----  */
 #post-create-section {
 display: flex;
 flex-direction: column;
 flex-wrap: wrap;
-
-/* margin: 1.5em; */
+justify-content: center;
+align-items: center;
+width: auto;
+margin: 0em;
 padding: 0em;
-/* width: auto; */
-outline: solid 5px rgb(51, 201, 14);
+/* outline: red solid 3px; */
 }
-.post-create-form {
-/* width:100%; */
-/* outline:solid 6px rgb(32, 78, 50); */
+.post-create-form{
+
+margin: 0 0.6em;
 }
 .post-create-title{
 font-family: 'Oxygen';
@@ -1668,9 +1494,10 @@ text-align: center;
 }
 .post-create-text-content {
 height: 10em;
-/* font-size: 1rem; */
+font-size: 1rem;
 color:black;
 font-family: 'Oxygen';
+text-align: start;
 }
 .post-create-text-content::placeholder {
 font-style: italic;
@@ -1679,41 +1506,42 @@ line-height: 1.5em;
 font-size: 1.2rem;
 font-family: 'Oxygen';
 color:rgba(0, 0, 0, 0.776);
+text-align: center;
 }
 .post-create-btn {
 font-size: 1.2rem;
+padding: 0.2em;
 font-family: 'Oxygen';
-font-weight: 400;
+font-weight: 700;
 font-style: italic;
+text-align: center;
 width:100%;
+color:white;
+background-color: rgb(0, 103, 199);
 }
-
-
-/* ----- POSTS -----  */
+/* ----- POSTS - DETAILS & LIST -----  */
 #post-list-section {
 display: flex;
 flex-wrap: wrap;
 flex-direction: column;
 justify-content: center;
-/* align-items: center; */
-/* gap: 1em; */
+gap: 0;
 margin: 0;
 }
-
 .post {
 display: flex;
 flex-wrap: wrap;
-flex-direction: row;
+flex-direction: column;
 justify-content: center;
-margin: 0;
-height: 20em;
-width: 20em;
+margin: 1em 0;
+padding: 0em;
+height: 40em;
+width: 18em;
 background-color: white;
 border: 1px solid grey;
 filter: drop-shadow(0px 1px 3px black);
 background-clip: text;
 }
-
 #post-like-btn{
 font-size: 1rem;
 }
@@ -1724,10 +1552,6 @@ margin: 0 0.5em;
 display:flex;
 flex-direction: column;
 justify-content: center;
-/* gap: 0.5em; */
-/* outline: green 2px dashed; */
-width: 100%;
-
 }
 .post-details-secondary {
 display:flex;
@@ -1735,8 +1559,9 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 text-align: center;
-padding: 0.5em 0;
-width: 100%;
+padding: 1em 0;
+margin: 1em 0;
+/* padding: 0; */
 border-top: 2px solid;
 border-bottom: 2px solid;
 border-image: linear-gradient(
@@ -1751,20 +1576,30 @@ rgb(54, 233, 9) 60%,
 display:flex;
 flex-direction: row;
 flex-wrap: wrap;
-gap: 0.5em;
-margin: 0.5em 0;
 justify-content: center;
 align-items: center;
+gap: 0em;
+padding: 0.5em 0;
+margin: 0;
 width: 100%;
 }
 #post-content-section {
 display:flex;
-flex-direction: row;
-/* flex-wrap: wrap; */
-/* padding: 0 1em; */
+flex-direction: column;
+flex-wrap: wrap;
 justify-content: center;
-align-items: center;
+/* align-items: center; */
+padding: 0.5em;
+margin-top: 3em;
+margin-bottom: 1em;
+}
+.post-content {
 /* width: 100%; */
+height: 6em;
+padding: 0.5em;
+margin: 0.2em 0;
+border: 1px solid black;
+text-align: start;
 }
 .post-title {
 margin: 0.2em 0;
@@ -1774,11 +1609,11 @@ font-size: 1.2rem;
 }
 .post-author {
 /* width: 100%; */
-font-size: 1.5rem;
+font-size: 1.2rem;
 }
 .post-author-image{
-width: 80px;
-height: 80px;
+width: 60px;
+height: 60px;
 border-radius: 50%;
 margin: 0.5em 0;
 }
@@ -1786,42 +1621,176 @@ margin: 0.5em 0;
 width: 100%;
 
 }
-.post-content {
-        text-align: start;
-width: 100%;
-height: 5em;
-padding: 0.5em;
-margin: 0.5em 0;
-border: 1px solid black;
-}
-
-/* -- POST EDIT -- */
 #post-edit-section {
 display: flex;
 flex-direction: row;
 justify-content:space-between;
 width: 100%;
-/* padding: 1em; */
-
+padding: 0em 1.5em;
+margin: 0em;
 }
 .post-delete-btn,
 .post-edit-btn  {
-/* padding: 0.2em; */
-/* font-size: 1.3rem; */
+padding: 0.2em;
+font-size: 1.3rem;
 }
+/* -------------------- POST EDIT PAGE -------------------- */
+#post-edit-page-section {
+display: flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+background-color: white;
+height: auto;
+width: auto;
+gap: 0em;
+margin: 0em 1em;
+padding: 0em;
+/* background-color: rgb(110, 233, 212); */
+border: 1px solid grey;
+filter: drop-shadow(0px 1px 3px black);
+background-clip: text;
+}
+.post-edit-page-info-wrapper {
+margin: 0em 0em;
+}
+.post-edited {
+display: flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+height: auto;
+width: auto;
+margin: 0em;
+/* padding: 0 0.5em; */
+background-color: white;
+border: 1px solid grey;
+filter: drop-shadow(0px 1px 3px black);
+background-clip: text;
+}
+.post-edit-page-info,
+.post-edit-page-header {
+text-align: center;
+margin: 0.5em 0;
+padding: 0 0.5em; 
+font-size: 1.2rem;
+}
+.post-edit-delete-btn {
+font-size: 1.5rem;
+padding: 0.3em;
+margin: 0.5em 0;
+width: 100%;
+outline: auto;
+}
+.post-edit-save-btn {
+margin: 0.2em 0;
+font-size: 1.5rem;
+}
+.post-edit-details {
+display:flex;
+flex-direction: column;
+justify-content: center;
+}
+.post-edit-details-secondary {
+display:flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+padding: 0.2em 0;
+margin: 0.2em 0;
+/* padding: 0; */
+border-top: 2px solid;
+border-bottom: 2px solid;
+border-image: linear-gradient(
+to left,
+#16a5be 10%,
+rgb(54, 233, 9) 60%,
+#16a5be 70%
+) 1 2 10%;
 
-/* -- CREATE NEW POST COMMENT --  */
+}
+#post-edit-content-section {
+display:flex;
+flex-direction: column;
+flex-wrap: wrap;
+justify-content: center;
+padding: 0.5em;
+margin-top: 0.5em;
+margin-bottom: 0.2em;
+
+}
+.post-edit-content {
+width: 100%;
+height: 5em;
+padding: 0.2em;
+margin: 0.5em 0;
+border: 1px solid black;
+text-align: start;
+outline: dashed rgb(4, 156, 50) 2px;
+}
+.post-edit-title {
+margin: 0.2em 0;
+width: 100%;
+font-size: 1.2rem;
+
+}
+.post-edit-author {
+font-size: 1.2rem;
+}
+.post-edit-author-image{
+width: 60px;
+height: 60px;
+border-radius: 50%;
+margin: 0.5em 0;
+}
+.post-edit-time {
+width: 100%;
+
+}
+.pagination {
+display:flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+gap: 0.5em;
+width: 80%;
+padding: 0.4em;
+margin: 2em 0;
+background-color: rgb(216, 239, 240);
+border-radius: 30px / 20%;
+border: 2px solid black;
+text-decoration:none;
+}
+.pagination a,
+.pagination span {
+text-decoration:none;
+font-size: 1.2rem;
+}
+.previous-page,
+.first-page,
+.last-page,
+.next-page{
+margin: 1em 0;
+}
+/* ----- POST COMMENTS - CREATE -----  */
 #post-comment-create-section {
 display: flex;
 flex-wrap: wrap;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-
+text-align: center;
+padding: 0.5em;
 }
 .post-comment-create-form{
 width:100%;
-
 }
 .post-comment-create-input{
 text-align: center;
@@ -1829,129 +1798,49 @@ height: 3em;
 width: 100%;
 }
 .post-comment-create-btn{
-/* width:100%; */
+width:70%;
 text-align: center;
-margin: 1em 0;
+margin: 0.5em 0;
 padding: 0.4em;
+font-size: 1.1rem;
 }
-
-/* -- POST COMMENTS --  */
+/* ----- POST COMMENTS - DISPLAY -----  */
 #post-comment-section {
 margin:0;
-
 }
 .post-comment {
 display: flex;
 flex-direction: column;
 justify-content: center;
-
-/* align-items: start; */
-/* padding: 1em; */
-
-border-radius: 30px / 20%;
+padding: 1em;
+margin: 0em;
+width: 18em;
+border-radius: unset;
 border: 1px solid grey;
 filter: drop-shadow(0px 1px 3px black);
 background-color: white;
 background-clip: text;
 }
-.post-comment-author-image{
-width: 80px;
-height: 80px;
-border-radius: 50%;
-}
-.post-comment-time {
-/* width: 100%; */
-margin: 0.5em 0;
-}
 .post-comment-content {
 width: 100%;
-height: 3em;
-margin: 1em 0;
+height: 5em;
+margin: 0;
 padding: 0.3em;
 border: 1px solid black;
-
-}
-
-/* ----- FRIEND LIST -----  */
-.friend-list-section-wrapper {
-display: flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-/* text-align: center; */
-/* width: 100%; */
-/* padding: 1em; */
-margin: 0em 1em;
-
-}
-#friend-list-section {
-display: flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-width: 100%;
-padding: 1em;
-/* margin: 0em 1em; */
-filter: drop-shadow(0px 1px 3px black);
-border: 1px rgb(10, 6, 255) dashed;
-background-color: rgb(234, 252, 251);
-}
-.friend-request-header {
-filter: drop-shadow(0px 2px 2px rgb(0, 196, 245));
-text-align: center;
-width: 100%;
-font-size: 1.2rem;
-background-color: rgb(21, 63, 201);
-color: white;
-border-radius: 10px / 20%;
-padding: 0.5em;
-margin:0.5em 0;
-}
-.friend-list-header {
-margin: 0.5em 0;
-text-align: center;
-font-size: 2rem;
-}
-#friendship-section {
 text-align: start;
-display: flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: 0.8em;
-padding: 0.5em;
-outline: 1px dotted purple;
 }
-.friendships {
-font-size: 1.5rem;
+.post-comment-author,
+.post-comment-time {
+text-align: center;
+width: 100%;
 
 }
-.friend-name{
-color:rgb(73, 50, 205)
-}
-
-/* ----- LOGIN ----- */
-/* ----- LOGIN ----- */
-/* ----- LOGIN ----- *//* ----- LOGIN ----- *//* ----- LOGIN ----- *//* ----- LOGIN ----- */
-/* ----- LOGIN ----- */
-/* ----- LOGIN ----- */
-/* ----- LOGIN ----- */
-/* ----- LOGIN ----- */
-/* ----- LOGIN ----- *//* ----- LOGIN ----- *//* ----- LOGIN ----- *//* ----- LOGIN ----- */
-/* ----- LOGIN ----- */
-/* ----- LOGIN ----- */
-/* ----- LOGIN ----- */
-/* ----- LOGIN ----- *//* ----- LOGIN ----- *//* ----- LOGIN ----- */
-/* ----- LOGIN ----- */
-/* ----- LOGIN ----- */
-/* ----- LOGIN ----- */
 
 
-/*  - HEADER */
+/* --|-- LOGGED-OUT SECTION --|-- */
+
+
+/* ---------- HEADER II ---------- */
 .header-container-login{
 display: flex;
 flex-wrap: wrap;
@@ -1983,17 +1872,52 @@ align-items: center;
 gap:0;
 
 }
-.logo {
-width: 1.3em;
+.logotype {
+font-size: 1.2rem;
 }
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
-/* ------------------------ LOGIN ------------------------ */
 
+/* -------------------- SIGN-UP -------------------- */
+#signup-section {
+display: flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+text-align: center;
+margin: 0.2em 0;
+}
+#signup-section form{
+display: flex;
+flex-wrap: wrap;
+flex-direction: column;
+justify-content: center;
+text-align: center;
+gap: 0.3em;
+margin: 0.5em 3em;
+
+}
+#signup-section input {
+width: 100%;
+font-size: 1.2rem;
+}
+.signup-header,
+.signup-btn {
+font-size: 1.4rem;
+margin-top: 0.8em;
+}
+.password-reset-return-link,
+.password-reset-element,
+.password-reset-label,
+.already-registered-text,
+.already-registered-link,
+#signup-section label {
+color:black;
+width: 100%;
+font-size: 1.2rem;
+font-family: 'Oxygen';
+}
+
+/* -------------------- LOG-IN PAGE -------------------- */
 .login-container {
-
 display: flex;
 flex-wrap: wrap;
 flex-direction: column;
@@ -2061,17 +1985,12 @@ font-size: 1.5rem;
 color:white;
 
 }
-
 .login-btn {
 width: 60%;
 font-size: 1.4rem;
 padding: 0.2em 0;
 margin: 0.5em 0;
 }
-
-
-
-
 .login-welcome-text,
 .login-username-label,
 .login-password-label {
@@ -2084,7 +2003,6 @@ color:white;
 width: 100%;
 /* outline: rgb(236, 250, 35) 5px dotted; */
 }
-
 .login-forgot-password-link,
 .login-signup-link {
 color: white;
@@ -2096,11 +2014,8 @@ margin: 0.5em 0;
 margin: 0;
 
 }
-
-
 .login-image {
-padding: 0;
-height: 30em;
+height: 29.5em;
 width: 100%;
 aspect-ratio: 1.2;
 z-index: 5;
@@ -2109,18 +2024,53 @@ background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
 }
-
 .login-image::before {
 content: "";
 position: absolute;
-height: 30em;
+height: 29.5em;
 width: 100%;
 aspect-ratio: 1.2;
 z-index: -5;
 background-color: rgba(0, 0, 0, 0.7);
 }
-
-/* FOOTER */
+/* -------------------- PASSWORD RESET -------------------- */
+#password-reset-section {
+display: flex;
+flex-wrap: no-wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+/* margin: 0.5em 3em; */
+margin: 1em 0;
+padding:0;
+}
+#password-reset-section form {
+display: flex;
+flex-wrap: no-wrap;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+gap: 1em;
+margin: 0;
+}
+.password-reset-header {
+font-size: 1.5rem;
+}
+.password-reset-return-link,
+.password-reset-element,
+.password-reset-label {
+font-size: 1.2rem;
+}
+.password-reset-return-link {
+margin: 1em 0;
+}
+.password-reset-btn {
+margin: 0.5em 0;
+font-size: 1.5rem;
+padding: 0.3em;
+}
+/* ---------- FOOTER ---------- */
 .footer-container {
 display: flex;
 flex-direction:row-reverse;
@@ -2141,7 +2091,6 @@ align-items: center;
 list-style: none;
 gap: 0.5em;
 }
-
 .social-list-item {
 display: flex;
 justify-content: center;
@@ -2184,122 +2133,155 @@ transition: all 0.35s ease-in-out;
 -webkit-transition: all 0.35s ease-in-out;
 -o-transition: all 0.35s ease-in-out;
 }
-
-
-
-
-
-/* ----------------- SIGN-UP ----------------- */
-#signup-section {
-display: flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-text-align: center;
-margin: 0.2em 0;
 }
 
-#signup-section form{
-display: flex;
-flex-wrap: wrap;
-flex-direction: column;
-justify-content: center;
-text-align: center;
-gap: 0.3em;
-margin: 0.5em 3em;
-
-}
-
- 
-.signup-header,
-.signup-btn {
-font-size: 1.4rem;
-margin-top: 0.8em;
-}
-
-#signup-section input {
-width: 100%;
-font-size: 1.2rem;
-}
-
-.return-to-login-link,
-.password-reset-element,
-.password-reset-label,
-.already-registered-text,
-.already-registered-link,
-#signup-section label {
-color:black;
-width: 100%;
-font-size: 1.2rem;
-font-family: 'Oxygen';
-}
-
-
-
-
-
-/* LOGIN - PASSWORD RESET */
-#password-reset-section {
-display: flex;
-flex-wrap: no-wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-/* margin: 0.5em 3em; */
-margin: 1em 0;
-padding:0;
-}
-#password-reset-section form {
-display: flex;
-flex-wrap: no-wrap;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-gap: 1em;
-margin: 0;
-}
-
-.password-reset-btn {
-margin: 0.5em 0;
-font-size: 1.5rem;
-padding: 0.3em;
-}
-
-.return-to-login-link {
-margin: 1em 0;
-}
-
-.password-reset-header {
-font-size: 1.5rem;
-}
-.return-to-login-link,
-.password-reset-element,
-.password-reset-label {
-font-size: 1.2rem;
-}
-
-
-}
-
-
-
-/* 23 EM = 375 PX */
-/* 23 EM = 375 PX */
-/* 23 EM = 375 PX */
+/* ---------------------------- 23 EM = 375 PX  ---------------------------------------------- */
 @media screen and (min-width: 23.438em) and (max-width:119em){
 
+/* COMMON RULES */
 
-.login-image {
-height: 36em;
-aspect-ratio: 1.2;
+/* FS: 1.3 REM */
+.pagination a,
+.pagination span,
+.post-edit-title,
+.post-edit-content,
+.post-edit-page-info,
+.post-edit-page-header,
+.edit-pencil-bio {
+font-size: 1.3rem;
+}
+
+/* FS: 1.5 REM */
+.password-reset-return-link,
+.password-reset-element,
+.password-reset-label,
+.friend-request-header,
+.post-edit-author,
+.post-edit-save-btn,
+.post-edit-delete-btn {
+font-size: 1.5rem;
+}
+
+/* -------------------- USER PROFILE -------------------- */
+.profile-image {
+top: 49%;
+width: 132.5px;
+height: 132.5px;
+}
+.profile-banner {
+width: 23.4em;
+height: 8.4em;
+}
+.profile-detail-bio-text {
+margin: 1em 0;
+}
+.edit-pencil-bio{
+position: absolute;
+top: 0.3em;
+}
+/* -------------------- USER DELETION -------------------- */
+#user-deletion-section {
+margin: 0.5em;
+padding: 2em 0.5em;
+}
+#user-deletion-form {
+margin: 1em 0.2em;
+}
+.user-deletion-no-btn {
+margin-bottom: 5em;
+}
+/* -------------------- FRIEND LIST --------------------  */
+#friend-list-section {
+padding: 2em 1em;
+margin: 0em;
+gap: 1.5em;
+}
+/* -------------------- POST EDIT PAGE -------------------- */
+#post-edit-page-section {
+margin: 0em 2em;
+padding: 0em;
+}
+.post-edit-page-info,
+.post-edit-page-header {
+margin: 0.5em 0;
+padding: 0 0.5em; 
+}
+.post-edit-delete-btn {
+padding: 0.3em;
+margin: 0.5em 0;
+}
+.post-edit-save-btn {
+margin: 0.2em 0;
+}
+.post-edit-details-secondary {
+padding: 0.2em 0;
+margin: 0.2em 0;
+}
+#post-edit-content-section {
+padding: 0.5em;
+margin-top: 0.5em;
+margin-bottom: 0.2em;
 
 }
+.post-edit-content {
+height: 5em;
+padding: 0.2em;
+margin: 0.5em 0;
+}
+.post-edit-title {
+margin: 0.2em 0;
+}
+.post-edit-author-image{
+width: 80px;
+height: 80px;
+}
+/* ----- POSTS -----  */
+.post-create-form{
+/* outline: red dashed 5px; */
+margin: 0 1.5em;
+}
+.post {
+margin: 1em 0;
+padding: 0em;
+height: 40em;
+width: 20em;
+/* outline: rgb(0, 13, 255) dashed 3px; */
+}
+.post-comment {
+width: 20em;
+/* outline: rgb(93, 176, 136) dashed 3px; */
+}
+.pagination {
+width: 80%;
+padding: 0.2em;
+margin: 2em 0;
+}
+.pagination a,
+.pagination span {
+margin: 0.4em 0;
+}
+.first-page,
+.last-page,
+.previous-page,
+.next-page{
+margin: 0.5em 0;
+}
+/* -------------------- LOG-IN PAGE -------------------- */
+.login-image,
 .login-image::before {
 height: 36em;
 aspect-ratio: 1.2;
 }
-/* "PASSWORD RESET" */
+
+/* -------------------- SIGN-UP -------------------- */
+#signup-section {
+margin: 0.2em 0;
+}
+#signup-section form{
+gap: 0.5em;
+margin: 1.3em 3em;
+}
+/* -------------------- PASSWORD RESET -------------------- */
 #password-reset-section {
 margin: 1em 0;
 }
@@ -2307,55 +2289,159 @@ margin: 1em 0;
 margin: 0;
 gap: 1.5em;
 }
-
 .password-reset-header {
 font-size: 2rem;
 }
-.return-to-login-link,
-.password-reset-element,
-.password-reset-label {
-font-size: 1.5rem;
-}
 
-
-/* FOOTER */
+/* ---------- FOOTER ---------- */
 .social-links {
 gap: 1em;
 }
 
 }
-
-
-
-
-/* 25 EM = 414 PX */
-/* 25 EM = 414 PX */
-/* 25 EM = 414 PX */
+/* ---------------------------- 25 EM = 414 PX ---------------------------------------------- */
 @media screen and (min-width: 25.875em) and (max-width:119em){
 
-.logo {
-width: 2em;
+/* COMMON RULES */
+
+/* FS: 1.3 REM */
+#signup-section input,
+.post-edit-time,
+.post-edit-title {
+font-size: 1.3rem;
+}
+/* FS: 1.4 REM */
+.already-registered-text,
+.already-registered-link,
+#signup-section label {
+font-size: 1.4rem;
+}
+/* FS: 1.5 REM */
+.password-reset-return-link,
+.password-reset-element,
+.password-reset-label,
+.pagination a,
+.pagination span,
+.post-edit-page-info,
+.post-edit-page-header {
+font-size: 1.5rem;
+}
+/* FS: 2 REM */
+.upload-profile-images-header,
+.login-welcome-text,
+.social-links a,
+.password-reset-header {
+font-size: 2rem;
 }
 
-/* LOGIN PAGE */
+/* -------------------- USER PROFILE -------------------- */
+.profile-image {
+top: 49%;
+width: 132.5px;
+height: 132.5px;
+}
+.profile-banner {
+width: 25.875em;
+height: 8.4em;
+}
+/* -------------------- USER DELETION -------------------- */
+#user-deletion-section {
+margin: 0.5em;
+padding: 2em 0.5em;
+}
+#user-deletion-form {
+margin: 3em 0.2em;
+}
+/* -------------------- FRIEND LIST -------------------- */
+#friend-list-section {
+width: 100%;
+padding: 2em 1em;
+margin: 0em;
+gap: 2.1em;
+}
+/* -------------------- USER IMAGE UPLOAD -------------------- */
+#uploaded-image {
+width: 150px;
+height: 150px;
+}
+#uploaded-banner {
+margin: 0.8em 0;
+width: 340px;
+height: 110px;
+}
+/* --------------------- POSTS ---------------------  */
+.post-create-form{
+margin: 0 1.5em;
+}
+.post {
+margin: 1em 0;
+padding: 0em;
+height: 38em;
+width: 23em;
+}
+#post-edit-page-section {
+margin: 3em 2em;
+padding: 0em;
+}
+.post-edit-page-info-wrapper {
+margin: 1em 0.2em;
+}
+.post-edit-title {
+margin: 0.2em 0;
+}
+.post-edit-author-image{
+width: 100px;
+height: 100px;
+}
+.post-comment {
+width: 23em;
+}
+.pagination {
+gap: 0.5em;
+margin: 2em 0;
+padding: 0.5em 0;
+border-radius: unset;
+}
+.pagination a,
+.pagination span {
+margin: 0;
+}
+.first-page,
+.last-page,
+.previous-page,
+.next-page{
+margin: 0.5em 0;
+}
+/* --------------------- SIGN-UP --------------------- */
+#signup-section {
+margin: 0.5em 1em;
+padding: 0.3em 0;
+outline: auto;
+}
+#signup-section form{
+gap: 0.5em;
+margin: 0.2em 3em;
+}
+.signup-header,
+.signup-btn {
+font-size: 1.7rem;
+padding: 0.3em;
+margin: 0.5em 0;
+}
+/* --------------------- LOG-IN --------------------- */
 .login-section-container {
 margin: 2em;
 }
 .login-form{
 gap: 1em;
 }
-.login-welcome-text {
-font-size: 2rem;
-}
-
 .login-image {
 height: 38.2em;
 }
 .login-image::before {
 height: 38.2em;
 }
-
-/* PASSWORD RESET PAGE */
+/* --------------------- PASSWORD RESET --------------------- */
 #password-reset-section {
 margin: 1em 0;
 }
@@ -2363,47 +2449,119 @@ margin: 1em 0;
 gap: 1.5em;
 }
 
-.password-reset-header {
-font-size: 2rem;
-}
-.return-to-login-link,
-.password-reset-element,
-.password-reset-label {
-font-size: 1.5rem;
-}
-
-/* FOOTER */
+/* ---------- FOOTER ---------- */
 .footer-container {
 padding: 0;
+}
+.social-list-item {
+padding:0.4em;
 }
 .social-links {
 gap: 0.5em;
 }
-
-.social-list-item {
-padding:0.4em;
-}
-.social-links a{
-font-size: 2rem;
-}
-
 .social-links-item-bg{
 width: 50px;
 height: 50px;
 padding: 0.27em;
 }
+}
+/* ---------------------------- 50 EM = 812 PX ---------------------------------------------- */
+@media screen and (min-height: 50.75em) and (max-width:119em){
+/* COMMON RULES */
 
-
-
-
+/* FS: 1.3 REM */
+.friend-remove-btn {
+font-size: 1.3rem;
+}
+/* FS: 1.4 REM */
+.post-edit-time,
+.post-edit-title,
+.post-edit-author,
+.post-edit-page-info,
+.post-edit-page-header  {
+font-size: 1.4rem;
+}
+/* FS: 1.5 REM */
+.signup-header,
+.already-registered-link,
+.already-registered-text {
+font-size: 1.5rem;
+}
+/* FS: 1.7 REM */
+.password-reset-return-link,
+.password-reset-element,
+.password-reset-label,
+.password-reset-btn {
+font-size: 1.7rem;
+}
+/* FS: 1.8 REM */
+.post-edit-delete-btn,
+.login-welcome-text {
+font-size: 1.8rem;
+}
+/* FS: 2 REM */
+.password-reset-header {
+font-size: 2rem;
 }
 
 
-/* 50 EM = 812 PX */
-/* 50 EM = 812 PX */
-/* 50 EM = 812 PX */
-@media screen and (min-height: 50.75em) and (max-width:119em){
-/* LOGIN PAGE */
+
+/* -------------------- USER PROFILE -------------------- */
+#delete-user-and-send-friend-section {
+display:flex;
+justify-content:center;
+margin: 1.7em 0em;
+}
+/* -------------------- USER DELETION -------------------- */
+#user-deletion-section {
+margin: 2em 0.5em;
+padding: 2em 0.5em;
+}
+#user-deletion-form {
+margin: 3em 0.2em;
+}
+.user-deletion-no-btn {
+margin-bottom: 6em;
+}
+/* -------------------- FRIEND LIST --------------------  */
+#friend-list-section {
+gap: 3em;
+}
+.friend-remove-btn {
+margin: 0.2em 0;
+}
+/* -------------------- POST EDIT PAGE -------------------- */
+#post-edit-page-section {
+margin: 2em 1.5em;
+}
+.post-edit-time,
+.post-edit-title,
+.post-edit-author,
+.post-edit-page-info,
+.post-edit-page-header {
+margin-bottom: 0.2em;
+margin-top: 0.8em;
+}
+.post-edit-author-image{
+width: 120px;
+height: 130px;
+margin: 0.8em 0;
+}
+/* --------------------- SIGN-UP --------------------- */
+#signup-section {
+margin: 0.3em 1em;
+padding: 0.3em 0;
+}
+#signup-section form{
+gap: 1em;
+margin: 0.2em 2em;
+}
+.signup-header,
+.already-registered-link,
+.already-registered-text {
+margin: 1em 0;
+}
+/* --------------------- LOG-IN --------------------- */
 .login-section-container {
 margin: 2em;
 }
@@ -2411,18 +2569,13 @@ margin: 2em;
 gap: 1.8em;
 padding: 2em 0;
 }
-.login-welcome-text {
-font-size: 1.8rem;
-}
-
 .login-image {
-height: 44em;
+height: 45em;
 }
 .login-image::before {
-height: 44em;
+height: 45em;
 }
-
-/* PASSWORD RESET PAGE */
+/* --------------------- PASSWORD RESET --------------------- */
 #password-reset-section {
 margin: 1em 0;
 }
@@ -2430,36 +2583,244 @@ margin: 1em 0;
 margin: 2em 0;
 gap: 1.5em;
 }
+}
 
-.password-reset-header {
+/* ---------------------------- 37 EM = 600 PX ---------------------------------------------- */
+@media screen and (min-width: 37.5em) and (max-width:119em){
+
+/* COMMON RULES */
+
+/* FS: 1.3 REM */
+.friend-remove-btn,
+.profile-detail-bio-text {
+font-size: 1.3rem;
+}
+/* FS: 1.5 REM */
+.post-create-text-content::placeholder,
+.post-create-btn,
+.post-edit-btn,
+.post-delete-btn,
+.post-content,
+.post-title,
+.post-time,
+#upload-profile-images-save-btn,
+.upload-profile-images-form a,
+.upload-profile-images-form p,
+.upload-profile-images-form label,
+#id_banner_image,
+#id_profile_image {
+font-size: 1.5rem;
+}
+/* FS: 1.7 REM */
+.post-edit-time,
+.post-edit-title,
+.post-edit-author,
+.post-edit-page-info,
+.post-edit-page-header {
+font-size: 1.7rem;
+}
+/* FS: 1.8 REM */
+.signup-header,
+.already-registered-link,
+.already-registered-text{
+font-size: 1.8rem;
+}
+/* FS: 2 REM */
+.login-forgot-password-link,
+.login-signup-link,
+.login-welcome-text,
+.login-username-label,
+.login-password-label,
+.user-deletion-yes-btn,
+.user-deletion-no-btn,
+.user-deletion-header,
+.post-create-text-content,
+.post-create-title,
+.post-create-text-content,
+#post-like-btn,
+.post-author {
 font-size: 2rem;
 }
-.return-to-login-link,
+/* FS: 2.4 REM */
+.social-links a,
+.password-reset-return-link,
 .password-reset-element,
 .password-reset-label,
 .password-reset-btn {
+font-size: 2.4rem;
+}
+/* FS: 2.5 REM */
+.user-feed-current-date,
+.login-welcome-text,
+.upload-profile-images-header {
+font-size: 2.5rem;
+}
+
+
+
+/* ---------- HEADER ---------- */
+.header-container{
+padding: 0.3em 0.5em;
+}
+.logotype {
 font-size: 1.7rem;
 }
-
-
-
-
+.navbar-list-item,
+.navbar-list-item-stack {
+width: 42px;
+height: 42px;
 }
-
-/* !!!!! WORKING ON !!!!!!  */
-
-
-@media screen and (min-width: 37.5em) and (max-width:119em){
-/* LOGIN PAGE */
+/* --------------------- USER PROFILE --------------------- */
+#profile-details-section {
+margin: 1em 3em;
+}
+.profile-image {
+width: 190px;
+height: 190px;
+}
+.profile-banner {
+width: 37.5em;
+height: 12em;
+}
+/* --------------------- USER FEED --------------------- */
+.user-feed-header-section {
+margin: 1em 0;
+}
+.user-feed-profile-image {
+width: 120px;
+height: 120px;
+}
+/* -------------------- USER DELETION -------------------- */
+#user-deletion-section {
+margin: 0.5em;
+padding: 2em 2em;
+}
+#user-deletion-form {
+margin: 2em 0.2em;
+}
+.user-deletion-no-btn {
+margin-bottom: 3em;
+}
+/* -------------------- FRIEND LIST --------------------  */
+#friend-list-section {
+gap: 2.6em;
+}
+.friend-remove-btn {
+margin: 0.2em 0;
+}
+/* -------------------- USER IMAGE UPLOAD -------------------- */
+.upload-profile-images-header {
+margin: 0.5em 0;
+}
+.upload-profile-images-form{
+margin: 0.5em 0;
+}
+.upload-profile-images-form a {
+word-break: break-all;
+margin: 2em 0;
+padding: 0.2em 0.5em;
+outline: rgb(55, 80, 79) 2px dashed;
+}
+.upload-profile-images-form p{
+margin: 0.5em 0;
+gap: 0.5em;
+outline: rgb(0, 0, 0) 3px solid;
+}
+.upload-profile-images-form label{
+gap: 2em;
+}
+#upload-profile-images-save-btn {
+padding: 0.8em;
+border-radius: 10px / 10%;
+}
+#banner_image-clear_id,
+#profile_image-clear_id{
+margin: 0.5em 0;
+height: 2em;
+width: 2em;
+}
+#id_profile_image,
+#id_banner_image  {
+width: 70%;
+margin: 0.4em 0;
+}
+#uploaded-image {
+width: 200px;
+height: 200px;
+}
+#uploaded-banner {
+margin: 1em;
+width: 500px;
+height: 150px;
+}
+#uploaded-image,
+#uploaded-banner {
+border: 3px dashed green;
+}
+/* --------------------- POSTS ---------------------  */
+.post-create-form{
+margin: 0 4em;
+}
+.post-create-btn {
+padding: 0.4em;
+}
+#post-list-section {
+margin: 2em 0;
+}
+.post {
+margin: 1em 0;
+padding: 0em;
+height: 52em;
+width: 35em;
+}
+.post-author-image{
+width: 120px;
+height: 120px;
+}
+/* -------------------- POST EDIT PAGE -------------------- */
+#post-edit-page-section {
+margin: 2em 6em;
+}
+.post-edited {
+margin: 0em;
+}
+.post-edit-author-image{
+width: 140px;
+height: 140px;
+}
+.post-edit-author-image{
+margin: 0.8em 0;
+}
+#post-edit-content-section {
+padding: 1em 2em;
+}
+.post-edit-content {
+margin: 1em 0;
+}
+/* ----- POST COMMENTS - DISPLAY -----  */
+.post-comment {
+width: 30em;
+}
+/* --------------------- SIGN-UP --------------------- */
+#signup-section {
+margin: 0.3em 1em;
+padding: 0.3em 0;
+}
+#signup-section form{
+gap: 0.5em;
+margin: 0.2em 8em;
+}
+.signup-header,
+.already-registered-link,
+.already-registered-text {
+margin: 0.5em 0;
+}
+/* --------------------- LOG-IN --------------------- */
 .login-section-container {
 margin: 2em;
 }
 .login-form{
 gap: 1.5em;
-/* padding: 2em; */
-}
-.login-welcome-text {
-font-size: 2.5rem;
 }
 
 .login-image {
@@ -2468,49 +2829,11 @@ height: 41em;
 .login-image::before {
 height: 41em;
 }
-
 .login-form-password,
 .login-form-username {
 margin: 0 5em;
 }
-
-.login-welcome-text,
-.login-username-label,
-.login-password-label {
-font-size: 2rem;
-}
-
-.login-forgot-password-link,
-.login-signup-link {
-font-size: 2rem;
-}
-
-
-.logo{
-width: 2.5em;
-}
-
-
-
-/* FOOTER */
-
-.social-links {
-gap: 2em;
-}
-
-.social-list-item {
-padding:0.3em;
-}
-.social-links a{
-font-size: 2.4rem;
-}
-
-.social-links-item-bg{
-width: 60px;
-height: 60px;
-
-}
-/* PASSWORD RESET PAGE */
+/* --------------------- PASSWORD RESET --------------------- */
 #password-reset-section {
 margin: 0.5em 0;
 }
@@ -2518,80 +2841,362 @@ margin: 0.5em 0;
 margin: 2em 0;
 gap: 1em;
 }
-
 .password-reset-header {
 font-size: 3rem;
 }
-
-.return-to-login-link,
-.password-reset-element,
-.password-reset-label,
-.password-reset-btn {
-font-size: 2.3rem;
-}
-
-}
-@media screen and (min-width: 48em) and (max-width:119em){
-
-/* LOGIN PAGE */
-.login-section-container {
-margin: 2em;
-}
-.login-form{
-gap: 1.5em;
-/* padding: 2em; */
-}
-.login-welcome-text {
-font-size: 2.5rem;
-}
-
-.login-image {
-height: 53em;
-}
-.login-image::before {
-height: 53em;
-}
-
-.login-form-password,
-.login-form-username {
-margin: 0 5em;
-}
-
-.login-welcome-text,
-.login-username-label,
-.login-password-label {
-font-size: 2rem;
-}
-
-.login-forgot-password-link,
-.login-signup-link {
-font-size: 2rem;
-}
-
-
-.logo{
-width: 3.5em;
-}
-
-
-/* FOOTER */
-
+/* ---------- FOOTER ---------- */
 .social-links {
 gap: 2em;
 }
 .social-list-item {
 padding:0.3em;
 }
-.social-links a{
-font-size: 2.4rem;
-}
 .social-links-item-bg{
 width: 60px;
 height: 60px;
+}
+}
 
+/* ---------------------------- 48 EM = 768 PX ---------------------------------------------- */
+@media screen and (min-width: 48em) and (max-width:119em){
+
+
+/* COMMON RULES */
+
+/* FS: 1.5 REM */
+.post-comment-content,
+.post-comment-author,
+.post-comment-time,
+.post-content,
+#post-like-btn{
+font-size: 1.5rem;
+}
+
+/* FS: 1.7 REM */
+.post-time,
+#post-comment-create-content {
+font-size: 1.7rem;
+}
+
+/* FS: 1.8 REM */
+.post-title,
+.navbar-link,
+.post-edit-time,
+#post-like-count,
+.post-edit-title,
+.post-edit-author,
+.post-edit-content,
+.post-edit-save-btn,
+.post-edit-page-info,
+.post-edit-page-header {
+font-size: 1.8rem;
+}
+
+/* FS: 2 REM */
+.logotype,
+.pagination span,
+.pagination a,
+.post-edit-btn,
+#post-like-btn,
+.post-author,
+.post-delete-btn,
+.post-create-btn,
+.edit-pencil-bio,
+.login-signup-link,
+.post-create-title,
+.login-welcome-text,
+.navbar-signout-btn,
+.login-username-label,
+.login-password-label,
+#signup-section input, 
+#signup-section label,
+.post-comment-create-btn,
+.profile-detail-bio span, 
+.profile-detail-gender span,
+.login-forgot-password-link,
+.profile-detail-gender-text,
+.profile-detail-profession span,
+.profile-detail-profession-text,
+.post-create-text-content::placeholder{
+font-size: 2rem;
+}
+/* FS: 2.5 REM */
+.password-reset-return-link,
+.password-reset-element,
+.password-reset-label,
+.password-reset-btn ,
+.login-welcome-text,
+.signup-header,
+.already-registered-link,
+.already-registered-text,
+#upload-profile-images-save-btn,
+.upload-profile-images-form a,
+.upload-profile-images-form p,
+.upload-profile-images-form label,
+#id_banner_image,
+#id_profile_image,
+.friend-request-header,
+.friend-requests-text,
+.friend-name,
+.friend-remove-btn,
+#user-search-results a,
+#user-search-input,
+.user-feed-current-date {
+font-size: 2.5rem;
 }
 
 
+
+
+
+/* ---------- HEADER ---------- */
+.header-container{
+padding: 0.3em 0.5em;
+}
+.navbar-list-item,
+.navbar-list-item-stack {
+width: 62px;
+height: 62px;
+}
+#navbar-link-stack-icon-search {
+position: absolute;
+top: 0.05em;
+left: 0.6em;
+
+}
+#navbar-link-stack-icon-user {
+left: -0.2em;
+}
+/* --------------------- USER PROFILE --------------------- */
+#profile-details-section {
+margin: 1em 3em;
+}
+.profile-details {
+padding: 1em 1.2em;
+}
+.profile-banner {
+width: 48em;
+}
+
+.profile-detail-bio-text {
+width: auto;
+height: auto;
+font-size: 2.5rem;
+margin: 0.5em 0;
+}
+.edit-pencil-bio{
+position: absolute;
+top: 0.3em;
+
+}
+.delete-user-btn {
+font-size: 1.3rem;
+}
+/* --------------------- USER FEED --------------------- */
+.user-feed-header-section {
+margin: 1em 0;
+}
+.user-feed-profile-image {
+width: 120px;
+height: 120px;
+}
+
+/* -------------------- USER SEARCH -------------------- */
+.user-search-header {
+font-size: 4rem;
+margin: 0.5em 0;
+}
+#user-search-results {
+margin: 0.5em 0;
+padding: 2em;
+gap: 4em;
+}
+/* -------------------- USER DELETION -------------------- */
+#user-deletion-section {
+margin: 0.5em;
+padding: 2em 4em;
+}
+#user-deletion-form {
+margin: 2em 0.2em;
+}
+.user-deletion-header{
+line-height: 3.5rem;
+}
+
+.user-deletion-yes-btn,
+.user-deletion-no-btn,
+.user-deletion-header {
+font-size: 2.8rem;
+}
+.user-deletion-no-btn {
+margin-bottom: 2.5em;
+}
+/* -------------------- FRIEND LIST --------------------  */
+#friend-list-section {
+gap: 2em;
+}
+.friend-list-header {
+font-size: 4rem;
+}
+/* -------------------- USER IMAGE UPLOAD -------------------- */
+.upload-profile-images-header {
+margin: 0.5em 0;
+font-size: 3rem;
+}
+#banner_image-clear_id,
+#profile_image-clear_id{
+margin: 0.5em 0;
+height: 4em;
+width: 4em;
+}
+
+#upload-profile-images-save-btn {
+padding: 0.8em;
+}
+#uploaded-image {
+width: 260px;
+height: 260px;
+}
+#uploaded-banner {
+margin: 2em;
+width: 600px;
+height: 200px;
+}
+/* ----- POSTS - CREATE -----  */
+.post-create-form{
+margin: 0 4em;
+}
+.post-create-text-content {
+height: 15em;
+}
+.post-create-text-content::placeholder {
+letter-spacing: 0.01em;
+line-height: 3em;
+}
+/* ----- POSTS - DETAILS & LIST -----  */
+#post-list-section {
+margin: 2em 0;
+}
+.post {
+height: 50em;
+width: 40em;
+}
+#post-like-count{
+margin: 0 0.5em;
+}
+.post-details-secondary {
+padding: 1em 0;
+margin: 0.5em 0;
+}
+#post-content-section {
+padding: 1em;
+margin: 0.2em 0;
+}
+.post-content {
+height: 5em;
+padding: 0.5em;
+margin: 0.2em 0;
+}
+.post-title {
+margin: 0.2em 0;
+text-align: start;
+}
+.post-author-image{
+width: 100px;
+height: 100px;
+border-radius: 50%;
+margin: 0.5em 0;
+}
+#post-edit-section {
+margin: 0.5em 0em;
+padding: 0.5em 1em;
+}
+.post-delete-btn,
+.post-edit-btn  {
+padding: 0.2em;
+}
+/* -------------------- POST EDIT PAGE -------------------- */
+#post-edit-page-section {
+margin: 2em 6em;
+}
+.post-edited {
+margin: 0em;
+}
+#post-edit-content-section {
+padding: 0.5em 3em;
+}
+.post-edit-content {
+margin: 1em 0;
+}
+.post-edit-author-image{
+width: 170px;
+height: 170px;
+margin: 0.6em 0;
+}
+.pagination {
+padding: 0.5em;
+margin: 2em 0;
+}
+.first-page,
+.last-page,
+.previous-page,
+.next-page{
+margin: 1em 0;
+}
+/* ----- POST COMMENTS - CREATE -----  */
+#post-comment-create-section {
+padding: 0.5em;
+}
+.post-comment-create-btn{
+width:70%;
+margin: 0.5em 0;
+padding: 0.4em;
+}
+/* ----- POST COMMENTS - DISPLAY -----  */
+.post-comment {
+padding: 1em;
+margin: 0em;
+width: 40em;
+}
+.post-comment-content {
+width: 100%;
+height: 7em;
+margin: 0;
+padding: 0.3em;
+}
+/* --------------------- SIGN-UP --------------------- */
+#signup-section {
+margin: 0.3em 1em;
+padding: 0.3em 0;
+}
+#signup-section form{
+gap: 0.5em;
+margin: 0.2em 8em;
+}
+.signup-header,
+.already-registered-link,
+.already-registered-text {
+margin: 0.5em 0;
+}
+
+/* --------------------- LOG-IN --------------------- */
+.login-section-container {
+margin: 2em;
+}
+.login-form{
+gap: 1.5em;
+}
+.login-image {
+height: 53em;
+}
+.login-image::before {
+height: 53em;
+}
+.login-form-password,
+.login-form-username {
+margin: 0 5em;
+}
+/* --------------------- PASSWORD RESET --------------------- */
 #password-reset-section {
 margin: 0.5em 0;
 }
@@ -2599,27 +3204,401 @@ margin: 0.5em 0;
 margin: 2em 0;
 gap: 2em;
 }
-
 .password-reset-header {
 font-size: 3rem;
 }
+/* ---------- FOOTER ---------- */
+.social-links {
+gap: 2em;
+}
+.social-list-item {
+padding:0.5em;
+}
+.social-links a{
+font-size: 2.75rem;
+}
+.social-links-item-bg{
+width: 70px;
+height: 70px;
+}
+}
 
-.return-to-login-link,
+/* ---------------------------- 62 EM = 992 PX ---------------------------------------------- */
+@media screen and (min-width: 62em) and (max-width:119em) {
+
+/* COMMON RULES */
+
+/* FS: 2 REM */
+.post-comment-content,
+.post-comment-author,
+.post-comment-time,
+.post-comment-create-btn,
+.post-content,
+.post-time {
+font-size: 2rem;
+}
+/* FS: 2.5 REM */
+.login-welcome-text,
+.post-edit-time,
+.post-edit-title,
+.post-edit-author,
+.post-edit-content,
+.post-edit-save-btn,
+.post-edit-delete-btn,
+.post-edit-page-info,
+.post-edit-page-header,
+.post-title,
+#upload-profile-images-save-btn,
+.upload-profile-images-form a,
+.upload-profile-images-form p,
+.upload-profile-images-form label,
+#id_banner_image,
+#id_profile_image,
+.delete-user-btn,
+.edit-pencil-bio,
+.profile-detail-bio-text,
+.profile-detail-bio span, 
+.profile-detail-gender-text,
+.profile-detail-profession-text,
+.profile-detail-profession span,
+.profile-detail-gender span{
+font-size: 2.5rem;
+}
+/* FS: 3 REM */
+.password-reset-return-link,
 .password-reset-element,
 .password-reset-label,
-.password-reset-btn {
-font-size: 2.3rem;
+.password-reset-btn,
+.login-btn,
+.login-signup-link,
+.login-forgot-password-link,
+.login-username-input,
+.login-password-input,
+.login-welcome-text,
+.login-username-label,
+.login-password-label,
+#signup-section input, 
+#signup-section label,
+.signup-btn,
+.signup-header,
+.already-registered-link,
+.already-registered-text,
+.pagination span,
+.pagination a,
+.post-delete-btn,
+.post-edit-btn,
+#post-like-btn,
+.post-author,
+#post-like-btn,
+#post-like-count,
+.user-feed-current-date,
+.post-create-btn,
+.post-create-title,
+.post-create-text-content::placeholder,
+#user-search-results a,
+#user-search-input,
+.navbar-link,
+.navbar-signout-btn,
+.logotype,
+.user-deletion-yes-btn,
+.user-deletion-no-btn,
+.user-deletion-header {
+font-size: 3rem;
 }
 
+/* FS: 4 REM */
+.password-reset-header,
+.upload-profile-images-header {
+font-size: 4rem;
 }
-@media screen and (min-width: 62em) and (max-width:119em) {
+/* FS: 5 REM */
+.user-search-header,
+.friend-list-header,
+.login-username-input::placeholder {
+font-size: 5rem;
+}
+
+/* ---------- HEADER ---------- */
+.header-container{
+padding: 0.5em 1em;
+}
+.navbar-list-item,
+.navbar-list-item-stack {
+width: 92px;
+height: 92px;
+}
+#navbar-link-stack-icon-search {
+position: absolute;
+top: -0.2em;
+left: 0.3em;
+}
+#navbar-link-stack-icon-user {
+top: -0.2em;
+left: -0.4em;
+}
+/* --------------------- USER PROFILE --------------------- */
+#profile-details-section {
+margin: 1em 3em;
+}
+.profile-details {
+padding: 2em 1.2em;
+gap: 2em;
+}
+.profile-image {
+width: 275px;
+height: 275px;
+}
+.profile-banner {
+width: 64em;
+height: 17em;
+}
+.profile-detail-bio-text {
+width: auto;
+height: auto;
+margin: 0.5em 0;
+}
+.edit-pencil-bio{
+position: absolute;
+top: 0.6em;
+}
+/* --------------------- USER FEED --------------------- */
+.user-feed-header-section {
+margin: 1em 0;
+}
+.user-feed-profile-image {
+width: 240px;
+height: 240px;
+}
+/* --------------------- USER SEARCH --------------------- */
+#user-search-section{
+padding: 0;
+margin: 0;
+}
+.user-search-header {
+margin: 1em 0;
+}
+#user-search-results {
+margin: 0.5em 0;
+padding: 2em;
+gap: 5em;
+}
+/* -------------------- USER DELETION -------------------- */
+#user-deletion-section {
+margin: 1em;
+padding: 1em 6em;
+}
+.user-deletion-header{
+line-height: 5rem;
+}
+.user-deletion-no-btn {
+margin-bottom: 6em;
+}
+/* -------------------- FRIEND LIST --------------------  */
+#friend-list-section {
+gap: 5em;
+}
+.friend-list-header {
+margin: 0.3em 0;
+}
+/* -------------------- USER IMAGE UPLOAD -------------------- */
+.upload-profile-images-header {
+margin: 0.5em 0;
+}
+#banner_image-clear_id,
+#profile_image-clear_id{
+margin: 0.5em 0;
+height: 6em;
+width: 6em;
+}
+.upload-profile-images-form{
+margin: 0.5em 0;
+}
+.upload-profile-images-form a {
+word-break: break-all;
+margin: 2em 0;
+padding: 0.2em 0.5em;
+outline: rgb(55, 80, 79) 2px dashed;
+}
+.upload-profile-images-form p{
+margin: 0.5em 0;
+gap: 0.5em;
+outline: rgb(0, 0, 0) 3px solid;
+}
+#upload-profile-images-save-btn {
+padding: 0.8em;
+border-radius: 10px / 10%;
+}
+#id_profile_image,
+#id_banner_image  {
+margin: 0.4em 0;
+}
+#uploaded-image {
+width: 400px;
+height: 400px;
+}
+#uploaded-banner {
+margin: 1em;
+width: 900px;
+height: 200px;
+}
+#uploaded-image,
+#uploaded-banner {
+border: 3px dashed green;
+}
+/* ----- POSTS - CREATE -----  */
+.post-create-form{
+margin: 0 4em;
+border: 3px solid;
+border-color: rgb(0, 103, 199);
+}
+.post-create-text-content{
+height: 20em;
+}
+/* ----- POSTS - DETAILS & LIST -----  */
+#post-list-section {
+margin: 2em 0;
+}
+.post {
+height: 65em;
+width: 60em;
+}
+#post-details-lc-section {
+gap: 1em;
+margin: 1em 0;
+}
+#post-content-section {
+padding: 0 2em;
+margin: 0.2em 0;
+width: 100%;
+}
+.post-content {
+height: 5em;
+padding: 0.5em;
+margin: 0.2em;
+width: 100%;
+}
+.post-title {
+margin: 0.2em 0;
+text-align: start;
+}
+.post-author-image{
+width: 180px;
+height: 180px;
+}
+
+#post-edit-section {
+margin: 0.5em 0em;
+padding: 0.5em 1em;
+}
+.post-delete-btn,
+.post-edit-btn  {
+padding: 0.2em;
+}
+/* -------------------- POST EDIT PAGE -------------------- */
+#post-edit-page-section {
+margin: 2em 6em;
+}
+.post-edit-page-info-wrapper {
+padding: 0 3em;
+margin: 0 2em;
+}
+.post-edited{
+padding: 1em 0;
+}
+.post-edit-time,
+.post-edit-title,
+.post-edit-author,
+.post-edit-content,
+.post-edit-save-btn,
+.post-edit-delete-btn,
+.post-edit-page-info,
+.post-edit-page-header {
+margin: 0.4em 0;
+}
+#post-edit-content-section {
+padding: 0 7em;
+}
+.post-edit-content {
+margin: 1em 0;
+}
+.post-edit-author-image{
+width: 240px;
+height: 240px;
+margin: 0.6em 0;
+}
+.pagination {
+padding: 2em;
+}
+.first-page,
+.last-page,
+.previous-page,
+.next-page{
+margin: 1.5em 0;
+}
+/* ----- POST COMMENTS - CREATE -----  */
+#post-comment-create-section {
+padding: 0.5em;
+}
+#post-comment-create-content {
+font-size: 1.7rem;
+}
+.post-comment-create-btn{
+width:70%;
+margin: 0.5em 0;
+padding: 0.4em;
+}
+/* ----- POST COMMENTS - DISPLAY -----  */
+.post-comment {
+padding: 1em;
+margin: 0em;
+width: 60em;
+}
+.post-comment-content {
+height: 5em;
+padding: 0.7em 0.5em;
+}
+/* ---------- HEADER (LOGGED-OUT) ---------- */
 .header-container-login {
 padding: 0.7em 0;
 }
-.logo{
-width: 4.2em;
+/* --------------------- SIGN-UP --------------------- */
+#signup-section {
+margin: 1em 1em;
+padding: 0.3em 0;
 }
-
+#signup-section form{
+gap: 0.7em;
+margin: 0.5em 8em;
+}
+.signup-btn,
+.signup-header,
+.already-registered-link,
+.already-registered-text {
+margin: 0.2em 0;
+}
+/* --------------------- LOG-IN --------------------- */
+.login-section-container {
+margin: 2em;
+}
+.login-form{
+gap: 3em;
+}
+.login-form-password,
+.login-form-username {
+margin: 0 5em;
+}
+.login-btn {
+width: auto;
+padding: 0.5em 2em;
+margin: 0;
+}
+.login-image {
+height: 71em;
+}
+.login-image::before {
+height: 71em;
+}
+/* --------------------- PASSWORD RESET --------------------- */
 #password-reset-section {
 margin: 3em 0;
 }
@@ -2628,15 +3607,19 @@ margin: 2em 0;
 gap: 3em;
 }
 
-.password-reset-header {
-font-size: 4rem;
+/* ---------- FOOTER ---------- */
+.social-links {
+gap: 4em;
 }
-
-.return-to-login-link,
-.password-reset-element,
-.password-reset-label,
-.password-reset-btn {
-font-size: 2.8rem;
+.social-list-item {
+padding:1em;
+}
+.social-links a{
+font-size: 3.5rem;
+}
+.social-links-item-bg{
+width: 90px;
+height: 90px;
 }
 }
 

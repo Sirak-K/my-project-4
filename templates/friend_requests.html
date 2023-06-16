@@ -4,7 +4,7 @@
 
     {% for request in received_friend_requests %}
 
-        <p class="friend-requestz">{{ request.sender.username }} wants to be your friend and has sent you a friend request.</p>
+        <p class="friend-requests-text">{{ request.sender.username }} wants to be your friend and has sent you a friend request.</p>
         
             <form method="POST" action="{% url 'accept_friend_request' request_id=request.id %}">
             {% csrf_token %}
@@ -19,7 +19,7 @@
             </form>
 
             {% empty %}
-        <p class="friend-requestz">No received friend requests.</p>
+        <p class="friend-requests-text">No received friend requests.</p>
     {% endfor %}
 
 
@@ -27,7 +27,7 @@
 
     {% for request in sent_friend_requests %}
 
-        <p class="friend-requestz">You have sent a friend request to {{ request.receiver.username }}.</p>
+        <p class="friend-requests-text">You have sent a friend request to {{ request.receiver.username }}.</p>
 
             <form method="POST" action="{% url 'cancel_friend_request' request_id=request.id %}">
             {% csrf_token %}
@@ -36,7 +36,7 @@
             </form>
 
             {% empty %}
-        <p class="friend-requestz">No sent friend requests.</p>
+        <p class="friend-requests-text">No sent friend requests.</p>
     {% endfor %}
 
 {% endblock content_friend_requests %}

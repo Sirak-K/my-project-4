@@ -2,10 +2,6 @@
 {% extends 'base.html' %}
 
 {% block content_post_create %}
-  <h1>Create a Post</h1>
-  <form method="post" >
-    {% csrf_token %}
-    {{ post_form.as_p }}
-    <button type="submit">Create</button>
-  </form>
+  <h1>Post Title of maximum 50 characters </h1>
+  <h1>Post Content maximum 200 characters </h1>
 {% endblock content_post_create%}

@@ -23,6 +23,7 @@
           {% endif %}
           </div>
 
+          
           <section id="post-create-section">
                 <form class="post-create-form" method="post" action="{% url 'post_create' %}">
                     {% csrf_token %}
@@ -33,6 +34,9 @@
                     <button type="submit" class="post-create-btn">Create Post</button>
                 </form>
           </section>
+
+          
+
 
 
 
@@ -70,18 +74,16 @@
 <div class="last-page">
 <a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;&raquo;</a>
 </div>
-
-
-      {% endif %}
+{% endif %}
     </span>
   </div>
-
-
+  
 {% else %}
 <div class="pagination">
   <span class="current-page">Current Page: {{ page_obj.number }}</span>
 </div>
 {% endif %}
+
 </div>
 </section>
 {% endblock content_user_profile %}

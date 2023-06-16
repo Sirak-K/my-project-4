@@ -69,12 +69,16 @@
 <div class="last-page">
 <a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;&raquo;</a>
 </div>
-
-
-      {% endif %}
+{% endif %}
     </span>
   </div>
+  
+{% else %}
+<div class="pagination">
+  <span class="current-page">Current Page: {{ page_obj.number }}</span>
+</div>
 {% endif %}
+
 </div>
 </section>
 {% endblock content_user_feed %}

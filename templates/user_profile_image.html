@@ -3,8 +3,8 @@
 {% block content_user_profile_image %}
 {% include 'header_logged_in.html' %}
 
-    <section id="profile-images-update-section">
-    <h1 class="pim-header">Upload Profile Images</h1>
+    <section id="upload-profile-images-section">
+    <h1 class="upload-profile-images-header">Upload Profile Images</h1>
 
       <!-- Display selected profile image -->
 <div id="profile-image-preview">
@@ -25,10 +25,10 @@
     </div>
 
 
-        <form action="{% url 'user_profile_image' username=user.username %}" class="pim-form" method="POST" enctype="multipart/form-data">
+        <form action="{% url 'user_profile_image' username=user.username %}" class="upload-profile-images-form" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button class="profile-images-update-btn" id="save-changes-btn" type="submit">Save Changes</button>
+            <button class="profile-images-update-btn" id="upload-profile-images-save-btn" type="submit">Save Changes</button>
         </form>
    
 </section>
