@@ -1,3 +1,8 @@
+{% comment %}
+  This block defines the content for sending a friend request.
+  It includes a form to send the friend request.
+{% endcomment %}
+
 {% block content_send_friend_request %}
   <form method="post" action="{% url 'send_friend_request' receiver_id=receiver_id %}">
     {% csrf_token %}

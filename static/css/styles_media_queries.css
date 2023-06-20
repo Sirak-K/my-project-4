@@ -1,0 +1,1082 @@
+/* File: styles_media_queries.css */
+
+/* Targeted Screen Size: Media Queries */
+
+/* Used CSS Attributes: Any / All   */
+
+
+/* || ----- |MQ| ----- || */
+/* -------- 0 EM = 0 PX  ------ */
+@media screen and (min-width: 0em) and (max-width: 119em){
+/* ---------- HEADER ---------- */
+#header-section {
+padding: 0.3em 0.5em;
+}
+.navbar {
+gap:0;
+}
+.navbar-list {
+gap:0;
+}
+#navbar-link-stack-icon-search {
+top: 0.2em;
+right: 0.15em;
+}
+#navbar-link-stack-icon-user {
+top: 0.05em;
+left: 0.2em;
+}
+.navbar-signout-btn {
+padding: 0.2em;
+}
+/*  USER PROFILE  */
+#user-profile-details-section {
+margin: 0 1em;
+
+}
+.user-profile-details {
+gap: 1em;
+padding: 0.5em 1em;
+}
+#user-profile-images-section {
+margin-bottom: 1em;
+}
+.profile-detail-header {
+font-weight: 700;
+letter-spacing: 0.02em;
+margin-bottom:0.5em;
+padding:0;
+}
+.edit-pencil-bio-container {
+justify-content:flex-end;
+border-bottom: 1px solid rgb(0, 0, 0);
+}
+.edit-pencil-bio{
+position: absolute;
+top: 0.2em;
+right: 0.4em;
+}
+.edit-pencil {
+float:right;
+}
+.dropdown-menu {
+min-width: 150px;
+}
+.dropdown-menu a {
+padding: 12px 16px;
+}
+#user-profile-delete-and-send-friend-section {
+margin: 1.5em 0em;
+}
+.delete-user-btn,
+.add-friend-btn {
+padding: 0.5em;
+border-radius: 5%;
+}
+.delete-user-btn{
+border: 2px dashed red;
+}
+/*  USER FEED  */
+#user-feed-section{
+margin: 0em;
+padding: 0em;
+border-right: solid 1px;
+border-left: solid 1px;
+border-bottom: solid 1px;
+}
+#user-feed-header-section {
+justify-content: space-evenly;
+align-items: center;
+gap: 1em;
+margin: 0.5em 0;
+padding: 0;
+}
+.user-feed-profile-image {
+border: 1px solid #000000;
+}
+/*  USER SEARCH  */
+#user-search-section{
+padding: 0 1em;
+margin: 0.5em;
+}
+#user-search-results {
+margin: 1em 0;
+padding: 0.5em;
+gap: 2.5em;
+}
+/*  USER DELETION  */
+#user-deletion-section {
+margin: 0.5em;
+padding: 1.5em 0.5em;
+gap: 1em;
+}
+#user-deletion-form {
+margin: 0 0.2em;
+}
+.user-deletion-yes-btn,
+.user-deletion-no-btn{
+margin:  0;
+padding: 1em;
+}
+.user-deletion-no-btn{
+margin: 3em 0;
+}
+/*  FRIEND LIST   */
+#friend-list-section {
+margin: 0.5em;
+padding: 1em;
+gap: 1em;
+}
+#friendship-section {
+gap: 0.8em;
+padding: 0.5em;
+outline: 1px dotted rgb(0, 0, 0);
+}
+.friend-name{
+line-height: 2rem;
+}
+.friend-request-header {
+margin:0.2em 0;
+border-radius: 10px / 20%;
+}
+/*  USER IMAGE UPLOAD  */
+#upload-profile-images-section {
+display: flex;
+margin: 0.5em;
+}
+.upload-profile-images-form {
+width: 100%;
+margin: 0.5em 0;
+}
+.upload-profile-images-form a {
+width: 100%;
+margin: 0.5em 0;
+padding: 0.2em 0.5em;
+outline: rgb(55, 80, 79) 2px dashed;
+}
+.upload-profile-images-form label{
+gap: 2em;
+width: 100%;
+
+}
+.upload-profile-images-form p{
+margin: 0.5em 0;
+gap: 0.5em;
+outline: black 2px dotted;
+}
+#upload-profile-images-save-btn {
+padding: 0.4em;
+}
+#uploaded-image,
+#uploaded-banner {
+border: 3px dashed green;
+}
+#banner_image-clear_id,
+#profile_image-clear_id{
+margin: 0;
+}
+#id_profile_image,
+#id_banner_image  {
+margin: 0.4em 0;
+}
+/* ----- POSTS - CREATE -----  */
+#post-create-section {
+margin: 0 1em;
+}
+.post-create-title {
+padding: 0.2em 0em;
+}
+.post-create-text-content {
+text-align: start;
+}
+.post-create-text-content::placeholder {
+letter-spacing: 0.02em;
+line-height: 1.5em;
+padding: 0.2em;
+color:rgba(0, 0, 0, 0.770);
+}
+.post-create-btn {
+padding: 0.2em;
+}
+/* ----- POSTS - DETAILS & LIST -----  */
+#post-list-section {
+gap: 2em;
+margin: 2em 1em;
+}
+.post {
+padding: 1em 0em;
+}
+#post-like-btn,
+#post-like-count{
+margin: 0 1em;
+}
+/* .post-details-secondary {
+padding: 1em 0;
+margin: 1em 0;
+} */
+#post-details-lc-section {
+gap: 0em;
+padding: 0.5em 0;
+margin: 0;
+}
+#post-content-section {
+padding: 0.5em 0.8em;
+}
+.post-content {
+text-align: start;
+line-height: 1.5rem;
+padding: 0.5em;
+border: 1px solid black;
+}
+.post-title {
+margin: 0.2em 0;
+}
+#post-details-edit-section {
+justify-content:space-between;
+padding: 0em 1.5em;
+margin: 0em;
+}
+.post-delete-btn,
+.post-edit-btn  {
+padding: 0.2em;
+}
+/*  POST EDIT PAGE  */
+.post-edit-page-info,
+.post-edit-page-header {
+margin: 0;
+padding: 0; 
+}
+#post-edit-page-section {
+margin: 0;
+padding: 0 1em; 
+}
+
+.post-being-edited { 
+margin: 0.5em 0;
+}
+.post-being-edited-title,
+#post-being-edited-content-section {
+margin: 0.5em 0;
+padding:0em;
+}
+.post-being-edited-save-btn {
+margin-top: 0em;
+margin: 0.5em 0; 
+}
+/* ----- POSTS -----  */
+#pagination-section {
+margin: 1em 0;
+gap: 1em;
+}
+.current-page {
+margin: 0.5em 0;
+}
+.first-page,
+.last-page,
+.previous-page,
+.next-page {
+margin: 1.5em 0;
+}
+/* ----- POST COMMENTS - CREATE -----  */
+#post-comment-create-section {
+padding: 0.5em 2em;
+margin: 1em 0;
+}
+.post-comment-create-btn{
+margin-top: 2em;
+padding: 0.6em;
+}
+/* ----- POST COMMENTS - DISPLAY -----  */
+.post-comment {
+padding: 0.5em;
+border-radius: 20px / 10%;
+}
+.post-comment-details {
+gap: 0.8em;
+padding: 0.5em 0em;
+}
+.post-comment-content {
+
+line-height: 1.5rem;
+margin: 0;
+padding: 0.5em;
+}
+
+/* --|-- LOGGED-OUT SECTION --|-- */
+/* ---------- HEADER II ---------- */
+#header-section-login{
+padding: 0.3em 0.5em;
+}
+/*  SIGN-UP  */
+#signup-section {
+margin: 0.2em 0;
+}
+#signup-section form{
+gap: 0.5em;
+margin: 0.5em 3em;
+}
+.signup-btn {
+margin: 0.8em 0;
+}
+/*  LOG-IN PAGE  */
+.login-section-container {
+gap: 0em;
+margin: 0em 0em;
+}
+#login-section {
+gap:0;
+margin: 0 2em;
+padding: 1em 0em;
+}
+.login-signup-link {
+margin: 0.5em 2.5em;
+padding: 0.1em;
+}
+.login-forgot-password-link {
+margin: 0.5em 1em;
+padding: 0.1em;
+}
+.login-form {
+gap: 0.5em;
+margin: 0 2em;
+}
+.login-btn {
+width: 60%;
+padding: 0.2em 0;
+margin: 0.5em 0;
+}
+/*  PASSWORD RESET [LINES]: 30  */
+#password-reset-section {
+margin: 1em 0;
+padding:0;
+}
+#password-reset-section form {
+gap: 1em;
+margin: 0 2em;
+}
+.password-reset-return-link {
+margin: 1em 0;
+}
+.password-reset-btn {
+margin: 0.5em 0;
+padding: 0.3em;
+}
+/* ---------- FOOTER ---------- */
+.footer-container {
+flex-direction:row-reverse;
+justify-content: space-evenly;
+padding: 0;
+border-top: 2px solid;
+      border-image: linear-gradient(
+        to left,
+        #0059ff 10%,
+        rgb(0, 255, 255) 60%,
+        #0026ff 70%
+      ) 1 2 10%;
+}
+.social-links {
+align-items: center;
+gap: 0.8em;
+}
+.social-list-item {
+padding:0.2em;
+}
+.social-links-item-bg{
+padding: 0.21em;
+border: 1px solid;
+}}
+/* -------- 23 EM = 375 PX  ------ */
+@media screen and (min-width: 23.438em) and (max-width:119em){
+/*  USER PROFILE  */
+.profile-image {
+top: 48%;
+}
+/*  USER SEARCH  */
+#user-search-section{
+padding: 0 2em;
+}
+#user-feed-header-section {
+gap: 5em;
+}
+/*  USER DELETION  */
+#user-deletion-section {
+margin: 0.5em;
+padding: 2em 1em;
+}
+#user-deletion-form {
+margin: 0.5em 0.2em;
+}
+.user-deletion-no-btn {
+margin-bottom: 2em;
+}
+/*  FRIEND LIST   */
+#friend-list-section {
+gap: 1.5em;
+padding: 1em 1em;
+padding-top: 1.2em;
+}
+/*  SIGN-UP  */
+#signup-section {
+margin: 0.2em 0;
+}
+#signup-section form{
+gap: 0.5em;
+margin: 1.3em 3em;
+}
+.signup-btn {
+margin: 0.2em 2em;
+padding: 0.2em;
+}
+/* LOGIN */
+.login-section-container {
+margin: 0.5em 0em;
+}
+#login-section {
+margin: 0.5em 2em;
+gap: 1em;
+}
+.login-signup-link {
+margin: 0.5em 2.5em;
+}
+.login-forgot-password-link {
+margin: 0.5em 1em;
+}
+
+/*  PASSWORD RESET  */
+#password-reset-section {
+margin: 1em 0;
+}
+#password-reset-section form {
+margin: 0 3em;
+gap: 1.5em;
+}
+/* ---------- FOOTER ---------- */
+.social-links {
+gap: 2em;
+}}
+/* -------- 25 EM = 414 PX ------ */
+@media screen and (min-width: 25.875em) and (max-width:119em){
+/*  USER PROFILE  */
+.profile-image {
+top: 49%;
+}
+#user-feed-header-section {
+gap: 8em;
+}
+/*  USER DELETION  */
+.user-deletion-no-btn {
+margin-bottom: 5em;
+}
+/*  FRIEND LIST   */
+#friend-list-section {
+gap: 1.8em;
+}
+/* - POSTS -  */
+.post {
+padding: 1em 0em;
+}
+#post-edit-page-section {
+margin: 3em 2em;
+padding: 0em;
+}
+.post-edit-page-info-wrapper {
+margin: 1em 0.2em;
+}
+.post-edit-title {
+margin: 0.2em 0;
+}
+#pagination-section {
+gap: 0.5em;
+margin: 2em 0;
+padding: 0.5em 0;
+border-radius: unset;
+}
+#pagination-section a,
+#pagination-section span {
+margin: 0;
+}
+.post-comment-details {
+padding: auto 3em;
+}
+/* - SIGN-UP - */
+#signup-section {
+margin: 0.5em 1em;
+padding: 0.3em 0;
+}
+#signup-section form{
+gap: 0.5em;
+margin: 0.2em 3em;
+}
+.signup-btn {
+padding: 0.5em 0.3em;
+}
+/* - LOG-IN - */
+.login-section-container {
+margin: 1em 0em;
+}
+.login-form{
+gap: 1em;
+}
+/* - PASSWORD RESET - */
+#password-reset-section {
+margin: 1em 0;
+}
+#password-reset-section form {
+margin: 0.5em 3em;
+gap: 1.8em;
+}
+/* ---------- FOOTER ---------- */
+.footer-container {
+padding: 0;
+}
+.social-list-item {
+padding:0.4em;
+}
+.social-links {
+gap: 1em;
+}
+.social-links-item-bg{
+padding: 0.2em;
+}}
+/* -------- 50 EM = 812 PX ------ */
+@media screen and (min-height: 50.75em) and (max-width:119em){
+/*  USER PROFILE  */
+#user-profile-delete-and-send-friend-section {
+margin: 1.7em 0em;
+}
+/*  USER DELETION  */
+#user-deletion-section {
+margin: 2em 0.5em;
+padding: 2em 0.5em;
+}
+#user-deletion-form {
+margin: 3em 0.2em;
+}
+.user-deletion-no-btn {
+margin-bottom: 6em;
+}
+/*  FRIEND LIST   */
+#friend-list-section {
+gap: 2em;
+padding: 2em 1em;
+}
+/*  POST EDIT PAGE  */
+#post-edit-page-section {
+margin: 2em 1.5em;
+}
+.post-edit-time,
+.post-edit-title,
+.post-edit-author,
+.post-edit-page-info,
+.post-edit-page-header {
+margin-bottom: 0.2em;
+margin-top: 0.8em;
+}
+/*  POST COMMENTS  */
+.post-comment {
+padding: 0.5em 1em;
+}
+/* - SIGN-UP - */
+#signup-section {
+margin: 0.5em 1em;
+}
+#signup-section form{
+gap: 1em;
+}
+/* - LOG-IN - */
+.login-section-container {
+margin: 1em 0em;
+}
+.login-form{
+gap: 1em;
+padding: 1em 0;
+}
+/* - PASSWORD RESET - */
+#password-reset-section {
+margin: 1em 0;
+}
+#password-reset-section form {
+margin: 2em ;
+gap: 1.5em;
+}}
+/* -------- 37 EM = 600 PX ------ */
+@media screen and (min-width: 37.5em) and (max-width:119em){
+/* ---------- HEADER ---------- */
+#header-section{
+padding: 0.3em 0.5em;
+}
+/*  USER FEED  */
+#user-feed-header-section {
+gap: 6em;
+}
+#navbar-link-stack-icon-search {
+position: absolute;
+top: 0.05em;
+right: -0.02em;
+}
+#navbar-link-stack-icon-user {
+position: relative;
+top: 0.05em;
+left: -0.06em;
+}
+/* - USER PROFILE - */
+#user-profile-details-section {
+margin: 1em 3em;
+}
+/* - USER FEED - */
+#user-feed-header-section {
+margin: 1em 0;
+}
+/*  USER SEARCH  */
+#user-search-section{
+margin: 2em 5em;
+}
+/*  USER DELETION  */
+#user-deletion-section {
+margin: 0.5em;
+padding: 2em 2em;
+}
+#user-deletion-form {
+margin: 2em 0.2em;
+}
+.user-deletion-no-btn {
+margin-bottom: 3em;
+}
+/*  FRIEND LIST   */
+#friend-list-section {
+gap: 1.5em;
+padding: 1.5em 5em;
+}
+.friend-name {
+line-height: 3rem;
+}
+/*  USER IMAGE UPLOAD  */
+.upload-profile-images-header {
+margin: 0.5em 0;
+}
+.upload-profile-images-form{
+margin: 0.5em 0;
+}
+.upload-profile-images-form a {
+word-break: break-all;
+margin: 2em 0;
+padding: 0.2em 0.5em;
+outline: rgb(55, 80, 79) 2px dashed;
+}
+.upload-profile-images-form p{
+margin: 0.5em 0;
+gap: 0.5em;
+outline: black 3px solid;
+}
+.upload-profile-images-form label{
+gap: 2em;
+}
+#upload-profile-images-save-btn {
+padding: 0.8em;
+border-radius: 10px / 10%;
+}
+/* - POSTS -  */
+#post-create-section {
+margin: 0 3em;
+}
+.post-create-btn {
+padding: 0.4em;
+}
+#post-list-section {
+margin: 2em 3em;
+}
+.post-content {
+line-height: 2.3rem;
+}
+/*  POST EDIT PAGE  */
+#post-edit-page-section {
+margin: 2em 6em;
+}
+.post-being-edited {
+margin: 0em;
+}
+/* ----- POST COMMENTS - DISPLAY -----  */
+.post-comment-content {
+line-height: 2.5rem;
+}
+/* - SIGN-UP - */
+#signup-section {
+margin: 0.1em 1em;
+padding: 0;
+}
+.signup-header {
+padding: 0.2em 0;
+margin: 0em 0em;
+}
+#signup-section form {
+gap: 0.8em;
+margin: 0.2em 8em;
+}
+/* - LOG-IN - */
+.login-section-container {
+margin: 1em 1em;
+}
+.login-form {
+gap: 1em;
+padding: 1em 4em;
+}
+/* - PASSWORD RESET - */
+#password-reset-section {
+margin: 0.5em 0;
+}
+#password-reset-section form {
+margin: 0.5em 6em;
+gap: 1.4em;
+}
+/* ---------- FOOTER ---------- */
+.social-links {
+gap: 2em;
+}
+.social-list-item {
+padding:0.3em;
+}
+.social-links-item-bg{
+padding: 0.23em;
+}
+}
+/* -------- 48 EM = 768 PX ------ */
+@media screen and (min-width: 48em) and (max-width:119em){
+/* ---------- HEADER ---------- */
+#header-section{
+padding: 0.3em 0.5em;
+}
+#navbar-link-stack-icon-search {
+position: absolute;
+top: 0.05em;
+left: 0.6em;
+}
+#navbar-link-stack-icon-user {
+left: -0.2em;
+}
+/* - USER PROFILE - */
+.user-profile-details {
+padding: 2em 1.2em;
+}
+.profile-detail-bio-text {
+width: auto;
+height: auto;
+margin: 0.5em 0;
+}
+.edit-pencil-bio{
+position: absolute;
+top: 0.3em;
+}
+/*  USER FEED  */
+#user-feed-header-section {
+gap: 10em;
+}
+/*  USER SEARCH  */
+#user-search-section{
+margin: 2em 5em;
+}
+#user-search-results {
+padding: 1em;
+gap: 5em;
+}
+/*  USER DELETION  */
+.user-deletion-no-btn {
+margin: 0.3em 0;
+margin-bottom: 3.5em;
+}
+/*  FRIEND LIST   */
+#friend-list-section {
+gap: 1.5em;
+padding: 2em 5em;
+margin: 1em 2em;
+}
+.friend-name {
+line-height: 4rem;
+}
+/*  USER IMAGE UPLOAD  */
+.upload-profile-images-header {
+margin: 0.5em 0;
+}
+#upload-profile-images-save-btn {
+padding: 0.8em;
+}
+/* ----- POSTS - CREATE -----  */
+.post-create-text-content::placeholder {
+letter-spacing: 0.01em;
+line-height: 3em;
+}
+/* ----- POSTS - DETAILS & LIST -----  */
+#post-like-count{
+margin: 0 0.5em;
+}
+#post-content-section {
+padding: 1em 3em;
+}
+.post-content {
+padding: 0.2em 0.3em;
+}
+#post-details-edit-section {
+margin: 0.5em 0em;
+padding: 0.5em 1em;
+}
+.post-delete-btn,
+.post-edit-btn  {
+padding: 0.2em;
+}
+/*  POST EDIT PAGE  */
+#post-edit-page-section {
+margin: 2em 6em;
+}
+.post-being-edited {
+margin: 0em;
+}
+#pagination-section {
+padding: 0.5em;
+margin: 2em 0;
+}
+.first-page,
+.last-page,
+.previous-page,
+.next-page{
+margin: 1em 0;
+}
+/* - SIGN-UP - */
+#signup-section {
+margin: 0.3em 1em;
+}
+#signup-section form{
+gap: 1em;
+margin: 0.2em 8em;
+}
+.signup-btn {
+margin:0.1em 0;
+}
+/* - LOG-IN - */
+.login-section-container {
+margin: 2em;
+}
+.login-form{
+gap: 1.5em;
+}
+.login-form-password,
+.login-form-username {
+margin: 0 5em;
+}
+/* - PASSWORD RESET - */
+#password-reset-section {
+margin: 0.5em 0;
+}
+#password-reset-section form {
+margin: em 6em;
+gap: 2em;
+}
+/* ---------- FOOTER ---------- */
+.social-links {
+gap: 2em;
+}
+.social-list-item {
+padding:0.5em;
+}
+.social-links a{
+font-size: 4rem;
+}
+}
+/* -------- 62 EM = 992 PX ------ */
+@media screen and (min-width: 62em) and (max-width:119em) {
+/* ---------- HEADER ---------- */
+#header-section{
+padding: 0.5em 1em;
+}
+#navbar-link-stack-icon-search {
+position: absolute;
+top: -0.2em;
+left: 0.3em;
+}
+#navbar-link-stack-icon-user {
+top: -0.2em;
+left: -0.4em;
+}
+/* - USER PROFILE - */
+#user-profile-details-section {
+margin: 1em 3em;
+}
+.user-profile-details {
+padding: 2em 1.2em;
+gap: 2em;
+}
+.profile-detail-bio-text {
+margin: 0.5em 0;
+}
+.edit-pencil-bio{
+position: absolute;
+top: 0.6em;
+}
+/* - USER FEED - */
+#user-feed-header-section {
+margin: 1em 0;
+}
+/*  USER SEARCH  */
+#user-search-section{
+padding: 0 8em;
+}
+#user-search-results {
+padding: 2em 1em;
+gap: 5em;
+}
+/*  USER DELETION  */
+#user-deletion-section {
+margin: 1em;
+padding: 1em 6em;
+}
+.user-deletion-header{
+line-height: 5rem;
+}
+.user-deletion-no-btn {
+margin-bottom: 6em;
+}
+/*  FRIEND LIST   */
+#friend-list-section {
+gap: 2em;
+margin: 2em;
+padding: 2em 7em;
+}
+.friend-name {
+line-height: 6rem;
+}
+/*  USER IMAGE UPLOAD  */
+.upload-profile-images-header {
+margin: 0.5em 0;
+}
+.upload-profile-images-form{
+margin: 0.5em 0;
+}
+.upload-profile-images-form a {
+word-break: break-all;
+margin: 2em 0;
+padding: 0.2em 0.5em;
+outline: rgb(55, 80, 79) 2px dashed;
+}
+.upload-profile-images-form p{
+margin: 0.5em 0;
+gap: 0.5em;
+outline: rgb(0, 0, 0) 3px solid;
+}
+#id_profile_image,
+#id_banner_image  {
+margin: 0.4em 0;
+}
+#uploaded-image,
+#uploaded-banner {
+border: 3px dashed green;
+}
+/* ----- POSTS - CREATE -----  */
+.post-create-form{
+margin: 0 2em;
+}
+/* ----- POSTS - DETAILS & LIST -----  */
+#post-list-section {
+margin: 2em 5em;
+}
+#post-details-lc-section {
+gap: 1em;
+margin: 1em 0;
+}
+#post-content-section {
+padding: 0 2em;
+margin: 0.2em 0;
+}
+.post-content {
+line-height: 2.8rem;
+padding: 0.5em;
+margin: 0.2em;
+height: auto;
+}
+.post-title {
+margin: 0.5em 0;
+text-align: center;
+}
+#post-details-edit-section {
+margin: 0.5em 0em;
+padding: 1.5em 4em;
+}
+.post-delete-btn,
+.post-edit-btn  {
+padding: 0.2em;
+}
+/*  POST EDIT PAGE  */
+.post-edit-page-info {
+line-height: 4rem;
+}
+#post-edit-page-section {
+margin: 2em 6em;
+}
+.post-being-edited{
+padding: 1em 0;
+}
+#pagination-section {
+padding: 2em;
+}
+.first-page,
+.last-page,
+.previous-page,
+.next-page{
+margin: 1.5em 0;
+}
+/* ----- POST COMMENTS - DISPLAY -----  */
+.post-comment-content {
+line-height: 4rem;
+}
+/* ---------- HEADER (LOGGED-OUT) ---------- */
+#header-section-login {
+padding: 0.7em 0;
+}
+/* - SIGN-UP - */
+#signup-section {
+margin: 0.3em 1em;
+}
+#signup-section form{
+gap: 1.1em;
+margin: 0.2em 10em;
+}
+.signup-btn {
+margin: 0.2em 4em;
+}
+/* - LOG-IN - */
+.login-section-container {
+margin: 2em 0em;
+}
+#login-section {
+margin: 0 6em;
+}
+.login-form{
+gap: 3em;
+}
+.login-header {
+margin: 0.5em 0;
+}
+.login-form-password,
+.login-form-username {
+margin: 0 5em;
+}
+.login-btn {
+width: auto;
+padding: 0.5em 2em;
+margin: 0;
+}
+/* - PASSWORD RESET - */
+#password-reset-section {
+margin: 3em 0;
+}
+#password-reset-section form {
+margin: 1em 10em;
+gap: 3em;
+}
+/* ---------- FOOTER ---------- */
+.social-links {
+gap: 4em;
+}
+.social-list-item {
+padding:1em;
+}}
+
+
+/* || ----- || ----- || */

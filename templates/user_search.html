@@ -1,21 +1,20 @@
-
 {% extends 'base.html' %}
 
 {% block content_user_search %}
+    {% include 'header_logged_in.html' %}
+    <section id="user-search-section">
+        <h1 class="user-search-header">User Search</h1>
 
-  {% include 'header_logged_in.html' %}
-<section id="user-search-section">
-<h1 class="user-search-header">User Search</h1>
+        <!-- Search input -->
+        <input type="text" id="user-search-input" name="search_query" placeholder="Search for users...">
 
-<input type="text" id="user-search-input" name="search_query" placeholder="Search for users...">
-
-<div id="user-search-results">
-  {% for user in searched_users %}
-    <a href="{% url 'user_profile' username=user.username %}">
-      <li>{{ user.username }}</li>
-    </a>
-  {% endfor %}
-</div>
-</div>
-</section>
+        <div id="user-search-results">
+            {% for user in searched_users %}
+                <!-- User profile link -->
+                <a href="{% url 'user_profile' username=user.username %}">
+                    <li>{{ user.username }}</li>
+                </a>
+            {% endfor %}
+        </div>
+    </section>
 {% endblock content_user_search %}

@@ -1,67 +1,67 @@
 {% extends 'base.html' %}
 
 {% block content_user_profile_image %}
-{% include 'header_logged_in.html' %}
+    {% include 'header_logged_in.html' %}
 
     <section id="upload-profile-images-section">
-    <h1 class="upload-profile-images-header">Upload Profile Images</h1>
+        <h1 class="upload-profile-images-header">Upload Profile Images</h1>
 
-      <!-- Display selected profile image -->
-<div id="profile-image-preview">
-        {% if form.instance.profile_image %}
-            <img id="uploaded-image" src="{{ form.instance.profile_image.url }}" alt="Uploaded Profile image">
-        {% else %}
-            <img id="uploaded-image" src="/media/img/default_profile_image.png" alt="Default Profile image">
-        {% endif %}
-    </div>
+        <!-- Display selected profile image -->
+        <div id="profile-image-preview">
+            {% if form.instance.profile_image %}
+                <!-- Display uploaded profile image -->
+                <img id="uploaded-image" src="{{ form.instance.profile_image.url }}" alt="Uploaded Profile image">
+            {% else %}
+                <!-- Display default profile image -->
+                <img id="uploaded-image" src="/media/img/default_profile_image.png" alt="Default Profile image">
+            {% endif %}
+        </div>
 
-    <!-- Display selected banner image -->
-    <div id="banner-image-preview">
-        {% if form.instance.banner_image %}
-            <img id="uploaded-banner" src="{{ form.instance.banner_image.url }}" alt="{{ user.get_full_name }}'s profile banner image">
-        {% else %}
-            <img id="uploaded-banner" src="/media/img/default_banner_image.png" alt="{{ user.get_full_name }}'s profile banner image">
-        {% endif %}
-    </div>
-
+        <!-- Display selected banner image -->
+        <div id="banner-image-preview">
+            {% if form.instance.banner_image %}
+                <!-- Display uploaded banner image -->
+                <img id="uploaded-banner" src="{{ form.instance.banner_image.url }}" alt="{{ user.get_full_name }}'s profile banner image">
+            {% else %}
+                <!-- Display default banner image -->
+                <img id="uploaded-banner" src="/media/img/default_banner_image.png" alt="{{ user.get_full_name }}'s profile banner image">
+            {% endif %}
+        </div>
 
         <form action="{% url 'user_profile_image' username=user.username %}" class="upload-profile-images-form" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button class="profile-images-update-btn" id="upload-profile-images-save-btn" type="submit">Save Changes</button>
+            <button class="upload-profile-images-save-btn" id="upload-profile-images-save-btn" type="submit">Save Changes</button>
         </form>
-   
-</section>
+    </section>
 
+    <script>
+        // Update image preview on file input change
+        const profileImageInput = document.getElementById('id_profile_image');
+        const bannerImageInput = document.getElementById('id_banner_image');
+        const profileImagePreview = document.getElementById('profile-image-preview');
+        const bannerImagePreview = document.getElementById('banner-image-preview');
 
-<script>
-    // Update image preview on file input change
-    const profileImageInput = document.getElementById('id_profile_image');
-    const bannerImageInput = document.getElementById('id_banner_image');
-    const profileImagePreview = document.getElementById('profile-image-preview');
-    const bannerImagePreview = document.getElementById('banner-image-preview');
+        profileImageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
 
-    profileImageInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
+            reader.onload = (e) => {
+                profileImagePreview.innerHTML = `<img id="uploaded-image" src="${e.target.result}" alt="Selected Profile image">`;
+            };
 
-        reader.onload = (e) => {
-            profileImagePreview.innerHTML = `<img id="uploaded-image" src="${e.target.result}" alt="Selected Profile image">`;
-        };
+            reader.readAsDataURL(file);
+        });
 
-        reader.readAsDataURL(file);
-    });
+        bannerImageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
 
-    bannerImageInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
+            reader.onload = (e) => {
+                bannerImagePreview.innerHTML = `<img id="uploaded-banner" src="${e.target.result}" alt="Selected banner image">`;
+            };
 
-        reader.onload = (e) => {
-            bannerImagePreview.innerHTML = `<img id="uploaded-banner" src="${e.target.result}" alt="Selected banner image">`;
-        };
-
-        reader.readAsDataURL(file);
-    });
-</script>
-
+            reader.readAsDataURL(file);
+        });
+    </script>
 {% endblock content_user_profile_image %}

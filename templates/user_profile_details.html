@@ -1,80 +1,84 @@
 {% block content_user_profile_details %}
 
-<section class="profile-images-section">
-    {% if is_owner %}
+<section id="user-profile-images-section">
+    {% comment %}
+    Display the user's profile image with a link if the user is the profile owner,
+    otherwise, display the profile image without a link.
+    {% endcomment %}
+    {% if is_profile_owner %}
         <a href="{% url 'user_profile_image' %}">
+    {% endif %}
             <img class="profile-image" src="{{ user_profile_image_url }}" alt="Profile Image">
+    {% if is_profile_owner %}
         </a>
-    {% else %}
-        <img class="profile-image" src="{{ user_profile_image_url }}" alt="Profile Image">
     {% endif %}
 
-    {% if is_owner %}
+    {% comment %}
+    Display the user's profile banner with a link if the user is the profile owner,
+    otherwise, display the profile banner without a link.
+    {% endcomment %}
+    {% if is_profile_owner %}
         <a href="{% url 'user_profile_image' %}">
-            
+    {% endif %}
             <img class="profile-banner" src="{{ user_profile_banner_url }}" alt="Profile Banner">
+    {% if is_profile_owner %}
         </a>
-    {% else %}
-        
-        <img class="profile-banner" src="{{ user_profile_banner_url }}" alt="Profile Banner">
     {% endif %}
 </section>
 
+<!-- PROFILE DETAILS -->
 
-  <!-- PROFILE DETAILS -->
-
-  
-<section id="profile-details-section" data-user-id="{{ user.id }}">
-  <div class="profile-details">
+<section id="user-profile-details-section" data-user-id="{{ user.id }}">
+    <div class="user-profile-details">
 
         <!-- BIO -->
         <div class="profile-detail-bio">
-          <span class="profile-detail-bio-label">Bio:</span>
-          <br>
-          <p class="profile-detail-bio-text" data-field-name="bio" contenteditable>{{ user_profile.bio }}</p>
-          <!-- BIO - EDIT -->
-          <div class="edit-pencil-bio-container">
-            <a href="#" class="edit-pencil-bio">&#9998;</a>
-          </div>
+            <span class="profile-detail-bio-label">Bio:</span>
+            <br>
+            <p class="profile-detail-bio-text" data-field-name="bio" contenteditable>{{ user_profile.bio }}</p>
+            {% comment %}
+            Edit pencil icon for bio.
+            {% endcomment %}
+            <div class="edit-pencil-bio-container">
+                <a href="#" class="edit-pencil-bio">&#9998;</a>
+            </div>
         </div>
-
-
 
         <!-- GENDER -->
         <div class="profile-detail-gender">
-          <span class="profile-detail-gender-label">Gender:</span>
-          <span class="profile-detail-gender-text" data-field-name="gender">{{ user_profile.get_gender_display }}</span>
-          <!-- GENDER - EDIT -->
-          <span class="edit-pencil-container">
-            <a href="#" class="edit-pencil" data-field-selector="[data-field-name='gender']">&#9998;</a>
-            <div class="dropdown-menu" data-field-name="gender">
-              {% for value, display_name in user_profile.GENDER_CHOICES %}
-                <a href="#" data-value="{{ value }}">{{ display_name }}</a>
-              {% endfor %}
-            </div>
-          </span>
+            <span class="profile-detail-gender-label">Gender: </span>
+            <span class="profile-detail-gender-text" data-field-name="gender">{{ user_profile.get_gender_display }}</span>
+            {% comment %}
+            Edit pencil icon and dropdown menu for gender.
+            {% endcomment %}
+            <span class="edit-pencil-container">
+                <a href="#" class="edit-pencil" data-field-selector="[data-field-name='gender']">&#9998;</a>
+                <div class="dropdown-menu" data-field-name="gender">
+                    {% for value, display_name in user_profile.GENDER_CHOICES %}
+                        <a href="#" data-value="{{ value }}">{{ display_name }}</a>
+                    {% endfor %}
+                </div>
+            </span>
         </div>
-
-
 
         <!-- PROFESSION -->
         <div class="profile-detail-profession">
-          <span class="profile-detail-profession-label">Profession:</span>
-          <span class="profile-detail-profession-text" data-field-name="profession">{{ user_profile.get_profession_display }}</span>
-          <!-- PROFESSION - EDIT -->
-          <span class="edit-pencil-container">
-            <a href="#" class="edit-pencil" data-field-selector="[data-field-name='profession']">&#9998;</a>
-            <div class="dropdown-menu" data-field-name="profession">
-              {% for value, display_name in user_profile.PROFESSION_CHOICES %}
-                <a href="#" data-value="{{ value }}">{{ display_name }}</a>
-              {% endfor %}
-            </div>
-          </span>
+            <span class="profile-detail-profession-label">Profession: </span>
+            <span class="profile-detail-profession-text" data-field-name="profession">{{ user_profile.get_profession_display }}</span>
+            {% comment %}
+            Edit pencil icon and dropdown menu for profession.
+            {% endcomment %}
+            <span class="edit-pencil-container">
+                <a href="#" class="edit-pencil" data-field-selector="[data-field-name='profession']">&#9998;</a>
+                <div class="dropdown-menu" data-field-name="profession">
+                    {% for value, display_name in user_profile.PROFESSION_CHOICES %}
+                        <a href="#" data-value="{{ value }}">{{ display_name }}</a>
+                    {% endfor %}
+                </div>
+            </span>
         </div>
 
-  </div>
+    </div>
 </section>
-
-
 
 {% endblock content_user_profile_details %}

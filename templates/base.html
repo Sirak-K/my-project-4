@@ -5,75 +5,113 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Social Network</title>
   {% load static %}
+  <!-- Font Styles -->
+  <link rel="stylesheet" href="{% static 'css/styles_fonts.css' %}">
+  
+  <!-- Color Styles -->
+  <link rel="stylesheet" href="{% static 'css/styles_colors_and_effects.css' %}">
+  
+  <!-- Base Styles -->
+  <link rel="stylesheet" href="{% static 'css/styles_base.css' %}">
+  
+  <!-- Main Styles -->
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  
+  <!-- Media Queries Styles -->
+  <link rel="stylesheet" href="{% static 'css/styles_media_queries.css' %}">
+  
+  <!-- Image Sizes Styles -->
+  <link rel="stylesheet" href="{% static 'css/styles_image_sizes.css' %}">
+  
+  <!-- Font Awesome Styles -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Cropper Styles -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
 
   {% if user.is_authenticated %}
 
+  <!-- User Feed Content -->
     {% block content_user_feed %}
     {% endblock content_user_feed %}
 
+    <!-- Friend List Content -->
     {% block content_friend_list %}
     {% endblock content_friend_list %}
 
+    <!-- User Search Content -->
     {% block content_user_search %}
     {% endblock content_user_search %}
 
-
+    <!-- User Profile Content -->
     {% block content_user_profile %}
     {% endblock content_user_profile %}
 
+    <!-- Post List Content -->
     {% block content_post_list %}
     {% endblock content_post_list %}
 
-    
+    <!-- Friend Requests Content -->
     {% block content_friend_requests %}
     {% endblock content_friend_requests %}
 
+    <!-- Post Details Content -->
     {% block content_post_details %}
     {% endblock content_post_details %}
 
+    <!-- Post Edit Page Content -->
     {% block content_post_edit_page %}
     {% endblock content_post_edit_page %}
 
+    <!-- User Profile Image Content -->
     {% block content_user_profile_image %}
     {% endblock content_user_profile_image %}
    
+    <!-- Post Create Content -->
     {% block content_post_create %}
     {% endblock content_post_create %}
     
+    <!-- Post Comment Create Content -->
     {% block content_post_comment_create %}
     {% endblock content_post_comment_create %}
 
+    <!-- User Profile Details Content -->
     {% block content_user_profile_details %}
     {% endblock content_user_profile_details %}
 
+    <!-- User Deletion Confirmation Content -->
     {% block content_user_deletion_confirmation %}
     {% endblock content_user_deletion_confirmation %}
 
-
   {% else %}
   
-
+    <!-- Login Content -->
     {% block content_login %}
     {% endblock content_login %}
 
+    <!-- Footer Content -->
     {% block content_footer %}
     {% endblock content_footer %}
     
+    <!-- Signup Content -->
     {% block content_signup %}
     {% endblock content_signup %}
     
+    <!-- Password Reset Page Content -->
     {% block content_password_reset_page %}
     {% endblock content_password_reset_page %}
 
   {% endif %}
 
+  <!-- jQuery Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+  <!-- Cropper Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+  <!-- Custom Script -->
   <script type="module" src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

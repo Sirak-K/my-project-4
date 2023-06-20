@@ -1,18 +1,23 @@
 {% extends 'base.html' %}
 
+{% comment %}
+  This block defines the content for the user deletion confirmation page.
+  It displays a form to confirm the deletion of the user account.
+{% endcomment %}
+
 {% block content_user_deletion_confirmation %}
-{% include 'header_logged_in.html' %}
+  {% include 'header_logged_in.html' %}
 
-<section id="user-deletion-section">
-      <h2 class="user-deletion-header">Deleting an account is an irreversible action.</h2>
-      <br>
-      <h2 class="user-deletion-header">Are you sure you want to delete your account?</h2>
+  <section id="user-deletion-section">
+    <h2 class="user-deletion-header">Deleting an account is an irreversible action.</h2>
+    <br>
+    <h2 class="user-deletion-header">Are you sure you want to delete your account?</h2>
 
-      <form id="user-deletion-form" method="post" action="{% url 'user_deletion_confirmation' %}">
-        {% csrf_token %}
-  <button class="user-deletion-no-btn" type="submit" name="confirm" value="no">No, take me back</button>
+    <form id="user-deletion-form" method="post" action="{% url 'user_deletion_confirmation' %}">
+      {% csrf_token %}
+      <button class="user-deletion-no-btn" type="submit" name="confirm" value="no">No, take me back</button>
       <br>
-  <button class="user-deletion-yes-btn" type="submit" name="confirm" value="yes">Yes, I am sure</button>
-      </form>
-</section>
+      <button class="user-deletion-yes-btn" type="submit" name="confirm" value="yes">Yes, I am sure</button>
+    </form>
+  </section>
 {% endblock content_user_deletion_confirmation %}

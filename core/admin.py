@@ -1,4 +1,3 @@
-# File: admin.py
 from django.contrib import admin
 from .models import FriendRequest, Friendship, Comment, Post, Profile
 

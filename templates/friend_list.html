@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content_friend_list %}
-{% include 'header_logged_in.html' %}
+  {% include 'header_logged_in.html' %}
 
+  <!-- Friend List Section -->
+  <section id="friend-list-section">
+    <h3 class="friend-list-header">Friend List</h3>
 
-<section id="friend-list-section">
-<h3 class="friend-list-header">Friend List</h3>
-{% include 'friend_requests.html' %}
-{% include 'existing_friends.html' %}
-</section>
-</div>
+    <!-- Friend Requests -->
+    {% include 'friend_requests.html' %}
+
+    <!-- Existing Friends -->
+    {% include 'existing_friends.html' %}
+  </section>
+  <!-- End of Friend List Section -->
 {% endblock content_friend_list %}

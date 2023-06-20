@@ -1,0 +1,313 @@
+/* File: styles_base.css */
+
+/* Targeted Screen Size: Global (Desktop/Default), no media queries */
+
+/* Used CSS Attributes:
+   - align-items
+   - border-radius: 50%;
+   - cursor: pointer;
+   - display: flex;
+   - flex-direction
+   - justify-content
+   - text-align
+*/
+
+
+/* FLEX - COLUMN */
+
+/* 1) Header (Logged-In & Logged-Out) */
+.logotype,
+
+/* 2) User Profile */
+.user-profile-details,
+#user-profile-section,
+#user-profile-images-section,
+#user-profile-details-section,
+#user-profile-delete-and-send-friend-section,
+
+/* 3) User Feed */
+#user-feed-section,
+
+/* 4) User Search */
+#user-search-section,
+#user-search-results,
+
+/* 5) User Delete */
+#user-deletion-form,
+#user-deletion-section,
+
+/* 6) Friend List */
+#friendship-section,
+#friend-list-section,
+
+/* 7) Image Upload */
+#id_banner_image,
+#id_profile_image,
+.upload-profile-images-form,
+.upload-profile-images-form a,
+.upload-profile-images-form p,
+#upload-profile-images-section,
+.upload-profile-images-form label,
+
+/* 8-A) Post Details & List */
+.post,
+.post-details,
+#post-list-section,
+#post-content-section,
+.post-details-secondary,
+#post-details-lc-section,
+/* 8-B) Post Create */
+#post-create-section,
+/* 8-D) Post Pagination */
+#pagination-section,
+/* 8-C) Post Edit Page */
+.post-being-edited,
+#post-edit-page-section,
+.post-being-edited-details,
+#post-being-edited-content-section,
+/* 8-E) Post Comments */
+.post-comment,
+.post-comment-details,
+#post-comment-list-section,
+#post-comment-create-section,
+
+/* 10) Signup */
+#signup-section,
+#signup-section form,
+
+/* 11) Login */
+.login-form,
+.login-header,
+#login-section,
+.login-container,
+.login-section-container,
+
+/* 12) Password Reset */
+#password-reset-section,
+#password-reset-section form {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+/* STYLE SECTION: FLEX - ROW */
+
+/* 1) Header (Logged-In & Logged-Out) */
+.navbar-list,
+#header-section,
+.navbar-list-item,
+#header-section-login,
+.navbar-list-item-stack,
+.edit-pencil-bio-container
+
+/* 3) User Feed */
+#user-feed-header-section,
+
+/* 8-A) Post Details & List */
+#post-details-lc-section,
+#post-details-edit-section,
+
+/* 13) Footer */
+.social-links,
+.social-list-item,
+.footer-container,
+.social-links-item,
+.social-links-item-bg {
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+
+/* STYLE SECTION:  */
+/* CENTRALIZER */
+
+/* 1) Header (Logged-In) */
+.logotype,
+.navbar-list-login,
+#header-section-login,
+
+/* 2) User Profile */
+#user-profile-images-section,
+
+/* 4) User Search */
+#user-search-section,
+
+/* 5) User Deletion */
+#user-deletion-section,
+
+/* 6) Friend List */
+.friend-name,
+#friendship-section,
+.friend-list-header,
+#friend-list-section,
+.friend-request-header,
+
+/* 7) User Image Upload */
+#id_banner_image,
+#id_profile_image,
+#banner-image-preview,
+#profile-image-preview,
+.upload-profile-images-form,
+.upload-profile-images-form p,
+.upload-profile-images-form a,
+#upload-profile-images-section,
+.upload-profile-images-form label,
+
+/* 8-A) Post Details & List */
+.post,
+.post-details,
+#post-list-section,
+#post-content-section,
+#post-details-lc-section,
+#post-details-edit-section,
+/* 8-B) Post Create */
+.post-create-title,
+#post-create-section,
+.post-create-text-content,
+.post-create-text-content::placeholder,
+/* 8-C) Post Edit Page */
+.post-being-edited,
+.post-edit-page-info,
+.post-edit-page-header,
+.post-being-edited-details,
+#post-being-edited-content-section,
+/* 8-D) Post Pagination */
+#pagination-section,
+/* 8-E) Post Comments */
+.post-comment-author-image,
+#post-comment-list-section,
+#post-comment-create-section,
+.post-comment-create-content,
+
+/* 10) Signup */
+#signup-section,
+#signup-section form,
+#signup-section input,
+
+/* 11) Login */
+.login-form,
+#id_username,
+#id_password,
+.login-header,
+#login-section,
+.login-username-input,
+.login-username-label,
+.login-password-input,
+.login-password-label,
+
+/* 12) Password Reset */
+#password-reset-section,
+#password-reset-section form,
+#password-reset-section input,
+
+/* 13) Footer */
+.social-links,
+.social-links-item,
+.social-links-item-bg {
+  text-align: center;
+}
+
+/* STYLE SECTION: WIDTH: 100% */
+
+/* 3) User Feed */
+#user-feed-header-section,
+
+/* 6) Friend List */
+.friendships,
+.friend-request-header,
+.friend-no-requests-text,
+
+/* 7) Image Upload */
+#id_banner_image,
+#id_profile_image,
+.upload-profile-images-header,
+.upload-profile-images-form label,
+
+/* 8-A) Post Details & List */
+.post-time,
+.post-title,
+.post-author,
+.post-content,
+.post-details,
+#post-details-lc-section,
+#post-details-edit-section,
+
+/* 8-B) Post Create */
+.post-create-btn,
+.post-create-title,
+.post-create-text-content,
+
+/* 8-C) Post Edit Page */
+.post-being-edited-time,
+.post-being-edited-title,
+.post-being-edited-author,
+.post-being-edited-content,
+
+/* 8-D) Post Pagination */
+.last-page,
+.next-page,
+.first-page,
+.current-page,
+.previous-page,
+
+/* 8-E) Post Comments */
+.post-comment,
+.post-comment-time,
+.post-comment-author,
+.post-comment-content,
+.post-comment-create-content,
+
+/* 9) Header (Logged-Out) */
+.navbar,
+.navbar-login,
+.navbar-list-login,
+
+/* 10) Signup */
+#signup-section label,
+.already-registered-text,
+.already-registered-link,
+
+/* 11) Login */
+.login-image,
+.login-image::before,
+.login-username-input,
+.login-username-label,
+.login-password-input,
+.login-password-label,
+
+/* 12) Password Reset */
+.password-reset-label,
+.password-reset-element,
+.password-reset-return-link,
+#password-reset-section input {
+  width: 100%;
+}
+
+/* STYLE SECTION: POINTER-CURSOR */
+/* -- ORDERING: NOT SPECIFIED */
+.login-btn:hover,
+.post-edit-btn:hover,
+.post-delete-btn:hover,
+.post-create-btn:hover,
+.friend-remove-btn:hover,
+.navbar-signout-btn:hover,
+.post-comment-create-btn:hover {
+  cursor: pointer;
+}
+
+/* STYLE SECTION: CIRCLE */
+/* -- ORDERING: NOT SPECIFIED */
+.profile-image,
+#uploaded-image,
+.navbar-list-item,
+.post-author-image,
+.navbar-signout-btn,
+.social-links-item-bg,
+.navbar-list-item-stack,
+.user-feed-profile-image,
+.post-comment-author-image,
+.post-being-edited-author-image {
+  border-radius: 50%;
+}

@@ -1,12 +1,21 @@
 <!-- File: user_feed.html -->
 {% extends 'base.html' %}
 
+{% comment %}
+  This block defines the content for the user feed page.
+  It displays the user's feed including posts and pagination links.
+{% endcomment %}
+
 {% block content_user_feed %}
   {% include 'header_logged_in.html' %}
 
   <!-- USER FEED -->
-<section id="user-feed-section">
-    <div class="user-feed-header-section">
+  <section id="user-feed-section">
+    <div id="user-feed-header-section">
+      {% comment %}
+        Display the user's profile image if available,
+        otherwise, display a default profile image.
+      {% endcomment %}
       {% if user.profile.profile_image %}
         <a href="{% url 'user_profile_image' %}">
           <img class="user-feed-profile-image" src="{{ user.profile.profile_image.url }}" alt="{{ user.first_name }} {{ user.last_name }}'s profile image">
@@ -19,68 +28,59 @@
       <p class="user-feed-current-date">{% now "F j, Y" %}</p>
     </div>
 
- 
-
     <!-- CODE SECTION - CREATE NEW POST -->
-  <section id="post-create-section">
+    <section id="post-create-section">
       <form class="post-create-form" method="post" action="{% url 'post_create' %}">
         {% csrf_token %}
         <input class="post-create-title" placeholder="Post Title" type="text" name="post_title" required>
         <textarea class="post-create-text-content" name="post_content" placeholder="How are you feeling today, {{ user.first_name }}?" required></textarea>
         <button class="post-create-btn" type="submit">Create Post</button>
       </form> 
-  </section>
+    </section>
 
+    <!-- DISPLAY POSTS -->
+    <div id="post-list-section">
+      {% for post in all_posts %}
+        {% comment %}
+          Display the post if the author is the user or a friend of the user.
+        {% endcomment %}
+        {% if post.post_author == user or post.post_author in user.profile.get_friends %}
+          {% include 'post_list.html' with post=post all_post_comments=all_post_comments %}
+        {% endif %}
+      {% endfor %}
 
+      <!-- Pagination links -->
+      {% if is_paginated %}
+        <div id="pagination-section">
+          <span class="current-page">Current Page: {{ page_obj.number }}</span>
 
+          <span class="step-links">
+            {% if page_obj.has_previous %}
+              <div class="first-page">
+                <a href="?page=1">&laquo; &laquo; First page</a>
+              </div>
 
+              <div class="previous-page">
+                <a href="?page={{ page_obj.previous_page_number }}">&laquo; Previous page</a>
+              </div>
+            {% endif %}
+            
+            {% if page_obj.has_next %}
+              <div class="next-page">
+                <a href="?page={{ page_obj.next_page_number }}">Next page &raquo;</a>
+              </div>
 
-<!-- DISPLAY POSTS -->
-<div id="post-list-section">
-  {% for post in all_posts %}
-    {% if post.post_author == user or post.post_author in user.profile.get_friends %}
-      {% include 'post_list.html' with post=post all_post_comments=all_post_comments %}
-    {% endif %}
-  {% endfor %}
-
-
-  <!-- Pagination links -->
-   {% if is_paginated %}
-  <div class="pagination">
-  <span class="current-page">Current Page: {{ page_obj.number }}</span>
-    
-    <span class="step-links">
-      {% if page_obj.has_previous %}
-
-<div class="first-page">
-<a href="?page=1">&laquo; &laquo; First page</a>
-</div>
-
-<div class="previous-page">
-<a href="?page={{ page_obj.previous_page_number }}">&laquo; Previous page</a>
-</div>
+              <div class="last-page">
+                <a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;&raquo;</a>
+              </div>
+            {% endif %}
+          </span>
+        </div>
+      {% else %}
+        <div id="pagination-section">
+          <span class="current-page">Current Page: {{ page_obj.number }}</span>
+        </div>
       {% endif %}
-      {% if page_obj.has_next %}
-
-<div class="next-page">
-<a href="?page={{ page_obj.next_page_number }}">Next page &raquo;</a>
-</div>
-
-<div class="last-page">
-<a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;&raquo;</a>
-</div>
-{% endif %}
-    </span>
-  </div>
-  
-{% else %}
-<div class="pagination">
-  <span class="current-page">Current Page: {{ page_obj.number }}</span>
-</div>
-{% endif %}
-
-</div>
-</section>
+    </div>
+  </section>
 {% endblock content_user_feed %}
-
-

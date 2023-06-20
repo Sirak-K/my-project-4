@@ -4,42 +4,33 @@
 {% block content_post_edit_page %}
   {% include 'header_logged_in.html' %}
 
-<div class="post-edit-page-info-wrapper">
-  <h2 class="post-edit-page-header">Editing post with id {{ post.pk }}</h2>
- <p class="post-edit-page-info">You may edit your post's content or delete the entire post.</p>
-</div>
-<section id="post-edit-page-section">
+  <section id="post-edit-page-section">
+    <h2 class="post-edit-page-header">Editing post with id {{ post.pk }}</h2>
+    <p class="post-edit-page-info">You may edit your post's content or delete the entire post.</p>
 
-
-  <div class="post-edited">
+    <div class="post-being-edited">
       <!-- POST - DELETE BUTTON -->
       <form class="post-delete-form" method="post" action="{% url 'post_delete' pk=post.pk %}">
         {% csrf_token %}
-        <button class="post-edit-delete-btn fa fa-trash" type="submit"></button>
+        <button class="post-being-edited-delete-btn fa fa-trash" type="submit"></button>
       </form>
 
+      <div class="post-being-edited-details">
+        <p class="post-being-edited-author">{{ post.get_post_author_name }}</p>
+        <img class="post-being-edited-author-image" src="{{ post.author_profile_image }}" alt="Author Profile Image">
+        <p class="post-being-edited-time">{{ post.post_created_at }}</p>
 
-      <div class="post-edit-details">
-        <div class="post-edit-details-secondary">
-          <p class="post-edit-author">{{ post.get_post_author_name }}</p>
-          <img class="post-edit-author-image" src="{{ post.author_profile_image }}" alt="Author Profile Image">
-          <p class="post-edit-time">{{ post.post_created_at }}</p>
-        </div>
-
-        <section id="post-edit-content-section">
-          <h2 class="post-edit-title" name="post_title">{{ post.post_title }}</h2>
+        <section id="post-being-edited-content-section">
+          <h2 class="post-being-edited-title" name="post_title">{{ post.post_title }}</h2>
 
           <form method="post" action="{% url 'post_edit_save' pk=post.pk %}">
             {% csrf_token %}
-    
-            <textarea class="post-edit-content" name="post_content">{{ post.post_content }}</textarea>
-            <button class="post-edit-save-btn" type="submit">Save Edits</button>
+            {% comment %} Input field for editing post content {% endcomment %}
+            <textarea class="post-being-edited-content" name="post_content" rows="6">{{ post.post_content }}</textarea>
+            <button class="post-being-edited-save-btn" type="submit">Save Edits</button>
           </form>
         </section>
-
       </div>
-  </div>
-</section>
-
-
+    </div>
+  </section>
 {% endblock content_post_edit_page %}

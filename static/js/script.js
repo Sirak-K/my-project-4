@@ -1,19 +1,19 @@
 // File: script.js
 
 function getCookie(name) {
+  // FUNC : 1: Get the value of a cookie
   const cookieValue = document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`);
   return cookieValue ? cookieValue.pop() : '';
 }
 
-// FUNC - 1: PROFILE DETAIL - BIO - EDIT-PENCIL
-function handleBioEditing() {
+function handleProfileBioEdit() {
   const editPencilBio = document.querySelector('.edit-pencil-bio');
   
   if (editPencilBio) {
     editPencilBio.addEventListener('click', function (event) {
       event.preventDefault();
       event.stopPropagation();
-      handleBioDropdownMenu();
+      handleProfileBioAndProfileDropdownMenus();
 
       const bioElement = document.querySelector("[data-field-name='bio']");
       bioElement.focus();
@@ -24,13 +24,12 @@ function handleBioEditing() {
   if (bioElement) {
     bioElement.addEventListener('blur', () => {
       const profileFieldsNewValue = bioElement.textContent;
-      sendUpdatedValueToServer('bio', profileFieldsNewValue);
+      sendUpdatedFieldValueToServer('bio', profileFieldsNewValue);
     });
   }
 }
 
-// FUNC - 2: PROFILE DETAIL - CLOSE DROPDOWN
-function handleBioDropdownMenu() {
+function handleProfileBioAndProfileDropdownMenus() {
   document.querySelectorAll(".dropdown-menu").forEach((dropdown) => {
     dropdown.style.display = "none";
   });
@@ -41,16 +40,14 @@ function handleBioDropdownMenu() {
   }
 }
 
-// FUNC - 3: PROFILE DETAILS - UPDATE
 function handleUpdateProfileField(profileFieldElement, profileFieldsNewValue, newTextContent) {
   profileFieldElement.setAttribute("data-value", profileFieldsNewValue);
   profileFieldElement.textContent = newTextContent;
   const profileFieldName = profileFieldElement.getAttribute("data-field-name");
-  sendUpdatedValueToServer(profileFieldName, profileFieldsNewValue);
+  sendUpdatedFieldValueToServer(profileFieldName, profileFieldsNewValue);
 }
 
-// FUNC - 4: PROFILE DETAILS - SAVE DETAIL
-function sendUpdatedValueToServer(profileFieldName, profileFieldsNewValue) {
+function sendUpdatedFieldValueToServer(profileFieldName, profileFieldsNewValue) {
   const user_id = document.querySelector("[data-user-id]").getAttribute("data-user-id");
   const data = { fieldName: profileFieldName, value: profileFieldsNewValue };
 
@@ -62,30 +59,28 @@ function sendUpdatedValueToServer(profileFieldName, profileFieldsNewValue) {
       "X-CSRFToken": getCookie("csrftoken"),
     },
   })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok. Status: " + response.status);
-    }
-    return response.json();
-  })
-  .then((data) => {
-    console.log("Field update success:", data);
-  })
-  .catch((error) => {
-    console.error("Field update error:", error);
-  });
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok. Status: " + response.status);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Field update success:", data);
+    })
+    .catch((error) => {
+      console.error("Field update error:", error);
+    });
 }
 
-// FUNC - 5: PROFILE DETAILS - INITIALIZER
-function initProfileFieldEditing() {
+function initProfileFieldEdit() {
   document.addEventListener("click", (event) => {
     if (!event.target.closest(".edit-pencil-container")) {
-      handleBioDropdownMenu();
+      handleProfileBioAndProfileDropdownMenus();
     }
   });
 }
 
-// FUNC - 6: Handle user search
 function handleUserSearch(query) {
   fetch('/user_search/', {
     method: 'POST',
@@ -97,17 +92,16 @@ function handleUserSearch(query) {
       search_query: query,
     }),
   })
-  .then(response => response.json())
-  .then(data => {
-    const users = data.users;
-    handleUserSearchResults(users);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+    .then(response => response.json())
+    .then(data => {
+      const users = data.users;
+      handleUserSearchResults(users);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }
 
-// FUNC - 7: Handle user search results
 function handleUserSearchResults(users) {
   const searchResults = document.getElementById('user-search-results');
   searchResults.innerHTML = '';
@@ -115,20 +109,17 @@ function handleUserSearchResults(users) {
   let foundMatch = false;
 
   for (const user of users) {
-    const searchResultsLink = document.createElement('a');
-    searchResultsLink.href = '/user_profile/' + user.username + '/';
-    searchResultsLink.textContent = user.first_name + ' ' + user.last_name;
+    const userSearchResultsLink = document.createElement('a');
+    userSearchResultsLink.href = '/user_profile/' + user.username + '/';
+    userSearchResultsLink.textContent = user.first_name + ' ' + user.last_name;
     const searchResultsList = document.createElement('li');
-    searchResultsList.appendChild(searchResultsLink);
+    searchResultsList.appendChild(userSearchResultsLink);
     searchResults.appendChild(searchResultsList);
 
     foundMatch = true;
   }
-
-
 }
 
-// FUNC - 8: UPDATE IMAGE PREVIEW
 function handleUpdateImagePreview(event) {
   const imageFileInput = event.target;
   const imageFile = imageFileInput.files[0];
@@ -145,23 +136,75 @@ function handleUpdateImagePreview(event) {
   }
 }
 
-// EVENT 1: PROFILE DETAILS - EDIT BIO
+function handlePostLikeForm() {
+  const postLikeForm = document.getElementById('post-like-form');
+  const postLikeButton = document.getElementById('post-like-btn');
+  const postLikeCount = document.getElementById('post-like-count');
+
+  if (postLikeForm && postLikeButton && postLikeCount) {
+    postLikeForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const postId = postLikeButton.getAttribute('data-post-id');
+      const postLikeUrl = `/post_details/toggle-like/${postId}/`;
+
+      fetch(postLikeUrl, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Update the button state based on the server response
+        postLikeButton.classList.toggle('liked', data.post_like_status);
+        postLikeButton.textContent = data.post_like_status ? 'Unlike' : 'Like';
+
+        // Update the like count
+        postLikeCount.textContent = data.like_count;
+
+        // Update the database state
+        postLikesUpdateDatabaseState(postId, data.post_like_status);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+
+    // Retrieve the initial database state and update the button state
+    const postId = postLikeButton.getAttribute('data-post-id');
+    const initialPostLikeStatus = postLikesGetDatabaseState(postId);
+    postLikeButton.classList.toggle('liked', initialPostLikeStatus);
+    postLikeButton.textContent = initialPostLikeStatus ? 'Unlike' : 'Like';
+  }
+}
+
+function postLikesGetDatabaseState(postId) {
+  const databaseState = localStorage.getItem(`post-like-state-${postId}`);
+  return databaseState === 'true';
+}
+
+function postLikesUpdateDatabaseState(postId, postLikeStatus) {
+  localStorage.setItem(`post-like-state-${postId}`, postLikeStatus);
+}
+
+// Handle profile details click event for editing profile field bio
 document.addEventListener("click", (event) => {
   if (!event.target.closest(".edit-pencil-container")) {
-    handleBioDropdownMenu();
+    handleProfileBioAndProfileDropdownMenus();
   }
 });
 
-// EVENT 2: PROFILE DETAILS
+//  Handle profile details change event for profile field
 document.querySelectorAll("[data-field-name]").forEach((profileFieldElement) => {
   profileFieldElement.addEventListener("change", () => {
     const profileFieldName = profileFieldElement.getAttribute("data-field-name");
     const profileFieldsNewValue = profileFieldElement.getAttribute("data-value");
-    sendUpdatedValueToServer(profileFieldName, profileFieldsNewValue);
+    sendUpdatedFieldValueToServer(profileFieldName, profileFieldsNewValue);
   });
 });
 
-// EVENT 3: DROPDOWN MENU
+// Handle profile details dropdown menu item click event
 document.querySelectorAll(".dropdown-menu a").forEach(function (menuItem) {
   menuItem.addEventListener("click", function (event) {
     event.preventDefault();
@@ -176,13 +219,13 @@ document.querySelectorAll(".dropdown-menu a").forEach(function (menuItem) {
   });
 });
 
-// EVENT 4: EDIT-PENCIL - DROPDOWN MENU
+// Handle edit-pencil click event to toggle dropdown menu
 document.querySelectorAll(".edit-pencil").forEach(function (pencil) {
   pencil.addEventListener("click", function (event) {
     event.preventDefault();
     event.stopPropagation();
 
-    handleBioDropdownMenu();
+    handleProfileBioAndProfileDropdownMenus();
 
     const profileFieldDropdownMenu = pencil.nextElementSibling;
     if (profileFieldDropdownMenu.style.display === "none" || profileFieldDropdownMenu.style.display === "") {
@@ -193,16 +236,18 @@ document.querySelectorAll(".edit-pencil").forEach(function (pencil) {
   });
 });
 
-// EVENT 5: FILE INPUT CHANGE
+// Handle profile image upload file input change
 const imageFileInput = document.getElementById('file-input');
 if (imageFileInput) {
   imageFileInput.addEventListener('change', handleUpdateImagePreview);
 }
 
-// EVENT: DOMContentLoaded
+// DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
-  handleBioEditing();
-  initProfileFieldEditing();
+  handleProfileBioEdit();
+  initProfileFieldEdit();
+
+  handlePostLikeForm();
 
   const searchInput = document.getElementById('user-search-input');
   const searchResults = document.getElementById('user-search-results');
@@ -227,34 +272,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // Attach event listeners
     searchInput.addEventListener('input', handleSearchInput);
     searchResults.addEventListener('change', handleSearchResults);
-  }
-
-  const postLikeForm = document.getElementById('post-like-form');
-  const postLikeButton = document.getElementById('post-like-btn');
-  const postLikeCount = document.getElementById('post-like-count');
-
-  if (postLikeForm && postLikeButton && postLikeCount) {
-    postLikeForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const postId = postLikeButton.getAttribute('data-post-id');
-      const postLikeUrl = `/post_details/toggle-like/${postId}/`;
-
-      fetch(postLikeUrl, {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': getCookie('csrftoken'),
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          postLikeButton.classList.toggle('liked', data.post_like_status);
-          postLikeButton.textContent = data.post_like_status ? 'Unlike' : 'Like';
-          postLikeCount.textContent = data.like_count;
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    });
   }
 });

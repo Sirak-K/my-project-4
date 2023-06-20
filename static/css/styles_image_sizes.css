@@ -1,0 +1,303 @@
+/* File: styles_image_sizes.css */
+
+/* Targeted Screen Sizes:
+  - Global (Desktop/Default)
+  - Media Queries
+*/
+
+/* Used CSS Attributes: 
+  - aspect-ratio
+  - width
+  - height
+*/
+
+/* Style section: IMAGE SIZE */
+/* -- For screen size: DESKTOP */
+/* -- Ordering: BY HEIGHT */
+
+.social-links-item-bg{
+width: 1.5em;
+height: 1.5em;
+}
+.navbar-list-item,
+.navbar-list-item-stack,
+#banner_image-clear_id,
+#profile_image-clear_id {
+width: 2.625em;
+height: 2.625em;
+}
+.post-comment-author-image {
+width: 4.375em;
+height: 4.375em;
+}
+#uploaded-banner {
+width: 25em;
+height: 5.25em;
+}
+#uploaded-image {
+width: 7em;
+height: 7em;
+}
+.post-being-edited-author-image {
+width: 8em;
+height: 8em;
+}
+.user-feed-profile-image,
+.post-author-image {
+width: 11.25em;
+height: 11.25em;
+}
+.profile-image {
+width: 14.875em;
+height: 14.875em;
+}
+.profile-banner {
+width: 80em;
+height: 15em;
+}
+.login-image,
+.login-image::before  {
+height: 50em;
+aspect-ratio: 2;
+}
+
+/* Style section: IMAGE SIZE */
+/* -- For screen size: MEDIA QUERIES */
+/* -- Ordering: BY HEIGHT */
+
+/* -------- 0 EM = 0 PX  ------ */
+@media screen and (min-width: 0em) and (max-width: 119em){
+ .navbar-list-item,
+  .navbar-list-item-stack,
+  #banner_image-clear_id,
+  #profile_image-clear_id {
+    width: 2.625em;
+    height: 2.625em;
+  }
+  .post-being-edited-author-image {
+    width: 3em;
+    height: 3em;
+  }
+  .post-comment-author-image {
+    width: 6em;
+    height: 6em;
+  }
+  #uploaded-banner {
+    width: 16.25em;
+    height: 6.25em;
+  }
+  .user-feed-profile-image,
+  .post-author-image {
+    width: 6.875em;
+    height: 6.875em;
+  }
+  #uploaded-image {
+    width: 8.125em;
+    height: 8.125em;
+  }
+  .profile-banner {
+    width: 20em;
+    height: 9em;
+  }
+  .profile-image {
+    width: 9.065em;
+    height: 9.065em;
+  }
+  .login-image,
+  .login-image::before {
+    height: 29.7em;
+    aspect-ratio: 1.2;
+  }
+}
+
+@media screen and (min-width: 23.438em) and (max-width:119em){
+  .post-being-edited-author-image {
+    width: 5em;
+    height: 5em;
+  }
+  .profile-image {
+    width: 8.5em;
+    height: 8.5em;
+  }
+  .profile-banner {
+    width: 23.4em;
+    height: 8.5em;
+  }
+  .login-image,
+  .login-image::before {
+    height: 36em;
+    aspect-ratio: 1.2;
+  }
+}
+
+@media screen and (min-width: 25.875em) and (max-width: 119em) {
+  .post-being-edited-author-image {
+    width: 6.25em;
+    height: 6.25em;
+  }
+  #uploaded-banner {
+    width: 21.25em;
+    height: 6.875em;
+  }
+  .profile-banner {
+    width: 25.875em;
+    height: 8.4em;
+  }
+  .profile-image {
+    width: 8.5em;
+    height: 8.5em;
+  }
+  #uploaded-image {
+    width: 9.375em;
+    height: 9.375em;
+  }
+  .login-image,
+  .login-image::before {
+    height: 70.5em;
+  }
+}
+
+@media screen and (min-height: 50.75em) and (max-width: 119em) {
+  .user-feed-profile-image {
+    width: 7.5em;
+    height: 7.5em;
+  }
+  .post-being-edited-author-image {
+    width: 7.5em;
+    height: 8.125em;
+  }
+  .login-image,
+  .login-image::before {
+    height: 73em;
+  }
+}
+
+@media screen and (min-width: 37.5em) and (max-width: 119em) {
+  #id_profile_image,
+  #id_banner_image {
+    width: 70%;
+  }
+  #banner_image-clear_id,
+  #profile_image-clear_id {
+    height: 2em;
+    width: 2em;
+  }
+  .navbar-list-item,
+  .navbar-list-item-stack {
+    width: 3em;
+    height: 3em;
+  }
+  .post-comment-author-image {
+    width: 7.5em;
+    height: 7.5em;
+  }
+  .post-being-edited-author-image {
+    width: 8.75em;
+    height: 8.75em;
+  }
+  #uploaded-banner {
+    width: 31.25em;
+    height: 9.375em;
+  }
+  .post-author-image,
+  .user-feed-profile-image {
+    width: 10em;
+    height: 10em;
+  }
+  .profile-image {
+    width: 11.875em;
+    height: 11.875em;
+  }
+  .profile-banner {
+    width: 37.5em;
+    height: 12em;
+  }
+  #uploaded-image {
+    width: 12.5em;
+    height: 12.5em;
+  }
+  .login-image,
+  .login-image::before {
+    height: 55em;
+  }
+}
+
+@media screen and (min-width: 48em) and (max-width: 119em) {
+  .navbar-list-item,
+  .navbar-list-item-stack {
+    width: 3.875em;
+    height: 3.875em;
+  }
+  #banner_image-clear_id,
+  #profile_image-clear_id {
+    height: 4em;
+    width: 4em;
+  }
+  .post-being-edited-author-image {
+    width: 10.625em;
+    height: 10.625em;
+  }
+  #uploaded-banner {
+    width: 37.5em;
+    height: 12.5em;
+  }
+  .post-comment-author-image {
+    width: 12.5em;
+    height: 12.5em;
+  }
+  .user-feed-profile-image {
+    width: 13.75em;
+    height: 13.75em;
+  }
+  .profile-image,
+  .post-author-image {
+    width: 15em;
+    height: 15em;
+  }
+  .profile-banner {
+    width: 48em;
+    height: 15em;
+  }
+  #uploaded-image {
+    width: 16.25em;
+    height: 16.25em;
+  }
+  .login-image,
+  .login-image::before {
+    height: 52.7em;
+  }
+}
+
+@media screen and (min-width: 62em) and (max-width: 119em) {
+  .navbar-list-item,
+  .navbar-list-item-stack,
+  #banner_image-clear_id,
+  #profile_image-clear_id {
+    width: 5.75em;
+    height: 5.75em;
+  }
+  #uploaded-banner {
+    width: 56.25em;
+    height: 12.5em;
+  }
+  .profile-banner {
+    width: 64em;
+    height: 17em;
+  }
+  .profile-image,
+  .user-feed-profile-image,
+  .post-author-image,
+  .post-being-edited-author-image {
+    width: 17.188em;
+    height: 17.188em;
+  }
+  #uploaded-image {
+    width: 25em;
+    height: 25em;
+  }
+  .login-image,
+  .login-image::before {
+    height: 71em;
+  }
+}
+

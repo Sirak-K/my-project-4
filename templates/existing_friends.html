@@ -1,14 +1,19 @@
+{% comment %}
+    This block renders the existing friendships section.
+    It displays a header and lists the friendships.
+{% endcomment %}
+
 {% block content_existing_friends %}
 
 <h2 class="friend-request-header">Existing Friendships</h2>
 {% for friendship in existing_friendships %}
-<section id="friendship-section">
-  <p class="friendships"> 
-    <span class="friend-name">{{ friendship }}</span>
-  </p>
+  <section id="friendship-section">
+    <p class="friendships"> 
+      <span class="friend-name">Friendship between:<br>{{ friendship }}</span>
+    </p>
 
-     {% include 'friend_remove.html' %}
-     </section>
+    {% include 'friend_remove.html' %}
+  </section>
 {% empty %}
   <p>No friendships yet.</p>
 {% endfor %}

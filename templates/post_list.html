@@ -1,17 +1,17 @@
-<!-- File: post_list.html -->
-
 {% include 'post_details.html' with post=post all_post_comments=all_post_comments %}
 
 
 {% for comment in all_post_comments %}
   {% if comment.comment_on_post == post %}
-      <section id="post-comment-section">
-        <div class="post-comment">
-          <p class="post-comment-author">Comment By: {{ comment.get_comment_author_name }}</p>
-          <p class="post-comment-time">{{ comment.comment_created_at }}</p>
-          <p class="post-comment-content">{{ comment.comment_content }}</p>
+    <section id="post-comment-list-section">
+      <div class="post-comment">
+        <div class="post-comment-details">
+          <p class="post-comment-author">Comment by {{ comment.get_comment_author_name }}</p>
+          <p class="post-comment-time"><em>{{ comment.comment_created_at }}</em></p>
+          <img class="post-comment-author-image" src="{{ comment.author_profile_image }}" alt="Comment Author Profile Image">
         </div>
-      </section>
+        <p class="post-comment-content"><em>{{ comment.comment_content }}</em></p>
+      </div>
+    </section>
   {% endif %}
 {% endfor %}
-

@@ -1,42 +1,44 @@
 {% block content_friend_requests %}
-
-<h2 class="friend-request-header">Received Friend Requests</h2>
+    <!-- Friend Requests Section -->
+    <h2 class="friend-request-header">Received Friend Requests</h2>
 
     {% for request in received_friend_requests %}
-
+        <!-- Individual friend request -->
         <p class="friend-requests-text">{{ request.sender.username }} wants to be your friend and has sent you a friend request.</p>
-        
-            <form method="POST" action="{% url 'accept_friend_request' request_id=request.id %}">
+
+        <form method="POST" action="{% url 'accept_friend_request' request_id=request.id %}">
             {% csrf_token %}
             <input type="hidden" name="action" value="accept_friend_request">
             <button type="submit">Accept</button>
-            </form>
+        </form>
 
-            <form method="POST" action="{% url 'reject_friend_request' request_id=request.id %}">
+        <form method="POST" action="{% url 'reject_friend_request' request_id=request.id %}">
             {% csrf_token %}
             <input type="hidden" name="action" value="reject_friend_request">
             <button type="submit">Reject</button>
-            </form>
+        </form>
 
-            {% empty %}
-        <p class="friend-requests-text">No received friend requests.</p>
+    {% empty %}
+        <!-- No received friend requests -->
+        <p class="friend-no-requests-text">No received friend requests.</p>
     {% endfor %}
 
-
-<h2 class="friend-request-header">Sent Friend Requests</h2>
+    <!-- Sent Friend Requests Section -->
+    <h2 class="friend-request-header">Sent Friend Requests</h2>
 
     {% for request in sent_friend_requests %}
-
+        <!-- Individual sent friend request -->
         <p class="friend-requests-text">You have sent a friend request to {{ request.receiver.username }}.</p>
 
-            <form method="POST" action="{% url 'cancel_friend_request' request_id=request.id %}">
+        <form method="POST" action="{% url 'cancel_friend_request' request_id=request.id %}">
             {% csrf_token %}
             <input type="hidden" name="action" value="cancel_friend_request">
             <button type="submit">Cancel Friend Request</button>
-            </form>
+        </form>
 
-            {% empty %}
-        <p class="friend-requests-text">No sent friend requests.</p>
+    {% empty %}
+        <!-- No sent friend requests -->
+        <p class="friend-no-requests-text">No sent friend requests.</p>
     {% endfor %}
 
 {% endblock content_friend_requests %}

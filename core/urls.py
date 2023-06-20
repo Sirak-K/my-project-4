@@ -7,7 +7,7 @@ from .views import (
     UserProfileView, CommentCreateView, PostDeleteView, 
     PasswordResetView, UserDeletionView, FriendshipManager,
     UserFeedView, LogoutView, LoginView, SignUpView, UserSearchView,
-    UserProfileImageView, UserProfileFieldUpdateView, PostLikeToggleView,PostEditView
+    UploadProfileImageView, UserProfileFieldUpdateView, PostLikeToggleView,PostEditView
 )
 
 urlpatterns = [
@@ -27,9 +27,9 @@ urlpatterns = [
     path('user_search/', UserSearchView.as_view(), name='user_search'),
     path('user_profile/', UserProfileView.as_view(), name='user_profile'),
     path('user_profile/<str:username>/', UserProfileView.as_view(), name='user_profile'), 
-    path('user_profile_image/', UserProfileImageView.as_view(), name='user_profile_image'),
+    path('user_profile_image/', UploadProfileImageView.as_view(), name='user_profile_image'),
     path('user_deletion_confirmation/', UserDeletionView.as_view(), name='user_deletion_confirmation'),
-    path('user_profile_image/<str:username>/', UserProfileImageView.as_view(), name='user_profile_image'),
+    path('user_profile_image/<str:username>/', UploadProfileImageView.as_view(), name='user_profile_image'),
     path('user_profile_field_update/<int:user_id>/', UserProfileFieldUpdateView.as_view(), name='user_profile_field_update'),
 
     # URLS - FRIENDSHIP
@@ -48,12 +48,9 @@ urlpatterns = [
     path('post_details/', PostDetailsView.as_view(), name='post_details'),
     path('post_details/<int:pk>/', PostDetailsView.as_view(), name='post_details'),
     path('post_details/delete/<int:pk>/', PostDeleteView.as_view(), name='post_delete'),
-    
+    path('post_details/toggle-like/<int:pk>/', PostLikeToggleView.as_view(), name='toggle_like'),
     path('post_edit_page/<int:pk>/', PostEditView.as_view(), name='post_edit_page'),
     path('post_edit_page/<int:pk>/save_edit', PostEditView.as_view(), name='post_edit_save'),
-
-
-    path('post_details/toggle-like/<int:pk>/', PostLikeToggleView.as_view(), name='toggle_like'),
     path('post_comment/<int:pk>/comment/create/', CommentCreateView.as_view(), name='post_comment_create'),
 ]
 

@@ -2,29 +2,33 @@
 {% block content_post_details %}
 
 <div class="post">
-  <div id="post-edit-section">
+  <div id="post-details-edit-section">
     <!-- POST - DELETE BUTTON -->
     <form class="post-delete-form" method="post" action="{% url 'post_delete' pk=post.pk %}">
       {% csrf_token %}
-      <button class="post-delete-btn fa fa-trash" type="submit"></button>
+      {% if post.post_author == request.user %}
+        <button class="post-delete-btn fa fa-trash" type="submit"></button>
+      {% else %}
+        <button style="display: none;" class="post-delete-btn fa fa-trash" type="submit"></button>
+      {% endif %}
     </form>
 
     <!-- POST - EDIT BUTTON -->
     <form method="post" action="{% url 'post_edit_page' pk=post.pk %}">
-    {% csrf_token %}
-          {% if not is_post_edit_page %}
-          <button class="post-edit-btn fas fa-pencil-alt" type="submit"></button>
-          {% else %}
-          <button style="display:none" class="post-edit-btn fas fa-pencil-alt" type="submit"></button>
-          {% endif %}
+      {% csrf_token %}
+      {% if not is_post_edit_page and post.post_author == request.user %}
+        <button class="post-edit-btn fas fa-pencil-alt" type="submit"></button>
+      {% else %}
+        <button style="display:none" class="post-edit-btn fas fa-pencil-alt" type="submit"></button>
+      {% endif %}
     </form>
   </div>
 
   <div class="post-details">
     <div class="post-details-secondary">
-          <p class="post-author">{{ post.get_post_author_name }}</p>
-          <img class="post-author-image" src="{{ post.author_profile_image }}" alt="Author Profile Image">
-          <p class="post-time">{{ post.post_created_at }}</p>
+      <p class="post-author">{{ post.get_post_author_name }}</p>
+      <img class="post-author-image" src="{{ post.author_profile_image }}" alt="Author Profile Image">
+      <p class="post-time">{{ post.post_created_at }}</p>
     </div>
 
     <section id="post-content-section">
@@ -33,20 +37,22 @@
     </section>
 
     <section id="post-details-lc-section">
-        <span id="post-like-count" class="fas fa-thumbs-up">{{ post.post_likes.count }}</span>
-        <form id="post-like-form" method="post" action="{% url 'toggle_like' pk=post.pk %}">
-          {% csrf_token %}
-          {% if post.post_author != request.user %}
-          <button id="post-like-btn" data-post-id="{{ post.pk }}" type="submit">
-            {% if post.is_liked_by_user %}
-            Unlike
-            {% else %}
-            Like
-            {% endif %}
-          </button>
+      <span id="post-like-count" class="fas fa-thumbs-up">{{ post.post_likes.count }}</span>
+      <form id="post-like-form" action="{% url 'toggle_like' pk=post.pk %}" data-post-id="{{ post_id }}" method="post">
+        {% csrf_token %}
+        <!-- Check if the post is liked by the user and display the appropriate button -->
+        {% if post.post_author != request.user %}
+          {% if post.is_liked_by_user %}
+            <button id="post-like-btn" data-post-id="{{ post.pk }}" type="submit">Unlike</button>
+          {% else %}
+            <button id="post-like-btn" data-post-id="{{ post.pk }}" type="submit">Like</button>
           {% endif %}
-        </form>
+        {% else %}
+          <button style="display: none;" id="post-like-btn" data-post-id="{{ post.pk }}" type="submit"></button>
+        {% endif %}
+      </form>
     </section>
+
     {% include 'post_comment_create.html' %}
   </div>
 </div>

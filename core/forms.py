@@ -1,12 +1,16 @@
 from django import forms
-from django.forms.widgets import CheckboxInput
 from django.contrib.auth.forms import UserCreationForm
 from .models import (
     User, Comment, Post, Profile,
     FriendRequest, Friendship
 )
 
+
 class CustomUserCreationForm(UserCreationForm):
+    """Custom form for user creation.
+
+    Inherits from UserCreationForm and adds additional fields.
+    """
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
     email = forms.EmailField()
@@ -14,11 +18,19 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email')
 class CustomPasswordResetForm(forms.Form):
+    """Custom form for password reset.
+
+    Validates new passwords and checks the validity of the username.
+    """
     username = forms.CharField(label='Enter Username')
     new_password1 = forms.CharField(label='Enter New Password')
     new_password2 = forms.CharField(label='Enter Confirm New Password')
 
     def clean(self):
+        """Custom cleaning method for password reset form.
+
+        Validates new passwords and checks the validity of the username.
+        """
         cleaned_data = super().clean()
         new_password1 = cleaned_data.get('new_password1')
         new_password2 = cleaned_data.get('new_password2')
@@ -36,13 +48,24 @@ class CustomPasswordResetForm(forms.Form):
 
         return cleaned_data
 class UserSearchForm(forms.Form):
+    """Form for user search.
+
+    Allows users to search for other users.
+    """
     search_query = forms.CharField(max_length=100)
 class UpdateProfileForm(forms.ModelForm):
+    """Form for updating user profile.
+
+    Uses the Profile model and allows users to update their bio, gender, and profession.
+    """
     class Meta:
         model = Profile
         fields = ['bio', 'gender', 'profession', ]
+class UploadProfileImageForm(forms.ModelForm):
+    """Form for uploading profile images.
 
-class UpdateProfileImageForm(forms.ModelForm):
+    Allows users to update their profile image and banner image.
+    """
     class Meta:
         model = Profile
         fields = ['profile_image', 'banner_image']
@@ -50,10 +73,11 @@ class UpdateProfileImageForm(forms.ModelForm):
             'profile_image': 'Update Profile Image',
             'banner_image': 'Update Profile Banner',
         }
-        
-
-    
 class PostForm(forms.ModelForm):
+    """Form for creating a post.
+
+    Uses the Post model and allows users to create a post with a title and content.
+    """
     class Meta:
         model = Post
         fields = ['post_title', 'post_content']
@@ -78,38 +102,57 @@ class PostForm(forms.ModelForm):
         }
 
     def clean_post_title(self):
+        """Custom cleaning method for post title.
+
+        Validates the length of the post title.
+        """
         post_title = self.cleaned_data['post_title']
         if len(post_title) > 50:
             raise forms.ValidationError("The post title cannot exceed 50 characters.")
         return post_title
 
     def clean_post_content(self):
+        """Custom cleaning method for post content.
+
+        Validates the length of the post content.
+        """
         post_content = self.cleaned_data['post_content']
         if len(post_content) > 200:
             raise forms.ValidationError("The post content cannot exceed 200 characters.")
         return post_content
-
 class PostEditForm(forms.ModelForm):
+    """Form for editing a post.
+
+    Uses the Post model and allows users to edit the post content.
+    """
     class Meta:
         model = Post
         fields = ['post_content']
         widgets = {
             'post_content': forms.Textarea(attrs={'class': 'post-content'}),
         }
-
 class CommentForm(forms.ModelForm):
+    """Form for adding comments to a post.
+
+    Uses the Comment model and allows users to add comments to a post.
+    """
     class Meta:
         model = Comment
         fields = ['comment_content']
-
-
-
 class FriendRequestForm(forms.ModelForm):
+    """Form for sending friend requests.
+
+    Uses the FriendRequest model and allows users to send friend requests to other users.
+    """
     class Meta:
         model = FriendRequest
         fields = ['receiver']
 
     def clean(self):
+        """Custom cleaning method for friend request form.
+
+        Validates the receiver field and checks the relationship and dependencies.
+        """
         cleaned_data = super().clean()
         receiver = cleaned_data.get('receiver')
         sender = self.instance.sender
