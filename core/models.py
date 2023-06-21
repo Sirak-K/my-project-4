@@ -1,10 +1,8 @@
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timesince, timezone
-
 
 # MODEL 1 - PROFILE
 class Profile(models.Model):
@@ -27,7 +25,7 @@ class Profile(models.Model):
     date_of_birth = models.DateField(auto_now=False, blank=True, null=True)
     profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     banner_image = models.ImageField(upload_to='banner_images/', blank=True, null=True)
-    bio = models.TextField(blank=True, null=True)
+    bio = models.TextField(default='', blank=True, null=True)
 
     PROFESSION_CHOICES = (
         ('O', 'Student'),
@@ -36,7 +34,7 @@ class Profile(models.Model):
         ('T', 'Other'),
         ('N', 'None selected'),
     )
-    profession = models.CharField(max_length=50, choices=PROFESSION_CHOICES, default="N", blank=True)
+    profession = models.CharField(max_length=50, choices=PROFESSION_CHOICES, default="N")
 
     GENDER_CHOICES = (
         ('O', 'Other'),
@@ -65,27 +63,15 @@ class Profile(models.Model):
         return [friend.sender if friend.sender != user else friend.receiver for friend in friends]
 
     def __str__(self):
-        return f"{self.user.username}'s Profile"
-# DECORATOR - PROFILE: CREATE
+        return f"{self.user.username}'s Profile" 
+# DECORATOR
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
-    """
-    Signal receiver function to create a profile for a newly created user.
-
-    Args:
-        sender (Any): The sender of the signal.
-        instance (User): The User instance being saved.
-        created (bool): Indicates whether the user is being created.
-        **kwargs: Additional keyword arguments passed to the receiver.
-
-    Returns:
-        None
-
-    Raises:
-        None
-    """
     if created:
         Profile.objects.create(user=instance)
+
+
+
 # MODEL 2 - POST
 class Post(models.Model):
     """
@@ -215,8 +201,8 @@ class Friendship(models.Model):
         ('rejected', 'Rejected'),
     )
 
-    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='initiated_friendships', null=True)
-    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_friendships', null=True)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='initiated_friendships', null=True)
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_friendships', null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='accepted')
 
     def __str__(self):
@@ -240,8 +226,8 @@ class FriendRequest(models.Model):
         __str__: Get a string representation of the friend request.
     """
 
-    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_friend_requests', null=True)
-    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_friend_requests', null=True)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_friend_requests', null=True)
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_friend_requests', null=True)
     status = models.CharField(max_length=10, choices=Friendship.STATUS_CHOICES, default='pending')
 
     class Meta:

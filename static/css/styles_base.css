@@ -99,7 +99,7 @@
 .navbar-list-item,
 #header-section-login,
 .navbar-list-item-stack,
-.edit-pencil-bio-container
+.edit-pencil-bio-container,
 
 /* 3) User Feed */
 #user-feed-header-section,
@@ -132,9 +132,13 @@
 #user-profile-images-section,
 
 /* 4) User Search */
+#user-search-input,
 #user-search-section,
 
 /* 5) User Deletion */
+.user-deletion-header,
+.user-deletion-no-btn,
+.user-deletion-yes-btn,
 #user-deletion-section,
 
 /* 6) Friend List */
@@ -163,6 +167,7 @@
 #post-details-lc-section,
 #post-details-edit-section,
 /* 8-B) Post Create */
+.post-create-btn,
 .post-create-title,
 #post-create-section,
 .post-create-text-content,
@@ -310,4 +315,12 @@
 .post-comment-author-image,
 .post-being-edited-author-image {
   border-radius: 50%;
+}
+
+/* TOGGLE VISIBILITY */
+.hide {
+display: none;
+}
+.show {
+display:flex;
 }

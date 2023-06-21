@@ -12,8 +12,9 @@
 */
 
 
-/* --- EFFECT: HOVER --- */
-
+/* =========================
+   EFFECT: HOVER
+   ========================= */
 .login-btn:hover,
 .social-links li a i:hover {
 background: rgb(198, 254, 254); 
@@ -46,6 +47,26 @@ background:rgb(22, 67, 149);
 text-decoration: none;
 }
 
+/* =========================
+   EFFECT: DROP-SHADOW
+   ========================= */
+
+/* DROP-SHADOW */
+#friend-list-section,
+.post-comment,
+.post,
+#user-search-section,
+#user-deletion-section,
+.user-profile-details,
+.post-comment-create-btn,
+#post-edit-page-section,
+.post-being-edited {
+  border: 1px solid black;
+  filter: drop-shadow(0px 1px 3px black);
+  background-color: white;
+  background-clip: text;
+}
+
 
 /* =========================
    THEME COLORS
@@ -55,7 +76,11 @@ text-decoration: none;
 /* background-color: rgb(198, 254, 254); */
 
 /* Secondary */
-/* background-color: rgb(234, 252, 251); */
+#friend-list-section,
+#user-search-section,
+#user-deletion-section {
+background-color: rgb(234, 252, 251);
+}
 
 /* Third */
 /* background-color: rgb(0, 103, 199); */
@@ -142,17 +167,3 @@ body {
   );
 }
 
-/* DROP-SHADOW */
-#friend-list-section,
-.post-comment,
-.post,
-#user-search-section,
-.user-profile-details,
-.post-comment-create-btn,
-#post-edit-page-section,
-.post-being-edited {
-  border: 1px solid black;
-  filter: drop-shadow(0px 1px 3px black);
-  background-color: white;
-  background-clip: text;
-}

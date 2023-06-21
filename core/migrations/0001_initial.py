@@ -78,4 +78,5 @@ class Migration(migrations.Migration):
                 'unique_together': {('post', 'user')},
             },
         ),
+
     ]

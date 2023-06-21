@@ -12,16 +12,16 @@ from .views import (
 
 urlpatterns = [
 
-    # URLS - SIGN-UP, LOG-IN, LOG-OUT
+    # URLS - LOG-IN, LOG-OUT, SIGN-UP
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signup/', SignUpView.as_view(), name='signup'),
 
-    # URLS - PASSWORD RESET 
+    # URLS - PASSWORD RESET
     path('password_reset_page/', PasswordResetView.as_view(), name='password_reset'),
     path('password_reset/success/', PasswordResetView.as_view(), name='password_reset_success'),
 
-    # URLS - USER
+    # URLS - USERS
     path('', UserFeedView.as_view(), name='user_feed'),
     path('user_feed/', UserFeedView.as_view(), name='user_feed'),
     path('user_search/', UserSearchView.as_view(), name='user_search'),
@@ -32,7 +32,7 @@ urlpatterns = [
     path('user_profile_image/<str:username>/', UploadProfileImageView.as_view(), name='user_profile_image'),
     path('user_profile_field_update/<int:user_id>/', UserProfileFieldUpdateView.as_view(), name='user_profile_field_update'),
 
-    # URLS - FRIENDSHIP
+    # URLS - FRIENDSHIPS
     path('friend_list/', FriendshipManager.as_view(), name='friend_list'),
     path('friend_request/', FriendshipManager.as_view(), name='friend_request'),
     path('existing_friends/', FriendshipManager.as_view(), name='existing_friends'),
@@ -42,7 +42,7 @@ urlpatterns = [
     path('friend_request/accept/<int:request_id>/', FriendshipManager.as_view(), name='accept_friend_request'),
     path('friend_request/reject/<int:request_id>/', FriendshipManager.as_view(), name='reject_friend_request'),
 
-    # URLS - POST & POST COMMENTS
+    # URLS - POSTS & POST COMMENTS
     path('posts/', PostListView.as_view(), name='post_list'),
     path('post_create/', PostCreateView.as_view(), name='post_create'),
     path('post_details/', PostDetailsView.as_view(), name='post_details'),

@@ -1,529 +1,524 @@
 /* File: styles_fonts.css */
 
-/* 
-Targeted Screen Sizes:
-- Global (Desktop/Default)
-- Media Queries
+/* Targeted Screen Sizes:
+  - Global (Desktop/Default)
+  - Media Queries
 */
 
-/* 
-Used CSS Attributes: 
-- font-family
-- font-size 
+/* Used CSS Attributes: 
+  -   font-family
+  - font-size 
 */
-
+/* =========================
+        FONT IMPORTS
+   ========================= */
 @import url('https://fonts.googleapis.com/css2?family=Quattrocento:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@0,200;0,400;0,600;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500&display=swap');
 
 
-/* FONT - NO DECORATION STYLE */
+/* =========================
+      REMOVE DECORATIONS
+   ========================= */
 .logotype,
 .edit-pencil,
-.edit-pencil-bio,
-#pagination-section,
-#user-search-input,
-#user-search-results,
 .navbar-list,
 .social-links,
+.dropdown-menu a, 
+.edit-pencil-bio,
 .social-links-item,
+#user-search-input,
+#pagination-section,
+#user-search-results,
 .user-search-results a,
-.upload-profile-images-form a,
-.dropdown-menu a {
+.upload-profile-images-form a {
 text-decoration: none;
 list-style: none;
 }
-/* FONT-1): QUATTROCENTO */
+
+/* =========================
+         FONT STYLES
+   ========================= */
+
+/* =========================
+   Primary: Quattrocento
+   ========================= */
 body {
-font-family: 'Quattrocento', serif;
+    font-family: 'Quattrocento', serif;
 }
-/* FONT-2): OXYGEN */
+
+/* =========================
+   Secondary: Oxygen
+   ========================= */
+.post-create-btn,
+#user-search-input,
+.post-create-title,
+#user-search-results,
 #signup-section label,
 .password-reset-label,
+#user-search-results a,
+.password-reset-element,
 .already-registered-text,
 .already-registered-link,
-.password-reset-element,
+.post-create-text-content,
 .password-reset-return-link,
-#user-search-input,
-#user-search-results,
-#user-search-results a,
-.post-create-btn,
-.post-create-title,
-.post-create-text-content::placeholder,
-.post-create-text-content {
-font-family: 'Oxygen';
+.post-create-text-content::placeholder {
+    font-family: 'Oxygen';
 }
-/* FONT-3): SOURCE SERIF PRO */
+
+/* =========================
+   Third: Source Serif Pro 
+   ========================= */
 .user-feed-current-date,
 .profile-detail-bio-text,
-.profile-detail-gender-text,
-.profile-detail-profession-text,
 .profile-detail-bio-label,
+.profile-detail-gender-text,
 .profile-detail-gender-label,
+.profile-detail-profession-text,
 .profile-detail-profession-label {
-font-family: 'Source Serif Pro';
+  font-family: 'Source Serif Pro';
 }
-/* FONT-4): ROBOTO */
+/* =========================
+   Fourth: Roboto
+   ========================= */
 .profile-detail-header {
-font-family: 'Roboto';
-
+  font-family: 'Roboto';
 }
+
+/* Style section: FONT SIZE */
+/* -- For screen size: DESKTOP */
+/* -- Ordering: BY FONT SIZE */
 
 /* FS: 1 REM */
-.delete-user-btn,
+.post-time,
 .add-friend-btn,
-.post-time {
-font-size: 1 rem;
+.delete-user-btn {
+  font-size: 1 rem;
 }
 /* FS: 1.2 REM */
 .edit-pencil,
 .edit-pencil-bio,
 .profile-detail-bio-text,
-.upload-profile-images-form input,
 .upload-profile-images-form p,
-.navbar-link {
-font-size: 1.2rem;
+.upload-profile-images-form input {
+  font-size: 1.2rem;
 }
 /* FS: 1.5 REM */
+.login-btn,
+.navbar-link,
 #id_username,
 #id_password,
+.post-author,
+.post-content,
+.post-edit-btn,
+.post-delete-btn,
+#user-search-input,
+.navbar-signout-btn,
+#user-search-results,
+.post-edit-page-info,
+#signup-section label,
 .login-username-input,
-.login-username-label,
 .login-password-input,
+.login-username-label,
 .login-password-label,
-.login-btn,
+.friend-requests-text,
+.post-edit-page-header,
+.friend-request-header,
+.friend-no-requests-text,
 .already-registered-text,
 .already-registered-link,
-#signup-section label,
 .post-comment-create-btn,
 .post-being-edited-author,
 .post-being-edited-content,
-.post-edit-page-info,
-.post-edit-page-header,
-.post-delete-btn,
-.post-edit-btn,
-.post-author,
-.post-content,
-#upload-profile-images-save-btn,
-.upload-profile-images-form label,
-.friend-no-requests-text,
-.friend-requests-text,
-.friend-request-header,
-#user-search-results,
-#user-search-input,
 .user-profile-details span,
-.navbar-signout-btn {
-font-size: 1.5rem;
+#upload-profile-images-save-btn,
+.upload-profile-images-form label {
+  font-size: 1.5rem;
 }
 /* FS: 1.8 REM */
+.logotype,
+.post-being-edited-title,
 .post-being-edited-save-btn,
-.post-being-edited-delete-btn,
-.post-being-edited-title {
-font-size: 1.8rem;
+.post-being-edited-delete-btn {
+  font-size: 1.8rem;
 }
 /* FS: 2 REM */
-.upload-profile-images-header,
-#upload-profile-images-save-btn,
-.logotype,
-.post-create-btn,
-.password-reset-return-link,
-.password-reset-element,
-.password-reset-label,
-#password-reset-section input,
-.password-reset-btn,
-.login-forgot-password-link,
-.login-signup-link,
 .signup-btn,
-#signup-section input,
-.post-comment-create-content,
-#post-like-count,
-#post-like-btn,
 .post-title,
-.post-create-title,
-.post-create-text-content::placeholder,
-.post-create-text-content,
-.friend-remove-btn,
 .friend-name,
+#post-like-btn,
+#post-like-count,
+.post-create-btn,
+.friend-remove-btn,
+.post-create-title,
+.login-signup-link,
+.user-search-header,
+.password-reset-btn,
+.password-reset-label,
+#signup-section input,
 .user-deletion-header,
-.user-deletion-yes-btn,
 .user-deletion-no-btn,
-.user-search-header {
-font-size: 2rem;
+.user-deletion-yes-btn,
+.password-reset-element,
+.post-create-text-content,
+.password-reset-return-link,
+.login-forgot-password-link,
+.post-comment-create-content,
+.upload-profile-images-header,
+#password-reset-section input,
+#upload-profile-images-save-btn,
+.post-create-text-content::placeholder {
+  font-size: 2rem;
 }
 /* FS: 2.5 REM */
 .user-feed-current-date {
-font-size: 2.5rem;
+  font-size: 2.5rem;
 }
 /* FS: 2.8 REM */
 .social-links a{
-font-size: 2.8rem;
+  font-size: 2.8rem;
 }
 /* FS: 3 REM */
-.signup-header,
 .login-header,
+.signup-header,
 .friend-list-header {
-font-size: 3rem;
+  font-size: 3rem;
 }
 /* FS: 4 REM */
 .password-reset-header {
-font-size: 4rem;
+  font-size: 4rem;
 }
 
-
-
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES *//* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES *//* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES *//* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES *//* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES *//* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES *//* MEDIA QUERIES */
-/* MEDIA QUERIES */ /* MEDIA QUERIES *//* MEDIA QUERIES *//* MEDIA QUERIES */
-/* MEDIA QUERIES */
-/* MEDIA QUERIES */
-/* MEDIA QUERIES */
-/* MEDIA QUERIES */
-/* MEDIA QUERIES */
-/* MEDIA QUERIES */
-/* MEDIA QUERIES */
+/* Style section: FONT SIZE */
+/* -- For screen size:  MEDIA QUERIES */
+/* -- Ordering: BY FONT SIZE */
 
 @media screen and (min-width: 0em) and (max-width: 119em){
-
+/* FS: 0.7 REM */
 .post-being-edited-content {
-font-size: 0.7rem;
+  font-size: 0.7rem;
 }
 /* FS: 1 REM */
+.add-friend-btn,
+.delete-user-btn,
+.post-comment-time,
+.post-comment-author,
 #signup-section label,
 #signup-section input,
-.post-comment-author,
-.post-comment-time,
-.post-create-text-content,
-.delete-user-btn,
-.add-friend-btn {
-font-size: 1rem;
+.post-create-text-content {
+  font-size: 1rem;
 }
 /* FS: 1.1 REM */
 .profile-detail-bio-text,
-.post-create-text-content::placeholder,
-.post-comment-create-btn {
-font-size: 1.1rem;
+.post-comment-create-btn,
+.post-create-text-content::placeholder {
+  font-size: 1.1rem;
 }
 /* FS: 1.2 REM */
-.profile-detail-bio span,
-.profile-detail-gender span,
-.profile-detail-gender-text,
-.profile-detail-profession span,
-.profile-detail-profession-text,
-#pagination-section a,
-#pagination-section span,
-.friend-no-requests-text,
-.password-reset-label,
-.password-reset-element,
-.password-reset-return-link,
-.already-registered-text,
-.already-registered-link,
-.navbar-link,
-.friend-request-header,
-.post-author,
 .post-title,
+.post-author,
+.navbar-link,
 .post-content,
+.post-create-btn,
+.post-edit-page-info,
+#pagination-section a,
+.password-reset-label,
+.post-edit-page-header,
+.friend-request-header,
+.password-reset-element,
 .post-being-edited-time,
 .post-being-edited-title, 
+#pagination-section span,
+.friend-no-requests-text,
+.already-registered-text,
+.already-registered-link,
+.profile-detail-bio span,
 .post-being-edited-author,
 .post-being-edited-save-btn,
-.post-being-edited-delete-btn,
-.post-edit-page-info,
-.post-edit-page-header,
+.profile-detail-gender span,
+.profile-detail-gender-text,
+.password-reset-return-link,
 .post-comment-create-content,
-.post-create-btn,
+.post-being-edited-delete-btn,
+.profile-detail-profession span,
+.profile-detail-profession-text,
 #upload-profile-images-save-btn,
 .upload-profile-images-form label {
-font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 /* FS: 1.3 REM */
 .logotype,
-.edit-pencil,
-.edit-pencil-bio,
-.signup-header,
 .signup-btn,
-.post-delete-btn,
+.friend-name,
+.edit-pencil,
+.signup-header,
 .post-edit-btn,
+.edit-pencil-bio,
+.post-delete-btn,
 .post-create-title,
-.friend-remove-btn,
-.friend-name {
-font-size: 1.3rem;
+.friend-remove-btn {
+  font-size: 1.3rem;
 }
 
 /* FS: 1.5 REM  */
+.login-btn,
 .post-title,
 .login-header,
-.login-username-label,
-.login-password-label,
-.login-btn,
-.login-forgot-password-link,
-.login-signup-link,
-.social-links a,
-.password-reset-btn,
-.upload-profile-images-header,
-.user-deletion-yes-btn,
-.user-deletion-no-btn,
-.user-feed-current-date,
-#user-search-input,
-.friend-requests-text,
-.friend-list-header,
 #post-like-btn,
+.social-links a,
 #post-like-count,
+#user-search-input,
+.login-signup-link,
+.navbar-signout-btn,
+.password-reset-btn,
+.friend-list-header,
+.friend-requests-text,
+.login-username-label,
+.user-deletion-no-btn,
+.login-password-label,
+.user-deletion-yes-btn,
+.user-feed-current-date,
+.login-forgot-password-link,
 .post-being-edited-save-btn,
-.post-being-edited-delete-btn,
-.navbar-signout-btn {
-font-size: 1.5rem;
+.upload-profile-images-header,
+.post-being-edited-delete-btn {
+  font-size: 1.5rem;
 }
 /* FS: 2 REM */
 .password-reset-header,
 .profile-detail-header {
-font-size: 2rem;
+  font-size: 2rem;
 }
 }
 /* -------- 23 EM = 375 PX  ------ */
 @media screen and (min-width: 23.438em) and (max-width:119em){
 /* FS: 1.2 REM */
-.post-comment-author,
+.post-edit-content,
 .post-comment-time,
-.post-edit-content {
-font-size: 1.2rem;
+.post-comment-author {
+  font-size: 1.2rem;
 }
 /* FS: 1.3 REM */
-#signup-section label,
-#signup-section input,
-
-#pagination-section span,
 .post-edit-title,
 .post-edit-page-info,
-.post-edit-page-header {
-font-size: 1.3rem;
+#signup-section label,
+#signup-section input,
+.post-edit-page-header,
+#pagination-section span {
+  font-size: 1.3rem;
 }
 /* FS: 1.5 REM */
 .signup-header,
-#pagination-section a,
-#pagination-section span,
-.password-reset-return-link,
-.password-reset-element,
-.password-reset-label,
-.friend-request-header,
 .post-edit-author,
 .post-edit-save-btn,
-.post-edit-delete-btn {
-font-size: 1.5rem;
+.post-edit-delete-btn,
+.password-reset-label,
+#pagination-section a,
+.friend-request-header,
+.password-reset-element,
+#pagination-section span,
+.password-reset-return-link {
+  font-size: 1.5rem;
 }
 /* FS: 1.8 REM */
+.signup-btn,
 .login-signup-link,
-.login-forgot-password-link,
-.signup-btn {
-font-size: 1.8rem;
+.login-forgot-password-link {
+  font-size: 1.8rem;
 }
 /* FS: 2.0 REM */
 .friend-list-header,
 .password-reset-header {
-font-size: 2rem;
+  font-size: 2rem;
 }
 }
 /* -------- 25 EM = 414 PX ------ */
 @media screen and (min-width: 25.875em) and (max-width:119em){
-
-
 /* FS: 1.1 REM */
 .post-comment-content {
-font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 /* FS: 1.3 REM */
 .post-details p,
-#signup-section input,
 .post-edit-time,
-.post-edit-title {
-font-size: 1.3rem;
+.post-edit-title,
+#signup-section input {
+  font-size: 1.3rem;
 }
 
 /* FS: 1.5 REM */
-.signup-header,
 .signup-btn,
 .friend-name,
+.signup-header,
+.post-edit-page-info,
+.password-reset-label,
+#pagination-section a,
+#signup-section label,
+.post-edit-page-header,
+.password-reset-element,
+#pagination-section span,
 .friend-no-requests-text,
 .already-registered-text,
 .already-registered-link,
-#signup-section label,
-.password-reset-return-link,
-.password-reset-element,
-.password-reset-label,
-#pagination-section a,
-#pagination-section span,
-.post-edit-page-info,
-.post-edit-page-header {
-font-size: 1.5rem;
+.password-reset-return-link {
+  font-size: 1.5rem;
 }
 /* FS: 2 REM */
 .post-title,
-.friend-list-header,
-.upload-profile-images-header,
 .login-header,
 .social-links a,
-.password-reset-header {
-font-size: 2rem;
+.friend-list-header,
+.password-reset-header,
+.upload-profile-images-header {
+  font-size: 2rem;
 }
 /* FS: 2.5 REM */
 .friend-list-header {
-font-size: 2.5rem;
+  font-size: 2.5rem;
 }
 }
 /* -------- 50 EM = 812 PX ------ */
 @media screen and (min-height: 50.75em) and (max-width:119em){
-
-
 /* FS: 1.4 REM */
-.post-edit-details p,
 .post-edit-title,
+.post-edit-details p,
 .post-edit-page-info,
 .post-edit-page-header  {
-font-size: 1.4rem;
+  font-size: 1.4rem;
 }
 /* FS: 1.5 REM */
 .logotype,
 .friend-name,
-.friend-remove-btn,
 .signup-header,
+.friend-remove-btn,
 .already-registered-link,
 .already-registered-text {
-font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 /* FS: 1.7 REM */
-.password-reset-return-link,
-.password-reset-element,
+.password-reset-btn,
 .password-reset-label,
-.password-reset-btn {
-font-size: 1.7rem;
+.password-reset-element,
+.password-reset-return-link {
+  font-size: 1.7rem;
 }
 /* FS: 1.8 REM */
-.post-edit-delete-btn,
-.login-header {
-font-size: 1.8rem;
+.login-header,
+.post-edit-delete-btn {
+  font-size: 1.8rem;
 }
 /* FS: 2 REM */
 .post-details p,
-.post-details-secondary p,
-.password-reset-header {
-font-size: 2rem;
+.password-reset-header,
+.post-details-secondary p {
+  font-size: 2rem;
 }
-
 .friend-list-header {
-font-size: 2.5rem;
+  font-size: 2.5rem;
 }
 }
 /* -------- 37 EM = 600 PX ------ */
 @media screen and (min-width: 37.5em) and (max-width:119em){
 /* FS: 1.3 REM */
 .profile-detail-bio-text {
-font-size: 1.3rem;
+  font-size: 1.3rem;
 }
 /* FS: 1.5 REM */
-#signup-section input,
+.post-time,
+.post-title,
 .navbar-link,
+.post-content,
+.post-edit-btn,
+.post-details p,
+.post-delete-btn,
+.post-create-btn,
+#id_banner_image,
+#id_profile_image,
+.post-comment-time,
 .navbar-signout-btn,
+.post-comment-author,
+#signup-section input,
+.post-comment-content,
 .profile-detail-bio span,
 .profile-detail-gender span,
 .profile-detail-gender-text,
-.profile-detail-profession span,
-.profile-detail-profession-text,
-.post-details p,
-#id_banner_image,
-#id_profile_image,
-.post-title,
-.post-time,
-.post-content,
-.post-edit-btn,
-.post-delete-btn,
-.post-comment-author,
-.post-comment-time,
-.post-comment-content,
-.post-create-text-content::placeholder,
-.post-create-btn,
-.upload-profile-images-form label,
 .upload-profile-images-form p,
 .upload-profile-images-form a,
-#upload-profile-images-save-btn {
-font-size: 1.5rem;
+.profile-detail-profession span,
+.profile-detail-profession-text,
+#upload-profile-images-save-btn,
+.upload-profile-images-form label,
+.post-create-text-content::placeholder {
+  font-size: 1.5rem;
 }
-
 /* FS: 1.8 REM */
-.post-comment-create-btn,
-.edit-pencil,
-.edit-pencil-bio,
 .logotype,
+.signup-btn,
+.edit-pencil,
+.signup-header,
 .post-edit-time,
+.edit-pencil-bio,
 .post-edit-title,
 .post-edit-author,
 .post-edit-page-info,
 .post-edit-page-header,
 .friend-request-header,
-.signup-btn,
-.signup-header {
-font-size: 1.8rem;
+.post-comment-create-btn {
+  font-size: 1.8rem;
 }
 /* FS: 2 REM */
-#password-reset-section input,
-#password-reset-section label,
-.password-reset-return-link,
-.password-reset-element,
-.password-reset-btn,
-.login-header,
-.login-username-label,
-.login-password-label,
-.login-forgot-password-link,
-.login-signup-link,
-.user-deletion-header,
-.user-deletion-yes-btn,
-.user-deletion-no-btn,
+.post-author,
 .friend-name,
 .post-author,
-.post-create-title,
-.post-create-text-content,
+.login-header,
 #post-like-btn,
-.post-author {
-font-size: 2rem;
+.post-create-title,
+.login-signup-link,
+.password-reset-btn,
+.user-deletion-header,
+.user-deletion-no-btn,
+.login-username-label,
+.login-password-label,
+.user-deletion-yes-btn,
+.password-reset-element,
+.post-create-text-content,
+.login-forgot-password-link,
+.password-reset-return-link,
+#password-reset-section input,
+#password-reset-section label {
+  font-size: 2rem;
 }
-
 /* FS: 2.5 REM */
 .post-title,
+.login-header,
 .social-links a,
 .user-feed-current-date,
-.login-header,
 .upload-profile-images-header {
-font-size: 2.5rem;
+  font-size: 2.5rem;
 }
 /* FS: 3 REM */
 .friend-list-header,
 .password-reset-header {
-font-size: 3rem;
+  font-size: 3rem;
 }
-
-
 }
 /* -------- 48 EM = 768 PX ------ */
 @media screen and (min-width: 48em) and (max-width:119em){
 
 /* FS: 1.5 REM */
-.delete-user-btn,
-.post-comment-content,
 .post-content,
-#post-like-btn{
-font-size: 1.5rem;
+#post-like-btn,
+.delete-user-btn,
+.post-comment-content {
+  font-size: 1.5rem;
 }
-
 /* FS: 1.7 REM */
 .post-time,
 .post-comment-create-content {
-font-size: 1.7rem;
+  font-size: 1.7rem;
 }
-
 /* FS: 1.8 REM */
 .post-title,
 .navbar-link,
@@ -535,211 +530,209 @@ font-size: 1.7rem;
 .post-edit-save-btn,
 .post-edit-page-info,
 .post-edit-page-header {
-font-size: 1.8rem;
+  font-size: 1.8rem;
 }
 
 /* FS: 2 REM */
-.post-being-edited-content,
-.post-being-edited-time,
-.post-being-edited-title, 
-.post-being-edited-author,
-.post-being-edited-save-btn,
-.post-being-edited-delete-btn,
-.post-edit-page-info,
-.post-edit-page-header,
-.post-details p,
-.profile-detail-bio-text,
-.friend-no-requests-text,
 .logotype,
-#pagination-section span,
-#pagination-section a,
-.login-header,
-.login-username-label,
-.login-password-label,
-.login-forgot-password-link,
-.login-signup-link,
-#signup-section label,
-#signup-section input,
-.post-comment-time,
-.post-comment-author,
-.post-comment-create-btn,
 .post-author,
+.login-header,
 .post-edit-btn,
+#post-like-btn,
+.post-details p,
 .post-delete-btn,
 .post-create-btn,
-#post-like-btn,
-.navbar-signout-btn {
-font-size: 2rem;
+.login-signup-link,
+.post-comment-time,
+.navbar-signout-btn,
+.post-comment-author,
+.post-edit-page-info,
+#pagination-section a,
+.login-username-label,
+.login-password-label,
+#signup-section label,
+#signup-section input,
+.post-edit-page-header,
+.post-being-edited-time,
+.post-comment-create-btn,
+.post-being-edited-title, 
+.profile-detail-bio-text,
+.friend-no-requests-text,
+#pagination-section span,
+.post-being-edited-author,
+.post-being-edited-content,
+.login-forgot-password-link,
+.post-being-edited-save-btn,
+.post-being-edited-delete-btn {
+  font-size: 2rem;
 }
 /* FS: 2.5 REM */
-#password-reset-section input,
-#password-reset-section label,
-.password-reset-return-link,
-.password-reset-element,
-.password-reset-btn,
-.post-create-title,
-.post-create-text-content::placeholder,
-.post-create-text-content,
+.signup-btn,
+.friend-name,
 .login-header,
 .signup-header,
-.signup-btn,
-.already-registered-text,
-.already-registered-link,
-#upload-profile-images-save-btn,
-.upload-profile-images-form label,
-.upload-profile-images-form p,
-.upload-profile-images-form a,
 #id_banner_image,
 #id_profile_image,
-.friend-request-header,
-.friend-requests-text,
-.friend-name,
 .friend-remove-btn,
+.post-create-title,
 #user-search-input,
-#user-search-results a{
-font-size: 2.5rem;
+.password-reset-btn,
+.friend-requests-text,
+.friend-request-header,
+#user-search-results a,
+.password-reset-element,
+.already-registered-text,
+.already-registered-link,
+.post-create-text-content,
+.password-reset-return-link,
+.upload-profile-images-form p,
+.upload-profile-images-form a,
+#password-reset-section input,
+#password-reset-section label,
+#upload-profile-images-save-btn,
+.upload-profile-images-form label,
+.post-create-text-content::placeholder {
+  font-size: 2.5rem;
 }
-
 /* FS: 2.75 REM */
+.edit-pencil,
+.social-links a,
+.edit-pencil-bio,
 .profile-detail-bio span,
 .profile-detail-gender span,
 .profile-detail-gender-text,
 .profile-detail-profession span,
-.profile-detail-profession-text,
-.edit-pencil,
-.edit-pencil-bio,
-.social-links a {
-font-size: 2.75rem;
+.profile-detail-profession-text {
+  font-size: 2.75rem;
 }
-
 /* FS: 3 REM */
-.user-feed-current-date,
 .post-title,
-.password-reset-header,
-.upload-profile-images-header,
-.user-deletion-yes-btn,
+.user-deletion-header,
 .user-deletion-no-btn,
-.user-deletion-header {
-font-size: 3rem;
+.user-deletion-yes-btn,
+.password-reset-header,
+.user-feed-current-date,
+.upload-profile-images-header {
+  font-size: 3rem;
 }
 /* FS: 4 REM */
 .friend-list-header,
 .user-search-header {
-font-size: 4rem;
+  font-size: 4rem;
 }
 }
 /* -------- 62 EM = 992 PX ------ */
 @media screen and (min-width: 62em) and (max-width:119em) {
 /* FS: 1.7 REM */
 .post-comment-content {
-font-size: 1.7rem;
+  font-size: 1.7rem;
 }
 /* FS: 1.8 REM */
 .post-comment-create-content {
-font-size: 1.8rem;
+  font-size: 1.8rem;
 }
 /* FS: 2 REM */
-.post-comment-author,
-.post-comment-time,
-.post-comment-create-btn,
+.post-time,
 .post-content,
-.post-time {
-font-size: 2rem;
+.post-comment-time,
+.post-comment-author,
+.post-comment-create-btn {
+  font-size: 2rem;
 }
 /* FS: 2.5 REM */
-.post-being-edited-delete-btn,
-.login-header,
-.post-edit-page-header,
-.post-edit-page-info,
 .post-title,
+.login-header,
 .post-edit-time,
 .post-edit-title,
+#id_banner_image,
+.delete-user-btn,
+.edit-pencil-bio,
+#id_profile_image,
 .post-edit-author,
 .post-edit-content,
 .post-edit-save-btn,
+.post-edit-page-info,
 .post-edit-delete-btn,
-#upload-profile-images-save-btn,
-.upload-profile-images-form label,
-.upload-profile-images-form p,
-.upload-profile-images-form a,
-#id_banner_image,
-#id_profile_image,
-.delete-user-btn,
-.edit-pencil-bio,
+.post-edit-page-header,
 .profile-detail-bio-text,
 .profile-detail-bio span,
 .profile-detail-gender-text,
 .profile-detail-gender span,
+.post-being-edited-delete-btn,
+.upload-profile-images-form p,
+.upload-profile-images-form a,
 .profile-detail-profession-text,
-.profile-detail-profession span {
-font-size: 2.5rem;
+#upload-profile-images-save-btn,
+.profile-detail-profession span,
+.upload-profile-images-form label {
+  font-size: 2.5rem;
 }
 /* FS: 3 REM */
-#password-reset-section input,
-#password-reset-section label,
-.password-reset-return-link,
-.password-reset-element,
-.password-reset-btn,
-.post-being-edited-save-btn,
-.post-being-edited-title, 
 .logotype,
-.signup-header,
+.login-btn,
+.post-time,
+.post-title,
 .signup-btn,
-.already-registered-text,
-.already-registered-link,
+.post-author,
+.friend-name,
+.navbar-link,
+.signup-header,
+.post-edit-btn,
+#post-like-btn,
+.post-delete-btn,
+#post-like-count,
+.post-create-btn,
+.friend-remove-btn,
+.login-signup-link,
+.post-create-title,
+#user-search-input,
+.navbar-signout-btn,
+.password-reset-btn,
+.user-deletion-header,
 #signup-section label,
 #signup-section input,
 .login-username-label,
 .login-username-input,
 .login-password-label,
 .login-password-input,
-.login-forgot-password-link,
-.login-signup-link,
-.login-btn,
-#pagination-section span,
+.user-deletion-no-btn,
 #pagination-section a,
-.post-title,
-.post-author,
-.post-time,
-.post-delete-btn,
-.post-edit-btn,
-#post-like-btn,
-#post-like-count,
-.user-feed-current-date,
-.post-create-title,
-.post-create-text-content::placeholder,
-.post-create-btn,
-#user-search-input,
-#user-search-results a,
-.friend-name,
-.friend-remove-btn,
-.friend-request-header,
-.friend-no-requests-text,
-.navbar-link,
-.navbar-signout-btn,
-.user-deletion-header,
 .user-deletion-yes-btn,
-.user-deletion-no-btn {
-font-size: 3rem;
+#user-search-results a,
+.friend-request-header,
+.password-reset-element,
+.user-feed-current-date,
+.friend-no-requests-text,
+#pagination-section span,
+.post-being-edited-title,
+.already-registered-text,
+.already-registered-link,
+.password-reset-return-link,
+.post-being-edited-save-btn,
+.login-forgot-password-link,
+#password-reset-section input,
+#password-reset-section label,
+.post-create-text-content::placeholder {
+  font-size: 3rem;
 }
 /* FS: 3.5 REM */
 .social-links a{
-font-size: 3.5rem;
+  font-size: 3.5rem;
 }
 /* FS: 4 REM */
 .password-reset-header,
 .upload-profile-images-header {
-font-size: 4rem;
+  font-size: 4rem;
 }
 /* FS: 4.5 REM */
 .user-feed-current-date {
-font-size: 4.5rem;
+  font-size: 4.5rem;
 }
 /* FS: 5 REM */
 .login-header,
 .user-search-header,
 .friend-list-header,
 .login-username-input::placeholder {
-font-size: 5rem;
+  font-size: 5rem;
 }
 }

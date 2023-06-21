@@ -2,7 +2,6 @@ import json
 import logging
 import traceback
 
-from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -840,8 +839,6 @@ class PasswordResetView(View):
             profile = user.profile
             profile.user.set_password(new_password1)
             profile.user.save()
-
-            print("Password resetted successfully!") 
 
             return redirect(self.success_url)
 

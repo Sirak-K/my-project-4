@@ -15,12 +15,18 @@
 /* -- For screen size: DESKTOP */
 /* -- Ordering: BY HEIGHT */
 
+.logo {
+width: 1.7em;
+}
 .social-links-item-bg{
 width: 1.5em;
 height: 1.5em;
 }
 .navbar-list-item,
-.navbar-list-item-stack,
+.navbar-list-item-stack {
+width: 3em;
+height: 3em;
+}
 #banner_image-clear_id,
 #profile_image-clear_id {
 width: 2.625em;

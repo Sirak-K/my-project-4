@@ -12,18 +12,12 @@ margin: 0;
 padding: 0;
 }
 
-/* ---------- HEADER ---------- */
-#header-section{
+/* 1) Header (Logged-In) */
+#header-section {
 justify-content: space-between;
 align-items: center;
 padding: 0.3em 0.5em;
 border-bottom: 1px solid;
-}
-.logo {
-width: 1.7em;
-}
-.navbar {
-gap:0;
 }
 .navbar-list {
 justify-content: space-between;
@@ -35,25 +29,24 @@ align-items: center;
 }
 #navbar-link-stack-icon-search {
 position: absolute;
-top: 0.2em;
-right: 0.15em;
+top: 0.07em;
+right: -0.05em;
 }
 #navbar-link-stack-icon-user {
 position: relative;
 top: 0.05em;
-left: 0.2em;
+left: -0.05em;
 }
 .navbar-signout-btn {
 padding: 0.2em;
 border: none;
 }
-/*  USER PROFILE  */
+/* 2) User Profile */
 #user-profile-details-section {
 margin: 0 35em;
 filter: drop-shadow(0px 1px 4px rgb(43, 151, 246));
 background-color: white;
 background-clip: text;
-
 }
 .user-profile-details {
 gap: 1.5em;
@@ -105,13 +98,13 @@ border: 2px solid #0ae967;
 z-index: 1;
 }
 .profile-banner {
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
 border-right: 1px solid;
 border-left: 1px solid;
 border-bottom: 1px solid;
 color:black;
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
 z-index: -1;
 }
 #user-profile-delete-and-send-friend-section {
@@ -127,55 +120,44 @@ border-radius: 5%;
 border: 2px dashed;
 border-color: red;
 }
-/*  USER FEED  */
+/* 3) User Feed */
 #user-feed-section{
 align-items: center;
 padding: 1em;
-border-top: solid 1px;
 }
 #user-feed-header-section {
 justify-content: space-between;
 align-items: center;
-gap: 12em;
-width: auto;
+width: 30%;
 }
 .user-feed-profile-image {
 border: 1px solid #000000;
 }
-/*  USER SEARCH  */
+/* 4) User Search */
 #user-search-section{
-margin: 10em 30em;
-background-color: rgb(234, 252, 251);
+margin: 10em 40em;
+padding: 1em 2em;
 }
 .user-search-header {
 margin: 0.5em 0;
 }
 #user-search-results {
-margin: 0.5em 0;
-/* padding: 1em 2em; */
+margin: 0.5em 15em;
 gap: 2em;
 }
 #user-search-results a {
 padding: 0.5em;
 border: 1px rgb(10, 6, 255) dashed;
 }
-/*  USER DELETION  */
+/* 5) User Delete */
 #user-deletion-section {
-text-align: center;
 align-items: center;
-filter: drop-shadow(0px 1px 3px black);
-background-color: rgb(234, 252, 251);
 margin: 5em 30em;
 padding: 5em;
 gap: 4em;
 }
 #user-deletion-form {
 align-items: center;
-}
-.user-deletion-header,
-.user-deletion-yes-btn,
-.user-deletion-no-btn {
-text-align: center;
 }
 .user-deletion-yes-btn{
 background-color: red;
@@ -185,13 +167,11 @@ outline: dashed red 4px;
 outline: dashed green 2px;
 margin-bottom: 5em;
 }
-/*  FRIEND LIST   */
+/* 6) Friend List */
 #friend-list-section {
 gap: 2em;
 padding: 1em 8em;
 margin: 2em 35em;
-filter: drop-shadow(0px 1px 3px black);
-background-color: rgb(234, 252, 251);
 }
 .friend-request-header {
 filter: drop-shadow(0px 2px 2px rgb(0, 196, 245));
@@ -213,20 +193,18 @@ outline: 1px dotted purple;
 .friend-name {
 line-height: 2rem;
 }
-/*  USER IMAGE UPLOAD  */
+/* 7) Image Upload */
 #upload-profile-images-section {
 align-items: center;
 margin: 1em 30em;
 padding: 0.5em;
-/* gap: 2em; */
 }
 .upload-profile-images-form {
-gap: 2em;
 align-items: center;
+gap: 2em;
 margin: 0.5em 0;
 }
 .upload-profile-images-form a {
-width: 100%;
 word-break: break-all;
 margin: 0.5em 0;
 padding: 0.2em 0.5em;
@@ -234,26 +212,21 @@ outline: rgb(55, 80, 79) 2px dashed;
 }
 .upload-profile-images-form label {
 gap: 5em;
-width: 100%;
-/* outline: red 5px dotted; */
 }
 .upload-profile-images-form p {
 align-items: center;
-text-align: center;
 margin: 0.5em 0;
 padding: 0.5em;
 gap: 0.5em;
-outline: rgb(0, 0, 0) 2px dotted;
+outline: black 2px dotted;
 }
 #id_profile_image,
 #id_banner_image  {
 margin: 0.2em 0;
 }
-#profile_image-clear_id,
-#banner_image-clear_id {
-}
-#uploaded-image {
-border: 3px solid black;
+#uploaded-image,
+#uploaded-banner {
+border: 3px dashed green;
 }
 #uploaded-banner {
 margin: 0.5em 0;
@@ -263,44 +236,16 @@ padding: 0.5em;
 background-color: green;
 border-radius: 10px / 10%;
 }
-/* ----- POSTS - CREATE -----  */
-#post-create-section {
-margin: 1em 38em;
-padding: 0em;
-}
-.post-create-form {
-margin: 0 2em;
-border: 3px solid;
-border-color: rgb(0, 103, 199);
-}
-.post-create-text-content {
-height: 10em;
-}
-.post-create-text-content::placeholder {
-padding: 2em 1em;
-}
-.post-create-title,
-.post-create-text-content::placeholder {
-font-style: italic;
-letter-spacing: 0.02em;
-line-height: 1.5em;
-}
-.post-create-btn {
-text-align: center;
-font-style: italic;
-font-weight: 700;
-padding: 0.3em;
-background-color: rgb(0, 103, 199);
-}
-/* ----- POSTS - DETAILS & LIST -----  */
+
+/* 8-A) Post Details & Post List */
 #post-list-section {
 gap: 2em;
 margin: 1em 40em;
 }
 .post-details-secondary {
+align-items: center;
 padding: 1em;
 margin: 1em 0;
-align-items: center;
 border-top: 2px solid;
 border-bottom: 2px solid;
 border-image: linear-gradient(
@@ -345,7 +290,36 @@ margin: 0;
 .post-edit-btn  {
 padding: 0.4em;
 }
-/*  POST EDIT PAGE  */
+/* 8-B) Post Create */
+#post-create-section {
+margin: 1em 38em;
+}
+.post-create-form {
+margin: 0 2em;
+border: 3px solid;
+border-color: rgb(0, 103, 199);
+}
+.post-create-text-content {
+text-align: start;
+height: 10em;
+}
+.post-create-text-content::placeholder {
+padding: 2em 1em;
+color:rgba(0, 0, 0, 0.770);
+}
+.post-create-title,
+.post-create-text-content::placeholder {
+font-style: italic;
+letter-spacing: 0.02em;
+line-height: 1.5em;
+}
+.post-create-btn {
+font-style: italic;
+font-weight: 700;
+padding: 0.3em;
+background-color: rgb(0, 103, 199);
+}
+/* 8-C) Post Edit Page */
 .post-edit-page-info,
 .post-edit-page-header {
 margin: 0.5em 0;
@@ -353,16 +327,16 @@ padding: 0 0.5em;
 line-height: 2.3rem;
 }
 #post-edit-page-section {
-gap: 0em;
 margin: 1em 45em;
 padding: 0em;
+gap: 0em;
 }
 .post-being-edited-details { 
 align-items: center;
 }
 #post-being-edited-content-section {
-padding: 1em;
 margin: 1em 2em;
+padding: 1em;
 }
 .post-being-edited-content {
 padding: 0.2em;
@@ -383,17 +357,18 @@ outline: auto;
 .post-being-edited-save-btn {
 margin-top: 1em;
 }
+/* 8-D) Post Pagination */
 #pagination-section {
 gap: 1em;
 padding: 1em;
 border: 1px solid;
 }
-/* ----- POST COMMENTS - CREATE -----  */
-#post-comment-create-section {
-padding: 1em 2em;
-}
+/* 8-E) Post Comments */
 textarea {
 resize: none;
+}
+#post-comment-create-section {
+padding: 1em 2em;
 }
 .post-comment-create-btn{
 margin: 1em 0;
@@ -402,14 +377,15 @@ padding: 0.4em;
 .post-comment-create-btn:hover{
 color: green;
 }
-/* ----- POST COMMENTS - DISPLAY -----  */
 .post-comment-details {
 gap: 0.5em;
+align-items: center;
 }
 .post-comment {
 padding: 1em;
 border-radius: 20px / 10%;
 }
+
 .post-comment-content {
 text-align: start;
 border-radius: 10px / 40%;
@@ -423,24 +399,14 @@ border: 1px solid black;
 /* --------|--  --|-------- --------|--  --|--------*/
 /* --------|-- LOGGED-OUT SECTION --|-------- */
 /* --------|--  --|-------- --------|--  --|--------*/
-/* --------|-- LOGGED-OUT SECTION --|-------- */
-/* --------|--  --|-------- --------|--  --|--------*/
 
-/* ---------- HEADER II ---------- */
+/* 9) Header (Logged-Out) */
 #header-section-login{
 padding: 0.5em;
 border: 1px solid;
 }
-.navbar-login {
-gap:0;
-}
-.navbar-list-login {
-gap:0;
-}
-/*  SIGN-UP  */
-.signup-header {
-margin-top: 0.3em;
-}
+
+/* 10) Signup */
 #signup-section {
 margin: 1em 30em;
 }
@@ -451,11 +417,13 @@ margin: 1em 15em;
 .signup-btn {
 margin: 0.5em 0;
 }
-/*  LOG-IN PAGE  */
+
+/* 11) Login */
 .login-header {
 margin: 1em 0;
 }
 .login-form,
+#login-section,
 .login-container,
 .login-section-container {
 z-index: 50;
@@ -466,7 +434,6 @@ gap: 2em;
 #login-section {
 margin: 0 40em;
 outline: rgb(15, 15, 81) 2px solid;
-z-index: 50;
 gap: 2em;
 border-radius: 40px / 10%;
 padding: 2em;
@@ -495,7 +462,6 @@ margin: 0.5em 0;
 .login-password-label{
 margin: 0.5em 0;
 }
-
 .login-signup-link {
 margin: 0.5em 7em;
 }
@@ -515,7 +481,7 @@ position: absolute;
 background-color: rgba(0, 0, 0, 0.7);
 z-index: -5;
 }
-/*  PASSWORD RESET  */
+/* 12) Password Reset */
 #password-reset-section {
 padding: 1em;
 }
@@ -530,7 +496,7 @@ padding: 0.3em;
 .password-reset-return-link {
 margin: 2em 0;
 }
-/* ---------- FOOTER ---------- */
+/* 13) Footer */
 .footer-container {
 flex-direction:row-reverse;
 justify-content: space-evenly;
@@ -557,11 +523,4 @@ transition: all 0.35s ease-in-out;
 -moz-transition: all 0.35s ease-in-out;
 -webkit-transition: all 0.35s ease-in-out;
 -o-transition: all 0.35s ease-in-out;
-}
-/* ---------- TOGGLE VISIBILITY ---------- */
-.hide {
-display: none;
-}
-.show {
-display:flex;
 }
