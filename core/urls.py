@@ -3,15 +3,16 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from .views import (
-    PostCreateView, PostListView, PostDetailsView,
+    ErrorPageView, PostCreateView, PostListView, PostDetailsView,
     UserProfileView, CommentCreateView, PostDeleteView, 
     PasswordResetView, UserDeletionView, FriendshipManager,
     UserFeedView, LogoutView, LoginView, SignUpView, UserSearchView,
     UploadProfileImageView, UserProfileFieldUpdateView, PostLikeToggleView,PostEditView
 )
 
-urlpatterns = [
 
+urlpatterns = [
+    
     # URLS - LOG-IN, LOG-OUT, SIGN-UP
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
@@ -52,6 +53,9 @@ urlpatterns = [
     path('post_edit_page/<int:pk>/', PostEditView.as_view(), name='post_edit_page'),
     path('post_edit_page/<int:pk>/save_edit', PostEditView.as_view(), name='post_edit_save'),
     path('post_comment/<int:pk>/comment/create/', CommentCreateView.as_view(), name='post_comment_create'),
+
+    # URLS - ERROR PAGE
+    path('error/<int:status_code>/', ErrorPageView.as_view(), name='error_page'),
 ]
 
 if settings.DEBUG:

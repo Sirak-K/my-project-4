@@ -848,3 +848,18 @@ class PasswordResetView(View):
         """Handle the GET request to render the password reset page."""
         form = self.form_class()
         return render(request, self.template_name, {'form': form})
+# VIEW 21 - ERROR HANDLING
+class ErrorPageView(View):
+    def get(self, request, *args, **kwargs):
+        status_code = kwargs.get('status_code')
+
+        if status_code == 404:
+            context = {'error_message': 'Page not found'}
+        elif status_code == 500:
+            context = {'error_message': 'Internal server error'}
+        elif status_code == 403:
+            context = {'error_message': 'Access forbidden'}
+        else:
+            context = {'error_message': 'An error occurred'}
+
+        return render(request, 'error_page.html', context)

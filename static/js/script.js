@@ -269,7 +269,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Attach event listeners
     searchInput.addEventListener('input', handleSearchInput);
     searchResults.addEventListener('change', handleSearchResults);
   }
