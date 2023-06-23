@@ -135,15 +135,16 @@ border: 1px solid #000000;
 }
 /* 4) User Search */
 #user-search-section{
-margin: 10em 40em;
+margin: 10em 30em;
 padding: 1em 2em;
 }
 .user-search-header {
 margin: 0.5em 0;
 }
 #user-search-results {
-margin: 0.5em 15em;
-gap: 2em;
+margin: 2em 5em;
+padding: 2em;
+gap: 4em;
 }
 #user-search-results a {
 padding: 0.5em;

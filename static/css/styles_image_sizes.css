@@ -63,7 +63,7 @@ height: 15em;
 }
 .login-image,
 .login-image::before  {
-height: 50em;
+height: 51em;
 aspect-ratio: 2;
 }
 

@@ -73,11 +73,12 @@ border-left: solid 1px;
 border-bottom: solid 1px;
 }
 #user-feed-header-section {
-justify-content: space-evenly;
+justify-content: center;
 align-items: center;
-gap: 1em;
+gap: 2em;
 margin: 0.5em 0;
 padding: 0;
+width: 100%;
 }
 /* 4) User Search */
 #user-search-section{
@@ -168,6 +169,10 @@ padding: 0.2em;
 #post-create-section {
 margin: 0 1em;
 }
+.post-create-form {
+margin: 0;
+}
+
 .post-create-text-content::placeholder {
 letter-spacing: 0.02em;
 line-height: 1.5em;
@@ -387,7 +392,7 @@ top: 49%;
 }
 /* 3) User Feed */
 #user-feed-header-section {
-gap: 8em;
+gap: 3em;
 }
 /* 5) User Deletion */
 .user-deletion-no-btn {
@@ -533,10 +538,6 @@ gap: 1.5em;
 #header-section{
 padding: 0.3em 0.5em;
 }
-/* 3) User Feed */
-#user-feed-header-section {
-gap: 6em;
-}
 #navbar-link-stack-icon-search {
 top: 0.05em;
 right: -0.02em;
@@ -551,7 +552,7 @@ margin: 1em 3em;
 }
 /* 3) User Feed */
 #user-feed-header-section {
-margin: 1em 0;
+gap: 5em;
 }
 /* 4) User Search */
 #user-search-section{
@@ -690,7 +691,7 @@ top: 0.3em;
 }
 /* 3) User Feed */
 #user-feed-header-section {
-gap: 10em;
+gap: 6em;
 }
 /* 4) User Search */
 #user-search-section{
@@ -831,10 +832,6 @@ margin: 0.5em 0;
 .edit-pencil-bio{
 position: absolute;
 top: 0.6em;
-}
-/* 3) User Feed */
-#user-feed-header-section {
-margin: 1em 0;
 }
 /* 4) User Search */
 #user-search-section{
