@@ -18,7 +18,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['my-project-4-socialize-a58a0308fc72.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['https://sirakk-myproject4-4x2ntn7den8.ws-eu100.gitpod.io/', 'my-project-4-socialize-a58a0308fc72.herokuapp.com', 'localhost']
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
@@ -33,13 +33,6 @@ INSTALLED_APPS = [
     'cloudinary',
     'core',
 ]
-
-SITE_ID = 1
-
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = 'login'
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
