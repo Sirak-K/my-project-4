@@ -16,9 +16,9 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['https://sirakk-myproject4-4x2ntn7den8.ws-eu100.gitpod.io/', 'my-project-4-socialize-a58a0308fc72.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['8000-sirakk-myproject4-4x2ntn7den8.ws-eu100.gitpod.io', 'my-project-4-socialize-a58a0308fc72.herokuapp.com', 'localhost']
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
