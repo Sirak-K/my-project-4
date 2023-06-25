@@ -62,37 +62,37 @@ Socialize is designed for individuals who value meaningful social connections an
 # Project Features
 ## Main Features
 ### In-Scope Features
-- **Account Registration**
+#### **Account Registration**
 New users can easily sign up for an account to become members of the social network.
 
-- **Account Authentication**
+#### **Account Authentication**
 Existing users can securely log in to access the platform's features, ensuring their personal information remains protected.
 
-- **Account Password Retrieval**
+#### **Account Password Retrieval**
 Users have the ability to reset their passwords in case they forget them. This feature allows users to regain access to their accounts by initiating a password reset process. Users will be prompted to enter their username and provide a new password. The system will verify the information and update the password accordingly. This ensures that users can regain access to their accounts even if they forget their passwords. Go to [Validation Rules](#signing-up-validation-rules) in the Application Usage section of this document for detailed instructions on how to reset a password successfully.
 
-- **User Profile Customization**
-Socialize allows users to personalize their profiles by uploading their own profile images and profile banners, expressing their unique aesthetic style and preferences.
+#### **User Profile Customization**
+Socialize allows users to personalize their profiles by uploading their own profile images and updating their profile details.
 ![Profile Editing](https://github.com/Sirak-K/my-project-4/assets/122515678/8dccf655-be3b-4b1e-8930-3be7648613f4)
 
-- **Post Creation and Editing**
+#### **Post Creation and Editing**
 Users can create posts and share their thoughts, experiences, and updates with their friends. The platform supports post editing, enabling users to modify the content of their posts as needed.
 ![Post Creation](https://github.com/Sirak-K/my-project-4/assets/122515678/381c0aaf-e8e0-4f2c-b2df-fdcd1d5691ee)
 ![Post Editing And Deletion](https://github.com/Sirak-K/my-project-4/assets/122515678/ea3a42d7-2eab-49b0-a335-be28c14088c2)
 
-- **Post Interaction**
+#### **Post Interaction**
 Users can engage with posts through features such as liking and unliking posts, fostering a sense of appreciation and support within the community. Additionally, users can participate in post discussions by creating comments and sharing their opinions.
 
-- **Personalized Feed**
+#### **User Feed**
 Socialize offers a personalized feed that showcases posts created by friends. Users can stay up to date with the activities and updates of their social circle, ensuring they never miss important moments.
 ![Personalized Feed](https://github.com/Sirak-K/my-project-4/assets/122515678/2c34255c-d179-460f-a9f7-e1582af3e278)
 
-- **User Search and Connections**
+#### **User Search**
 Socialize provides a user-friendly search functionality, allowing users to find and connect with other users based on their username or name. Users can send friend requests to expand their social network and control who is a part of their community.
 ![User Search](https://github.com/Sirak-K/my-project-4/assets/122515678/26cb18fb-a48c-4d46-b6c3-9e21bc5ee917)
 
 
-- **Social Networking**
+#### **Social Networking**
 Users can send, cancel, accept and reject friend requests to expand their social network or control who is included in their social network.
 ![Friends](https://github.com/Sirak-K/my-project-4/assets/122515678/299573b4-55f6-4fe4-8b7b-fade2a71999e)
 
@@ -200,7 +200,6 @@ flake8: ✓
 
 # Deployment
 The project has been deployed to Heroku. 
-![Heroku Deployment - Application Logs](https://github.com/Sirak-K/my-project-4/assets/122515678/a12a892b-124d-47a3-933c-e5286bad9b75)
 
 You can access the deployed version of Socialize [here](https://my-project-4-socialize-a58a0308fc72.herokuapp.com/).
 
