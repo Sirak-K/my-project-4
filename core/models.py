@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timesince, timezone
+from cloudinary.models import CloudinaryField
 
 # MODEL 1 - PROFILE
 class Profile(models.Model):
@@ -23,8 +24,8 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     date_of_birth = models.DateField(auto_now=False, blank=True, null=True)
-    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
-    banner_image = models.ImageField(upload_to='banner_images/', blank=True, null=True)
+    profile_image = CloudinaryField('profile_images', blank=True, null=True)
+    banner_image = CloudinaryField('banner_images', blank=True, null=True)
     bio = models.TextField(default='', blank=True, null=True)
 
     PROFESSION_CHOICES = (
