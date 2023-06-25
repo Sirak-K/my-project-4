@@ -1,5 +1,3 @@
-// File: script.js
-
 function getCookie(name) {
   // FUNC : 1: Get the value of a cookie
   const cookieValue = document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`);

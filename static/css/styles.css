@@ -470,7 +470,7 @@ margin: 0.5em 7em;
 margin: 0.5em 4.7em;
 }
 .login-image {
-background-image: url('/static/img/bg_landing_image.jpg');
+background-image: url('https://res.cloudinary.com/dshiciqld/image/upload/v1687685264/static/img/bg_landing_image.657e7d9aa05d.jpg');
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
