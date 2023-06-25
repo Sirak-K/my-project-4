@@ -13,7 +13,7 @@
                 <img id="uploaded-image" src="{{ form.instance.profile_image.url }}" alt="Uploaded Profile image">
             {% else %}
                 <!-- Display default profile image -->
-                <img id="uploaded-image" src="/media/img/default_profile_image.png" alt="Default Profile image">
+                <img id="uploaded-image" src="/static/img/default_profile_image.png" alt="Default Profile image">
             {% endif %}
         </div>
 
@@ -24,7 +24,7 @@
                 <img id="uploaded-banner" src="{{ form.instance.banner_image.url }}" alt="{{ user.get_full_name }}'s profile banner image">
             {% else %}
                 <!-- Display default banner image -->
-                <img id="uploaded-banner" src="/media/img/default_banner_image.png" alt="{{ user.get_full_name }}'s profile banner image">
+                <img id="uploaded-banner" src="/static/img/default_banner_image.png" alt="{{ user.get_full_name }}'s profile banner image">
             {% endif %}
         </div>
 

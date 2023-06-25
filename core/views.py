@@ -315,8 +315,8 @@ class UserProfileView(LoginRequiredMixin, ListView):
         context['post_edit_form'] = PostEditForm()
         context['comment_form'] = CommentForm()
         context['is_profile_owner'] = user_profile.user == self.request.user
-        context['user_profile_image_url'] = user_profile.profile_image.url if user_profile.profile_image else '/media/img/default_profile_image.png'
-        context['user_profile_banner_url'] = user_profile.banner_image.url if user_profile.banner_image else '/media/img/default_banner_image.png'
+        context['user_profile_image_url'] = user_profile.profile_image.url if user_profile.profile_image else '/static/img/default_profile_image.png'
+        context['user_profile_banner_url'] = user_profile.banner_image.url if user_profile.banner_image else '/static/img/default_banner_image.png'
         context['friend_request_form'] = FriendRequestForm()
         context['receiver_id'] = user_profile.user_id
 

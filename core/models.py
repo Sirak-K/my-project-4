@@ -138,7 +138,7 @@ class Post(models.Model):
         if self.post_author.profile.profile_image:
             return self.post_author.profile.profile_image.url
         else:
-            return '/media/img/default_profile_image.png'
+            return '/static/img/default_profile_image.png'
 
     def __str__(self):
         return f'Post {self.pk} by {self.post_author}'
@@ -176,7 +176,7 @@ class Comment(models.Model):
         if self.comment_author.profile.profile_image:
             return self.comment_author.profile.profile_image.url
         else:
-            return '/media/img/default_profile_image.png'
+            return '/static/img/default_profile_image.png'
 
     def __str__(self):
         return f'Comment {self.pk} by {self.comment_author}'

@@ -22,7 +22,7 @@
         </a>
       {% else %}
         <a href="{% url 'user_profile_image' %}">
-          <img class="user-feed-profile-image" src="/media/img/default_profile_image.png" alt="{{ user.first_name }} {{ user.last_name }}'s profile image">
+          <img class="user-feed-profile-image" src="/static/img/default_profile_image.png" alt="{{ user.first_name }} {{ user.last_name }}'s profile image">
         </a>
       {% endif %}
       <p class="user-feed-current-date">{% now "F j, Y" %}</p>
